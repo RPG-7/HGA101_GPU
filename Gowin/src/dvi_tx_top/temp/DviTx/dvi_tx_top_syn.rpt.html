@@ -1,0 +1,2229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>synthesis Report</title>
+<style type="text/css">
+body { font-family: Verdana, Arial, sans-serif; font-size: 12px; }
+div#main_wrapper{ width: 100%; }
+div#content { margin-left: 350px; margin-right: 30px; }
+div#catalog_wrapper {position: fixed; top: 30px; width: 350px; float: left; }
+div#catalog ul { list-style-type: none; }
+div#catalog li { text-align: left; list-style-type:circle; color: #0084ff; margin-top: 3px; margin-bottom: 3px; }
+div#catalog a { display:inline-block; text-decoration: none; color: #0084ff; font-weight: bold; padding: 3px; }
+div#catalog a:visited { color: #0084ff; }
+div#catalog a:hover { color: #fff; background: #0084ff; }
+hr { margin-top: 30px; margin-bottom: 30px; }
+h1, h3 { text-align: center; }
+h1 {margin-top: 50px; }
+table, th, td { border: 1px solid #aaa; }
+table { border-collapse:collapse; margin-top: 10px; margin-bottom: 20px; width: 100%; }
+th, td { padding: 5px 5px 5px 5px; }
+th { color: #fff; font-weight: bold; background-color: #0084ff; }
+table.summary_table td.label { width: 24%; min-width: 200px; background-color: #dee8f4; }
+table.detail_table td.label { min-width: 100px; width: 8%;}
+</style>
+</head>
+<body>
+<div id="main_wrapper">
+<div id="catalog_wrapper">
+<div id="catalog">
+<ul>
+<li><a href="#about" style=" font-size: 16px;">Synthesis Messages</a></li>
+<li><a href="#setting" style=" font-size: 16px;">Design Settings</a></li>
+<li><a href="#resource" style=" font-size: 16px;">Resource</a>
+<ul>
+<li><a href="#usage" style=" font-size: 14px;">Resource Usage Summary</a></li>
+<li><a href="#utilization" style=" font-size: 14px;">Resource Utilization Summary</a></li>
+</ul>
+</li>
+<li><a href="#timing" style=" font-size: 16px;">Timing</a>
+<ul>
+<li><a href="#clock" style=" font-size: 14px;">Clock Summary</a></li>
+<li><a href="#timing report" style=" font-size: 14px;">Timing Report</a></li>
+<li><a href="#performance" style=" font-size: 14px;">Performance Summary</a></li>
+<li><a href="#detail timing" style=" font-size: 14px;">Detail Timing Paths Informations</a></li>
+</ul>
+</li>
+<li><a href="#summary" style=" font-size: 16px;">Summary</a></li>
+</ul>
+</div><!-- catalog -->
+</div><!-- catalog_wrapper -->
+<div id="content">
+<h1><a name="about">Synthesis Messages</a></h1>
+<table class="summary_table">
+<tr>
+<td class="label">Report Title</td>
+<td>GowinSynthesis Report</td>
+</tr>
+<tr>
+<td class="label">Design File</td>
+<td>C:\Gowin\Gowin_V1.9.6.02Beta_GowinSynthesis-only\IDE\ipcore\DVI_TX\data\dvi_tx_top.v<br>
+C:\Gowin\Gowin_V1.9.6.02Beta_GowinSynthesis-only\IDE\ipcore\DVI_TX\data\rgb2dvi.vp<br>
+</td>
+</tr>
+<tr>
+<td class="label">GowinSynthesis Constraints File</td>
+<td>---</td>
+</tr>
+<tr>
+<td class="label">GowinSynthesis Verision</td>
+<td>GowinSynthesis V1.9.6.02Beta</td>
+</tr>
+<tr>
+<td class="label">Created Time</td>
+<td>Tue Oct 06 16:35:09 2020
+</td>
+</tr>
+<tr>
+<td class="label">Legal Announcement</td>
+<td>Copyright (C)2014-2020 Gowin Semiconductor Corporation. ALL rights reserved.</td>
+</tr>
+</table>
+<h1><a name="setting">Design Settings</a></h1>
+<table class="summary_table">
+<tr>
+<td class="label">Top Level Module:</td>
+<td>dvi_tx_top</td>
+</tr>
+<tr>
+<td class="label">Part Number:</td>
+<td>GW2A-LV18PG484C8/I7</td>
+</tr>
+</table><br/>
+<h1><a name="resource">Resource</a></h1>
+<h2><a name="usage">Resource Usage Summary</a></h2>
+<table class="summary_table">
+<tr>
+<td class="label"><b>I/OPORT Usage:</b></td>
+<td>37</td>
+</tr>
+<tr>
+<td class="label"><b>I/OBUF Usage:</b></td>
+<td>33</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspIBUF</td>
+<td>29</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspTLVDS_OBUF</td>
+<td>4</td>
+</tr>
+<tr>
+<td class="label"><b>REG Usage:</b></td>
+<td>73</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspDFFP</td>
+<td>3</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspDFFC</td>
+<td>70</td>
+</tr>
+<tr>
+<td class="label"><b>LUT Usage:</b></td>
+<td>216</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspLUT2</td>
+<td>35</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspLUT3</td>
+<td>50</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspLUT4</td>
+<td>131</td>
+</tr>
+<tr>
+<td class="label"><b>ALU Usage:</b></td>
+<td>72</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspALU</td>
+<td>72</td>
+</tr>
+<tr>
+<td class="label"><b>INV Usage:</b></td>
+<td>3</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspINV</td>
+<td>3</td>
+</tr>
+<tr>
+<td class="label"><b>IOLOGIC Usage:</b></td>
+<td>4</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspOSER10</td>
+<td>4</td>
+</tr>
+<tr>
+<td class="label"><b>CLOCK Usage:</b></td>
+<td>1</td>
+</tr>
+<tr>
+<td class="label">&nbsp&nbsp&nbsp&nbspPLL</td>
+<td>1</td>
+</tr>
+</table><br/>
+<h2><a name="utilization">Resource Utilization Summary</a></h2>
+Target Device: GW2A-18-PBGA484
+<table class="summary_table">
+<tr>
+<td class="label">CFU Logics</td>
+<td>291(219 LUTs, 72 ALUs) / 20736</td>
+<td>1%</td>
+</tr>
+<tr>
+<td class="label">Registers</td>
+<td>73 / 16512</td>
+<td>1%</td>
+</tr>
+<tr>
+<td class="label">BSRAMs</td>
+<td>0 / 46</td>
+<td>0%</td>
+</tr>
+<tr>
+<td class="label">DSP Macros</td>
+<td>0 / (12*2)</td>
+<td>0%</td>
+</tr>
+</table><br/><br/>
+<h1><a name="timing">Timing</a></h1>
+<h2><a name="clock">Clock Summary:</a></h2>
+<table class="summary_table">
+<tr>
+<th>Clock</th>
+<th>Type</th>
+<th>Frequency</th>
+<th>Period</th>
+<th>Rise</th>
+<th>Fall</th>
+<th>Source</th>
+<th>Master</th>
+<th>Object</th>
+</tr>
+<tr>
+<td>I_rgb_clk.default_clk</td>
+<td>Base</td>
+<td>40.0 MHz</td>
+<td>25.000</td>
+<td>0.000</td>
+<td>12.500</td>
+<td> </td>
+<td> </td>
+<td>I_rgb_clk_ibuf/I </td>
+</tr>
+<tr>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUT.default_gen_clk</td>
+<td>Generated</td>
+<td>200.0 MHz</td>
+<td>5.000</td>
+<td>0.000</td>
+<td>2.500</td>
+<td>I_rgb_clk_ibuf/I</td>
+<td>I_rgb_clk.default_clk</td>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUT </td>
+</tr>
+<tr>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTP.default_gen_clk</td>
+<td>Generated</td>
+<td>200.0 MHz</td>
+<td>5.000</td>
+<td>0.000</td>
+<td>2.500</td>
+<td>I_rgb_clk_ibuf/I</td>
+<td>I_rgb_clk.default_clk</td>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTP </td>
+</tr>
+<tr>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTD.default_gen_clk</td>
+<td>Generated</td>
+<td>100.0 MHz</td>
+<td>10.000</td>
+<td>0.000</td>
+<td>5.000</td>
+<td>I_rgb_clk_ibuf/I</td>
+<td>I_rgb_clk.default_clk</td>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTD </td>
+</tr>
+<tr>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTD3.default_gen_clk</td>
+<td>Generated</td>
+<td>66.7 MHz</td>
+<td>15.000</td>
+<td>0.000</td>
+<td>7.500</td>
+<td>I_rgb_clk_ibuf/I</td>
+<td>I_rgb_clk.default_clk</td>
+<td>rgb2dvi_inst/TMDSTX_PLL_inst/CLKOUTD3 </td>
+</tr>
+</table><br/>
+<h2><a name="timing report">Timing Report:</a></h2>
+<table class="summary_table">
+<tr>
+<td class="label">Top View:</td>
+<td>dvi_tx_top</td>
+</tr>
+<tr>
+<td class="label">Requested Frequency:</td>
+<td>40.0 MHz</td>
+</tr>
+<tr>
+<td class="label">Paths Requested:</td>
+<td>5</td>
+</tr>
+<tr>
+<td class="label">Constraint File(ignored):</td>
+<td></td>
+</tr>
+</table>
+<b>All time values displayed in nanoseconds(ns).</b><br/><br/>
+<h2><a name="performance">Performance Summary:</a></h2>
+Worst Slack in Design:&nbsp16.456<br/>
+<table class="summary_table">
+<tr>
+<th>Start Clock</th>
+<th>Slack</th>
+<th>Requested Frequency</th>
+<th>Estimated Frequency</th>
+<th>Requested Period</th>
+<th>Estimated Period</th>
+<th>Clock Type</th>
+</tr>
+<tr>
+<td>I_rgb_clk.default_clk</td>
+<td>16.456</td>
+<td>40.0 MHz</td>
+<td>117.0 MHz</td>
+<td>25.000</td>
+<td>8.544</td>
+<td>Base</td>
+</tr>
+</table><br/>
+<h2><a name="detail timing">Detail Timing Paths Information</a></h2>
+<b>Path information for path number&nbsp</b>1&nbsp:&nbsp<br/>
+<table class="summary_table">
+<tr>
+<td class="label">Clock Skew:</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td class="label">Setup Relationship:</td>
+<td>25.000</td>
+</tr>
+<tr>
+<td class="label">    Slack(critical):</td>
+<td>16.456</td>
+</tr>
+<tr>
+<td class="label">Data Arrival Time:</td>
+<td>9.337</td>
+</tr>
+<tr>
+<td class="label">Data Required Time:</td>
+<td>25.793</td>
+</tr>
+<tr>
+<td class="label">Number of Logic Level:</td>
+<td>12</td>
+</tr>
+<tr>
+<td class="label">Starting Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0</td>
+</tr>
+<tr>
+<td class="label">Ending Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/cnt_4_s0</td>
+</tr>
+<tr>
+<td class="label">The Start Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+<tr>
+<td class="label">The End Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+</table><br/><br/>
+<table class="summary_table">
+<tr>
+<th>Instance/Net Name</th>
+<th>Type</th>
+<th>Pin Name</th>
+<th>Pin Dir</th>
+<th>Delay</th>
+<th>Arrival Time</th>
+<th>Fanout</th>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>I</td>
+<td>In</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>O</td>
+<td>Out</td>
+<td>0.683</td>
+<td>0.683</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_d</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.180</td>
+<td>-</td>
+<td>78</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>CLK</td>
+<td>In</td>
+<td>-</td>
+<td>0.863</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>Q</td>
+<td>Out</td>
+<td>0.232</td>
+<td>1.095</td>
+<td>-</td>
+</tr>
+<tr>
+<td>din_d[3]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>1.332</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>1.887</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>I3</td>
+<td>In</td>
+<td>-</td>
+<td>2.124</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.371</td>
+<td>2.495</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>2.732</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>3.249</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_1</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s2 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>3.486</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s2 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>4.003</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n605_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_3_s11 </td>
+<td>LUT3</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>4.240</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_3_s11 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>4.794</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[3]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_2_s15 </td>
+<td>LUT3</td>
+<td>I2</td>
+<td>In</td>
+<td>-</td>
+<td>5.031</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_2_s15 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.453</td>
+<td>5.484</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[2]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n365_s3 </td>
+<td>ALU</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>5.721</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n365_s3 </td>
+<td>ALU</td>
+<td>COUT</td>
+<td>Out</td>
+<td>0.570</td>
+<td>6.292</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rgb2dvi_inst_TMDS8b10b_inst_r_n365_4_COUT</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n364_s3 </td>
+<td>ALU</td>
+<td>CIN</td>
+<td>In</td>
+<td>-</td>
+<td>6.292</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n364_s3 </td>
+<td>ALU</td>
+<td>SUM</td>
+<td>Out</td>
+<td>0.470</td>
+<td>6.761</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n364_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s5 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>6.998</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s5 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>7.553</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_9</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s2 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>7.790</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s2 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>8.345</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s1 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>8.583</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n578_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>9.100</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_4_s0 </td>
+<td>DFFC</td>
+<td>D</td>
+<td>In</td>
+<td>-</td>
+<td>9.337</td>
+<td>-</td>
+</tr>
+</table><br/>
+<b>Total Path Delay: </b>9.337<br/>
+<b>Logic Delay: </b>6.549(70.1%)<br/>
+<b>Route Delay: </b>2.787(29.9%)<br/>
+<br/><br/>
+<b>Path information for path number&nbsp</b>2&nbsp:&nbsp<br/>
+<table class="summary_table">
+<tr>
+<td class="label">Clock Skew:</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td class="label">Setup Relationship:</td>
+<td>25.000</td>
+</tr>
+<tr>
+<td class="label">    Slack(non-critical):</td>
+<td>17.695</td>
+</tr>
+<tr>
+<td class="label">Data Arrival Time:</td>
+<td>8.097</td>
+</tr>
+<tr>
+<td class="label">Data Required Time:</td>
+<td>25.793</td>
+</tr>
+<tr>
+<td class="label">Number of Logic Level:</td>
+<td>10</td>
+</tr>
+<tr>
+<td class="label">Starting Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0</td>
+</tr>
+<tr>
+<td class="label">Ending Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/cnt_3_s0</td>
+</tr>
+<tr>
+<td class="label">The Start Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+<tr>
+<td class="label">The End Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+</table><br/><br/>
+<table class="summary_table">
+<tr>
+<th>Instance/Net Name</th>
+<th>Type</th>
+<th>Pin Name</th>
+<th>Pin Dir</th>
+<th>Delay</th>
+<th>Arrival Time</th>
+<th>Fanout</th>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>I</td>
+<td>In</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>O</td>
+<td>Out</td>
+<td>0.683</td>
+<td>0.683</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_d</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.180</td>
+<td>-</td>
+<td>78</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>CLK</td>
+<td>In</td>
+<td>-</td>
+<td>0.863</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>Q</td>
+<td>Out</td>
+<td>0.232</td>
+<td>1.095</td>
+<td>-</td>
+</tr>
+<tr>
+<td>din_d[3]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>1.332</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>1.887</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>I3</td>
+<td>In</td>
+<td>-</td>
+<td>2.124</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.371</td>
+<td>2.495</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>2.732</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>3.249</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_1</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s2 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>3.486</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s2 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>4.003</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n605_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_3_s11 </td>
+<td>LUT3</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>4.240</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_3_s11 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>4.794</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[3]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_2_s15 </td>
+<td>LUT3</td>
+<td>I2</td>
+<td>In</td>
+<td>-</td>
+<td>5.031</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_2_s15 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.453</td>
+<td>5.484</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[2]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n365_s3 </td>
+<td>ALU</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>5.721</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n365_s3 </td>
+<td>ALU</td>
+<td>SUM</td>
+<td>Out</td>
+<td>0.555</td>
+<td>6.276</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n365_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n579_s3 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>6.513</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n579_s3 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>7.068</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n579_7</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n579_s1 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>7.305</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n579_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>7.860</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n579_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_3_s0 </td>
+<td>DFFC</td>
+<td>D</td>
+<td>In</td>
+<td>-</td>
+<td>8.097</td>
+<td>-</td>
+</tr>
+</table><br/>
+<b>Total Path Delay: </b>8.098<br/>
+<b>Logic Delay: </b>5.547(68.5%)<br/>
+<b>Route Delay: </b>2.550(31.5%)<br/>
+<br/><br/>
+<b>Path information for path number&nbsp</b>3&nbsp:&nbsp<br/>
+<table class="summary_table">
+<tr>
+<td class="label">Clock Skew:</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td class="label">Setup Relationship:</td>
+<td>25.000</td>
+</tr>
+<tr>
+<td class="label">    Slack(non-critical):</td>
+<td>17.719</td>
+</tr>
+<tr>
+<td class="label">Data Arrival Time:</td>
+<td>8.074</td>
+</tr>
+<tr>
+<td class="label">Data Required Time:</td>
+<td>25.793</td>
+</tr>
+<tr>
+<td class="label">Number of Logic Level:</td>
+<td>10</td>
+</tr>
+<tr>
+<td class="label">Starting Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_b/din_d_5_s0</td>
+</tr>
+<tr>
+<td class="label">Ending Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_b/cnt_4_s0</td>
+</tr>
+<tr>
+<td class="label">The Start Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+<tr>
+<td class="label">The End Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+</table><br/><br/>
+<table class="summary_table">
+<tr>
+<th>Instance/Net Name</th>
+<th>Type</th>
+<th>Pin Name</th>
+<th>Pin Dir</th>
+<th>Delay</th>
+<th>Arrival Time</th>
+<th>Fanout</th>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>I</td>
+<td>In</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>O</td>
+<td>Out</td>
+<td>0.683</td>
+<td>0.683</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_d</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.180</td>
+<td>-</td>
+<td>78</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/din_d_5_s0 </td>
+<td>DFFC</td>
+<td>CLK</td>
+<td>In</td>
+<td>-</td>
+<td>0.863</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/din_d_5_s0 </td>
+<td>DFFC</td>
+<td>Q</td>
+<td>Out</td>
+<td>0.232</td>
+<td>1.095</td>
+<td>-</td>
+</tr>
+<tr>
+<td>din_d[5]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>3</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_2_s20 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>1.332</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_2_s20 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>1.887</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_2</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>3</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_2_s16 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>2.124</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_2_s16 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>2.679</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_2</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>3</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>2.916</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>3.471</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_1</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_1_s14 </td>
+<td>LUT2</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>3.708</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_one_9bit_1_s14 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>4.225</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[1]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n535_s1 </td>
+<td>ALU</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>4.462</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n535_s1 </td>
+<td>ALU</td>
+<td>COUT</td>
+<td>Out</td>
+<td>0.570</td>
+<td>5.032</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rgb2dvi_inst_TMDS8b10b_inst_b_n535_2_COUT</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n534_s1 </td>
+<td>ALU</td>
+<td>CIN</td>
+<td>In</td>
+<td>-</td>
+<td>5.032</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n534_s1 </td>
+<td>ALU</td>
+<td>COUT</td>
+<td>Out</td>
+<td>0.035</td>
+<td>5.067</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rgb2dvi_inst_TMDS8b10b_inst_b_n534_2_COUT</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n533_s1 </td>
+<td>ALU</td>
+<td>CIN</td>
+<td>In</td>
+<td>-</td>
+<td>5.067</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n533_s1 </td>
+<td>ALU</td>
+<td>SUM</td>
+<td>Out</td>
+<td>0.470</td>
+<td>5.537</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n533_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s4 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>5.774</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s4 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>6.329</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s2 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>6.566</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s2 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>7.083</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s1 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>7.320</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/n578_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>7.837</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_b/cnt_4_s0 </td>
+<td>DFFC</td>
+<td>D</td>
+<td>In</td>
+<td>-</td>
+<td>8.074</td>
+<td>-</td>
+</tr>
+</table><br/>
+<b>Total Path Delay: </b>8.074<br/>
+<b>Logic Delay: </b>5.761(71.4%)<br/>
+<b>Route Delay: </b>2.313(28.6%)<br/>
+<br/><br/>
+<b>Path information for path number&nbsp</b>4&nbsp:&nbsp<br/>
+<table class="summary_table">
+<tr>
+<td class="label">Clock Skew:</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td class="label">Setup Relationship:</td>
+<td>25.000</td>
+</tr>
+<tr>
+<td class="label">    Slack(non-critical):</td>
+<td>17.818</td>
+</tr>
+<tr>
+<td class="label">Data Arrival Time:</td>
+<td>7.975</td>
+</tr>
+<tr>
+<td class="label">Data Required Time:</td>
+<td>25.793</td>
+</tr>
+<tr>
+<td class="label">Number of Logic Level:</td>
+<td>10</td>
+</tr>
+<tr>
+<td class="label">Starting Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_g/din_d_1_s0</td>
+</tr>
+<tr>
+<td class="label">Ending Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_g/cnt_4_s0</td>
+</tr>
+<tr>
+<td class="label">The Start Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+<tr>
+<td class="label">The End Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+</table><br/><br/>
+<table class="summary_table">
+<tr>
+<th>Instance/Net Name</th>
+<th>Type</th>
+<th>Pin Name</th>
+<th>Pin Dir</th>
+<th>Delay</th>
+<th>Arrival Time</th>
+<th>Fanout</th>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>I</td>
+<td>In</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>O</td>
+<td>Out</td>
+<td>0.683</td>
+<td>0.683</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_d</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.180</td>
+<td>-</td>
+<td>78</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/din_d_1_s0 </td>
+<td>DFFC</td>
+<td>CLK</td>
+<td>In</td>
+<td>-</td>
+<td>0.863</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/din_d_1_s0 </td>
+<td>DFFC</td>
+<td>Q</td>
+<td>Out</td>
+<td>0.232</td>
+<td>1.095</td>
+<td>-</td>
+</tr>
+<tr>
+<td>din_d[1]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>6</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n662_s1 </td>
+<td>LUT3</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>1.332</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n662_s1 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>1.887</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n662_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>3</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_1_s18 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>2.124</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_1_s18 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>2.679</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_1</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_2_s17 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>2.916</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_2_s17 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>3.471</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_2</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_2_s15 </td>
+<td>LUT4</td>
+<td>I2</td>
+<td>In</td>
+<td>-</td>
+<td>3.708</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_one_9bit_2_s15 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.453</td>
+<td>4.161</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit[2]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n534_s1 </td>
+<td>ALU</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>4.398</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n534_s1 </td>
+<td>ALU</td>
+<td>COUT</td>
+<td>Out</td>
+<td>0.570</td>
+<td>4.968</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rgb2dvi_inst_TMDS8b10b_inst_g_n534_2_COUT</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n533_s1 </td>
+<td>ALU</td>
+<td>CIN</td>
+<td>In</td>
+<td>-</td>
+<td>4.968</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n533_s1 </td>
+<td>ALU</td>
+<td>SUM</td>
+<td>Out</td>
+<td>0.470</td>
+<td>5.438</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n533_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s4 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>5.674</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s4 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>6.229</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s2 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>6.466</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s2 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>6.984</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s1 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>7.220</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/n578_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>7.738</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n578_5</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_g/cnt_4_s0 </td>
+<td>DFFC</td>
+<td>D</td>
+<td>In</td>
+<td>-</td>
+<td>7.975</td>
+<td>-</td>
+</tr>
+</table><br/>
+<b>Total Path Delay: </b>7.975<br/>
+<b>Logic Delay: </b>5.662(71.0%)<br/>
+<b>Route Delay: </b>2.313(29.0%)<br/>
+<br/><br/>
+<b>Path information for path number&nbsp</b>5&nbsp:&nbsp<br/>
+<table class="summary_table">
+<tr>
+<td class="label">Clock Skew:</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td class="label">Setup Relationship:</td>
+<td>25.000</td>
+</tr>
+<tr>
+<td class="label">    Slack(non-critical):</td>
+<td>18.083</td>
+</tr>
+<tr>
+<td class="label">Data Arrival Time:</td>
+<td>7.710</td>
+</tr>
+<tr>
+<td class="label">Data Required Time:</td>
+<td>25.793</td>
+</tr>
+<tr>
+<td class="label">Number of Logic Level:</td>
+<td>9</td>
+</tr>
+<tr>
+<td class="label">Starting Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0</td>
+</tr>
+<tr>
+<td class="label">Ending Point:</td>
+<td>rgb2dvi_inst/TMDS8b10b_inst_r/dout_0_s0</td>
+</tr>
+<tr>
+<td class="label">The Start Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+<tr>
+<td class="label">The End Point Is Clocked By:</td>
+<td>I_rgb_clk.default_clk[rising]</td>
+</tr>
+</table><br/><br/>
+<table class="summary_table">
+<tr>
+<th>Instance/Net Name</th>
+<th>Type</th>
+<th>Pin Name</th>
+<th>Pin Dir</th>
+<th>Delay</th>
+<th>Arrival Time</th>
+<th>Fanout</th>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>I</td>
+<td>In</td>
+<td>-</td>
+<td>0.000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_ibuf</td>
+<td>IBUF</td>
+<td>O</td>
+<td>Out</td>
+<td>0.683</td>
+<td>0.683</td>
+<td>-</td>
+</tr>
+<tr>
+<td>I_rgb_clk_d</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.180</td>
+<td>-</td>
+<td>78</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>CLK</td>
+<td>In</td>
+<td>-</td>
+<td>0.863</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/din_d_3_s0 </td>
+<td>DFFC</td>
+<td>Q</td>
+<td>Out</td>
+<td>0.232</td>
+<td>1.095</td>
+<td>-</td>
+</tr>
+<tr>
+<td>din_d[3]</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>1.332</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s3 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>1.887</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_6</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>I3</td>
+<td>In</td>
+<td>-</td>
+<td>2.124</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n658_s4 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.371</td>
+<td>2.495</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n658_8</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>5</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>2.732</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/cnt_one_9bit_1_s15 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>3.249</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cnt_one_9bit_1</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>4</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s1 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>3.486</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n605_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>4.041</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n605_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n628_s1 </td>
+<td>LUT4</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>4.278</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n628_s1 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>4.832</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n628_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>6</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n628_s3 </td>
+<td>LUT4</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>5.069</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n628_s3 </td>
+<td>LUT4</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>5.587</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n628_7</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n654_s1 </td>
+<td>LUT2</td>
+<td>I1</td>
+<td>In</td>
+<td>-</td>
+<td>5.824</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n654_s1 </td>
+<td>LUT2</td>
+<td>F</td>
+<td>Out</td>
+<td>0.555</td>
+<td>6.378</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n645_4</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n654_s0 </td>
+<td>MUX2_LUT5</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>6.615</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n654_s0 </td>
+<td>MUX2_LUT5</td>
+<td>O</td>
+<td>Out</td>
+<td>0.103</td>
+<td>6.719</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n654_3</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n664_s0 </td>
+<td>LUT3</td>
+<td>I0</td>
+<td>In</td>
+<td>-</td>
+<td>6.956</td>
+<td>-</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/n664_s0 </td>
+<td>LUT3</td>
+<td>F</td>
+<td>Out</td>
+<td>0.517</td>
+<td>7.473</td>
+<td>-</td>
+</tr>
+<tr>
+<td>n664_3</td>
+<td>Net</td>
+<td>-</td>
+<td>-</td>
+<td>0.237</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>\rgb2dvi_inst/TMDS8b10b_inst_r/dout_0_s0 </td>
+<td>DFFC</td>
+<td>D</td>
+<td>In</td>
+<td>-</td>
+<td>7.710</td>
+<td>-</td>
+</tr>
+</table><br/>
+<b>Total Path Delay: </b>7.710<br/>
+<b>Logic Delay: </b>5.160(66.9%)<br/>
+<b>Route Delay: </b>2.550(33.1%)<br/>
+<br/><br/>
+<h1><a name="summary">Summary</a></h1>
+<table class="summary_table">
+<tr>
+<td class="label"><b>Total Warnings:</b></td> 
+<td>2</td>
+</tr>
+<tr>
+<td class="label"><b>Total Informations:</b></td> 
+<td>35</td>
+</tr>
+</table><br/>
+<b>Synthesis completed successfully!</b><br/>
+Process took 0h:0m:6s realtime, 0h:0m:5s cputime
+<br/>
+Memory peak: 42.5MB
+</div><!-- content -->
+</div><!-- main_wrapper -->
+</body>
+</html>

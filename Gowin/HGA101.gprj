@@ -1,0 +1,49 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW2A-18" pn="GW2A-LV18PG484C8/I7">gw2a18-004</Device>
+    <FileList>
+        <File path="src/dvi_tx_top/dvi_tx_top.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/arbitrate_select_cell.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/biu.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/biu_cell.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/bu_mux.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/bu_req_mux.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/byte_sel.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/cache.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/cache_bus_unit.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/cache_entry.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/l1.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/cache/l1_bus_unit.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/BIU_MOD/replace_arbiter.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/Anlogic_GPR_Sample.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/csr_satp.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_cycle_event.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_cause.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_epc.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_ie.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_ip.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_scratch.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_status.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_tval.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/m_s_tvec.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/medeleg_exc_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/mideleg_int_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/csrs/mro_csr.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/CU&amp;RU/cu_ru.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/ALU&amp;AU/alu_au.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/ALU&amp;AU/barrel_shifter.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/FPU/FALU16.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/FPU/FALU64.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/FPU/FGPR.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/FPU/LRS16.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/LSU/lsu.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/EX/exu.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/ID/ins_dec.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/IF/ins_fetch.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/PIP_CTRL/pip_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/CPU/fcc4g32e_top.v" type="file.verilog" enable="1"/>
+    </FileList>
+</Project>

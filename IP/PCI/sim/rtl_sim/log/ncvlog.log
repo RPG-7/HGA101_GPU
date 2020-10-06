@@ -1,0 +1,228 @@
+ncvlog: 05.10-s012: (c) Copyright 1995-2004 Cadence Design Systems, Inc.
+TOOL:	ncvlog	05.10-s012: Started on Aug 19, 2004 at 17:13:31
+ncvlog
+    -f ./ncvlog.args
+        -cdslib ../bin/cds.lib
+        -hdlvar ../bin/hdl.var
+        -logfile ../log/ncvlog.log
+        -update
+        -messages
+        -INCDIR ../../../bench/verilog
+        -INCDIR ../../../rtl/verilog
+        -DEFINE PCI_CPCI_SIM
+        ../../../rtl/verilog/pci_spoci_ctrl.v
+        ../../../rtl/verilog/pci_parity_check.v
+        ../../../rtl/verilog/pci_target_unit.v
+        ../../../rtl/verilog/pci_wb_addr_mux.v
+        ../../../rtl/verilog/pci_cbe_en_crit.v
+        ../../../rtl/verilog/pci_pcir_fifo_control.v
+        ../../../rtl/verilog/pci_out_reg.v
+        ../../../rtl/verilog/pci_pci_tpram.v
+        ../../../rtl/verilog/pci_wb_master.v
+        ../../../rtl/verilog/pci_conf_cyc_addr_dec.v
+        ../../../rtl/verilog/pci_frame_crit.v
+        ../../../rtl/verilog/pci_target32_clk_en.v
+        ../../../rtl/verilog/pci_pciw_fifo_control.v
+        ../../../rtl/verilog/pci_wb_slave.v
+        ../../../rtl/verilog/pci_conf_space.v
+        ../../../rtl/verilog/pci_frame_en_crit.v
+        ../../../rtl/verilog/pci_par_crit.v
+        ../../../rtl/verilog/pci_pciw_pcir_fifos.v
+        ../../../rtl/verilog/pci_wb_slave_unit.v
+        ../../../rtl/verilog/pci_frame_load_crit.v
+        ../../../rtl/verilog/pci_bridge32.v
+        ../../../rtl/verilog/pci_target32_devs_crit.v
+        ../../../rtl/verilog/pci_perr_crit.v
+        ../../../rtl/verilog/pci_wbr_fifo_control.v
+        ../../../rtl/verilog/pci_cur_out_reg.v
+        ../../../rtl/verilog/pci_pci_decoder.v
+        ../../../rtl/verilog/pci_target32_interface.v
+        ../../../rtl/verilog/pci_perr_en_crit.v
+        ../../../rtl/verilog/pci_wbw_fifo_control.v
+        ../../../rtl/verilog/pci_wb_decoder.v
+        ../../../rtl/verilog/pci_in_reg.v
+        ../../../rtl/verilog/pci_serr_crit.v
+        ../../../rtl/verilog/pci_wbw_wbr_fifos.v
+        ../../../rtl/verilog/pci_delayed_sync.v
+        ../../../rtl/verilog/pci_irdy_out_crit.v
+        ../../../rtl/verilog/pci_io_mux.v
+        ../../../rtl/verilog/pci_io_mux_ad_en_crit.v
+        ../../../rtl/verilog/pci_io_mux_ad_load_crit.v
+        ../../../rtl/verilog/pci_target32_sm.v
+        ../../../rtl/verilog/pci_serr_en_crit.v
+        ../../../rtl/verilog/pci_delayed_write_reg.v
+        ../../../rtl/verilog/pci_mas_ad_en_crit.v
+        ../../../rtl/verilog/pci_mas_ad_load_crit.v
+        ../../../rtl/verilog/pci_master32_sm.v
+        ../../../rtl/verilog/pci_target32_stop_crit.v
+        ../../../rtl/verilog/pci_synchronizer_flop.v
+        ../../../rtl/verilog/pci_async_reset_flop.v
+        ../../../rtl/verilog/pci_mas_ch_state_crit.v
+        ../../../rtl/verilog/pci_master32_sm_if.v
+        ../../../rtl/verilog/pci_target32_trdy_crit.v
+        ../../../rtl/verilog/pci_rst_int.v
+        ../../../rtl/verilog/pci_sync_module.v
+        ../../../rtl/verilog/pci_wb_tpram.v
+        ../../../rtl/verilog/pci_wbs_wbb3_2_wbb2.v
+        ../../../bench/verilog/top.v
+        ../../../bench/verilog/wb_master32.v
+        ../../../bench/verilog/wb_master_behavioral.v
+        ../../../bench/verilog/system.v
+        ../../../bench/verilog/pci_blue_arbiter.v
+        ../../../bench/verilog/pci_bus_monitor.v
+        ../../../bench/verilog/pci_behaviorial_device.v
+        ../../../bench/verilog/pci_behaviorial_master.v
+        ../../../bench/verilog/pci_behaviorial_target.v
+        ../../../bench/verilog/wb_slave_behavioral.v
+        ../../../bench/verilog/wb_bus_mon.v
+        ../../../bench/verilog/pci_unsupported_commands_master.v
+        ../../../bench/verilog/pci_behavioral_pci2pci_bridge.v
+        ../../../bench/verilog/i2c_slave_model.v
+
+file: ../../../rtl/verilog/pci_spoci_ctrl.v
+	module worklib.pci_spoci_ctrl
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_parity_check.v
+	module worklib.pci_parity_check
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_target_unit.v
+	module worklib.pci_target_unit
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wb_addr_mux.v
+	module worklib.pci_wb_addr_mux
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_cbe_en_crit.v
+file: ../../../rtl/verilog/pci_pcir_fifo_control.v
+	module worklib.pci_pcir_fifo_control
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_out_reg.v
+	module worklib.pci_out_reg
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_pci_tpram.v
+	module worklib.pci_pci_tpram
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wb_master.v
+	module worklib.pci_wb_master
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_conf_cyc_addr_dec.v
+file: ../../../rtl/verilog/pci_frame_crit.v
+file: ../../../rtl/verilog/pci_target32_clk_en.v
+file: ../../../rtl/verilog/pci_pciw_fifo_control.v
+	module worklib.pci_pciw_fifo_control
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wb_slave.v
+	module worklib.pci_wb_slave
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_conf_space.v
+	module worklib.pci_conf_space
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_frame_en_crit.v
+file: ../../../rtl/verilog/pci_par_crit.v
+file: ../../../rtl/verilog/pci_pciw_pcir_fifos.v
+	module worklib.pci_pciw_pcir_fifos
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wb_slave_unit.v
+	module worklib.pci_wb_slave_unit
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_frame_load_crit.v
+file: ../../../rtl/verilog/pci_bridge32.v
+	module worklib.pci_bridge32
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_target32_devs_crit.v
+file: ../../../rtl/verilog/pci_perr_crit.v
+file: ../../../rtl/verilog/pci_wbr_fifo_control.v
+	module worklib.pci_wbr_fifo_control
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_cur_out_reg.v
+	module worklib.pci_cur_out_reg
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_pci_decoder.v
+	module worklib.pci_pci_decoder
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_target32_interface.v
+	module worklib.pci_target32_interface
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_perr_en_crit.v
+file: ../../../rtl/verilog/pci_wbw_fifo_control.v
+	module worklib.pci_wbw_fifo_control
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wb_decoder.v
+	module worklib.pci_wb_decoder
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_in_reg.v
+	module worklib.pci_in_reg
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_serr_crit.v
+file: ../../../rtl/verilog/pci_wbw_wbr_fifos.v
+	module worklib.pci_wbw_wbr_fifos
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_delayed_sync.v
+	module worklib.pci_delayed_sync
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_irdy_out_crit.v
+file: ../../../rtl/verilog/pci_io_mux.v
+file: ../../../rtl/verilog/pci_io_mux_ad_en_crit.v
+file: ../../../rtl/verilog/pci_io_mux_ad_load_crit.v
+file: ../../../rtl/verilog/pci_target32_sm.v
+	module worklib.pci_target32_sm
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_serr_en_crit.v
+file: ../../../rtl/verilog/pci_delayed_write_reg.v
+	module worklib.pci_delayed_write_reg
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_mas_ad_en_crit.v
+file: ../../../rtl/verilog/pci_mas_ad_load_crit.v
+file: ../../../rtl/verilog/pci_master32_sm.v
+	module worklib.pci_master32_sm
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_target32_stop_crit.v
+file: ../../../rtl/verilog/pci_synchronizer_flop.v
+file: ../../../rtl/verilog/pci_async_reset_flop.v
+	module worklib.pci_async_reset_flop
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_mas_ch_state_crit.v
+file: ../../../rtl/verilog/pci_master32_sm_if.v
+	module worklib.pci_master32_sm_if
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_target32_trdy_crit.v
+file: ../../../rtl/verilog/pci_rst_int.v
+	module worklib.pci_rst_int
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_sync_module.v
+file: ../../../rtl/verilog/pci_wb_tpram.v
+	module worklib.pci_wb_tpram
+		errors: 0, warnings: 0
+file: ../../../rtl/verilog/pci_wbs_wbb3_2_wbb2.v
+	module worklib.pci_wbs_wbb3_2_wbb2
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/top.v
+	module worklib.TOP
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/wb_master32.v
+	module worklib.WB_MASTER32
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/wb_master_behavioral.v
+	module worklib.WB_MASTER_BEHAVIORAL
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/system.v
+	module worklib.SYSTEM
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/pci_blue_arbiter.v
+file: ../../../bench/verilog/pci_bus_monitor.v
+file: ../../../bench/verilog/pci_behaviorial_device.v
+file: ../../../bench/verilog/pci_behaviorial_master.v
+file: ../../../bench/verilog/pci_behaviorial_target.v
+file: ../../../bench/verilog/wb_slave_behavioral.v
+	module worklib.WB_SLAVE_BEHAVIORAL
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/wb_bus_mon.v
+	module worklib.WB_BUS_MON
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/pci_unsupported_commands_master.v
+	module worklib.pci_unsupported_commands_master
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/pci_behavioral_pci2pci_bridge.v
+	module worklib.pci_behavioral_pci2pci_bridge
+		errors: 0, warnings: 0
+file: ../../../bench/verilog/i2c_slave_model.v
+TOOL:	ncvlog	05.10-s012: Exiting on Aug 19, 2004 at 17:13:32  (total: 00:00:01)

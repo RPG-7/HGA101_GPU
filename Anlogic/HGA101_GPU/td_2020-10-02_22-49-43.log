@@ -1,0 +1,922 @@
+============================================================
+   Tang Dynasty, V4.6.18154
+   Copyright:   Shanghai Anlogic Infotech Co., Ltd.
+                2011 - 2021
+   Executable = C:/Anlogic/TD4.6.4/bin/td.exe
+   Built at =   16:39:36 Mar 27 2020
+   Run by =     HongXiaoyu
+   Run Date =   Fri Oct  2 22:49:43 2020
+
+   Run on =     HONGXY-LAPTOP
+============================================================
+ARC-1001 : Device Initialization.
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :            OPTION            |            IO            |   SETTING   
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :   cso_b/cclk/mosi/miso/dout  |  P140/P168/P166/P165/S5  |    gpio    
+ARC-1001 :             done             |           P10            |  dedicated  
+ARC-1001 :           program_b          |           P134           |  dedicated  
+ARC-1001 :        tdi/tms/tck/tdo       |     P46/P44/P47/P43      |  dedicated  
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1004 : Device setting, marked 6 dedicate IOs in total.
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(1876)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(1931)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2192)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2321)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2360)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2421)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2566)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2697)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2846)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2951)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2959)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(3009)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3040)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3062)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3250)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(3386)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3515)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3855)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4047)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(1876)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(1931)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2192)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2321)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2360)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2421)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2566)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2697)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(2846)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2951)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(2959)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(3009)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3040)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3062)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3250)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(3386)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3515)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(3855)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4047)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4065)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(4172)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4221)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(4272)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(4655)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4725)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(4746)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(4850)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(4954)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5028)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5086)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(5230)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(5242)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5308)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5438)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5531)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5558)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5681)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5711)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-8007 ERROR: 'sv2v_cast_3_signed' is already declared in ../../ref/GPU.v(5234)
+HDL-1007 : previous declaration of 'sv2v_cast_3_signed' is from here in ../../ref/GPU.v(5230)
+HDL-8007 ERROR: 'sv2v_cast_3_signed' is not valid in an expression in ../../ref/GPU.v(5236)
+HDL-8007 ERROR: cannot assign to function name 'sv2v_cast_3_signed' from here in ../../ref/GPU.v(5236)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5315)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5445)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5538)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5565)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5688)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5718)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5793)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5837)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5942)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(5976)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6022)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6052)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6118)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(6197)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(6242)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6295)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(6193)
+HDL-8007 ERROR: function/task declaration not allowed inside generate loop in ../../ref/GPU.v(6238)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6291)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6460)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../ref/GPU.v(6883)
+HDL-1007 : Verilog file '../../ref/GPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+RUN-1002 : start command "elaborate -top core"
+HDL-1007 : elaborate module core in ../../ref/GPU.v(427)
+HDL-1007 : elaborate module ifetch_tag_stage(RESET_PC=1'sb0) in ../../ref/GPU.v(3257)
+HDL-1007 : elaborate module rr_arbiter in ../../ref/GPU.v(5790)
+HDL-1007 : elaborate module oh_to_idx in ../../ref/GPU.v(5535)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=20,SIZE=64) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module tlb in ../../ref/GPU.v(6294)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=52,SIZE=16) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module cache_lru(NUM_SETS=64) in ../../ref/GPU.v(1)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=3,SIZE=64) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module idx_to_oh in ../../ref/GPU.v(3047)
+HDL-1007 : elaborate module ifetch_data_stage in ../../ref/GPU.v(3069)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=512,SIZE=256) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module instruction_decode_stage in ../../ref/GPU.v(3523)
+HDL-1007 : elaborate module thread_select_stage in ../../ref/GPU.v(6115)
+HDL-1007 : elaborate module sync_fifo(WIDTH=142,SIZE=8,ALMOST_FULL_THRESHOLD=5) in ../../ref/GPU.v(6049)
+HDL-1007 : elaborate module scoreboard in ../../ref/GPU.v(5834)
+HDL-1007 : elaborate module operand_fetch_stage in ../../ref/GPU.v(5562)
+HDL-1007 : elaborate module sram_2r1w(SIZE=128,_sv2v_width_READ_DURING_WRITE=72,READ_DURING_WRITE="DONT_CARE") in ../../ref/GPU.v(5973)
+HDL-1007 : elaborate module dcache_data_stage in ../../ref/GPU.v(1493)
+HDL-1007 : elaborate module idx_to_oh(NUM_SIGNALS=16) in ../../ref/GPU.v(3047)
+HDL-1007 : elaborate module dcache_tag_stage in ../../ref/GPU.v(1933)
+HDL-1007 : elaborate module sram_2r1w(DATA_WIDTH=20,SIZE=64) in ../../ref/GPU.v(5973)
+HDL-1007 : elaborate module int_execute_stage in ../../ref/GPU.v(3863)
+HDL-1007 : elaborate module reciprocal_rom in ../../ref/GPU.v(5715)
+HDL-8007 ERROR: index 17 is out of range [15:0] for 'fp_operand' in ../../ref/GPU.v(4063)
+HDL-1007 : module 'int_execute_stage' remains a black box, due to errors in its contents in ../../ref/GPU.v(3863)
+HDL-1007 : elaborate module fp_execute_stage1 in ../../ref/GPU.v(2194)
+HDL-1007 : elaborate module fp_execute_stage2 in ../../ref/GPU.v(2425)
+HDL-1007 : elaborate module fp_execute_stage3 in ../../ref/GPU.v(2570)
+HDL-1007 : elaborate module fp_execute_stage4 in ../../ref/GPU.v(2701)
+HDL-1007 : elaborate module fp_execute_stage5 in ../../ref/GPU.v(2850)
+HDL-1007 : elaborate module writeback_stage in ../../ref/GPU.v(6463)
+HDL-1007 : elaborate module control_registers(CORE_ID=1'sb0,NUM_PERF_EVENTS=14) in ../../ref/GPU.v(166)
+HDL-1007 : elaborate module l1_l2_interface(CORE_ID=1'sb0) in ../../ref/GPU.v(4276)
+HDL-1007 : elaborate module l1_store_queue in ../../ref/GPU.v(4751)
+HDL-1007 : elaborate module l1_load_miss_queue in ../../ref/GPU.v(4659)
+HDL-1007 : elaborate module io_request_queue(CORE_ID=1'sb0) in ../../ref/GPU.v(4174)
+HDL-1007 : elaborate module performance_counters(NUM_EVENTS=14) in ../../ref/GPU.v(5685)
+HDL-8007 ERROR: int_execute_stage is a black box in ../../ref/GPU.v(3863)
+RUN-1003 : finish command "elaborate -top core" in  5.309868s wall, 5.406250s user + 0.218750s system = 5.625000s CPU (105.9%)
+
+RUN-1004 : used memory is 657 MB, reserved memory is 634 MB, peak memory is 812 MB
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+HDL-1007 : analyze verilog file ../../ref/GPU.v
+RUN-1002 : start command "elaborate -top core"
+HDL-1007 : elaborate module core in ../../ref/GPU.v(427)
+HDL-1007 : elaborate module ifetch_tag_stage(RESET_PC=1'sb0) in ../../ref/GPU.v(3257)
+HDL-1007 : elaborate module rr_arbiter in ../../ref/GPU.v(5790)
+HDL-1007 : elaborate module oh_to_idx in ../../ref/GPU.v(5535)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=20,SIZE=64) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module tlb in ../../ref/GPU.v(6294)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=52,SIZE=16) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module cache_lru(NUM_SETS=64) in ../../ref/GPU.v(1)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=3,SIZE=64) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module idx_to_oh in ../../ref/GPU.v(3047)
+HDL-1007 : elaborate module ifetch_data_stage in ../../ref/GPU.v(3069)
+HDL-1007 : elaborate module sram_1r1w(DATA_WIDTH=512,SIZE=256) in ../../ref/GPU.v(5939)
+HDL-1007 : elaborate module instruction_decode_stage in ../../ref/GPU.v(3523)
+HDL-1007 : elaborate module thread_select_stage in ../../ref/GPU.v(6115)
+HDL-1007 : elaborate module sync_fifo(WIDTH=142,SIZE=8,ALMOST_FULL_THRESHOLD=5) in ../../ref/GPU.v(6049)
+HDL-1007 : elaborate module scoreboard in ../../ref/GPU.v(5834)
+HDL-1007 : elaborate module operand_fetch_stage in ../../ref/GPU.v(5562)
+HDL-1007 : elaborate module sram_2r1w(SIZE=128,_sv2v_width_READ_DURING_WRITE=72,READ_DURING_WRITE="DONT_CARE") in ../../ref/GPU.v(5973)
+HDL-1007 : elaborate module dcache_data_stage in ../../ref/GPU.v(1493)
+HDL-1007 : elaborate module idx_to_oh(NUM_SIGNALS=16) in ../../ref/GPU.v(3047)
+HDL-1007 : elaborate module dcache_tag_stage in ../../ref/GPU.v(1933)
+HDL-1007 : elaborate module sram_2r1w(DATA_WIDTH=20,SIZE=64) in ../../ref/GPU.v(5973)
+HDL-1007 : elaborate module int_execute_stage in ../../ref/GPU.v(3863)
+HDL-1007 : elaborate module reciprocal_rom in ../../ref/GPU.v(5715)
+HDL-1007 : elaborate module fp_execute_stage1 in ../../ref/GPU.v(2194)
+HDL-1007 : elaborate module fp_execute_stage2 in ../../ref/GPU.v(2425)
+HDL-1007 : elaborate module fp_execute_stage3 in ../../ref/GPU.v(2570)
+HDL-1007 : elaborate module fp_execute_stage4 in ../../ref/GPU.v(2701)
+HDL-1007 : elaborate module fp_execute_stage5 in ../../ref/GPU.v(2850)
+HDL-1007 : elaborate module writeback_stage in ../../ref/GPU.v(6463)
+HDL-1007 : elaborate module control_registers(CORE_ID=1'sb0,NUM_PERF_EVENTS=14) in ../../ref/GPU.v(166)
+HDL-1007 : elaborate module l1_l2_interface(CORE_ID=1'sb0) in ../../ref/GPU.v(4276)
+HDL-1007 : elaborate module l1_store_queue in ../../ref/GPU.v(4751)
+HDL-1007 : elaborate module l1_load_miss_queue in ../../ref/GPU.v(4659)
+HDL-1007 : elaborate module io_request_queue(CORE_ID=1'sb0) in ../../ref/GPU.v(4174)
+HDL-1007 : elaborate module performance_counters(NUM_EVENTS=14) in ../../ref/GPU.v(5685)
+HDL-1200 : Current top model is core
+HDL-1100 : Inferred 7 RAMs.
+RUN-1003 : finish command "elaborate -top core" in  8.502776s wall, 8.078125s user + 0.250000s system = 8.328125s CPU (97.9%)
+
+RUN-1004 : used memory is 665 MB, reserved memory is 647 MB, peak memory is 929 MB
+GUI-5001 WARNING: Found no ADC files
+RUN-1002 : start command "optimize_rtl"
+RUN-1001 : Open license file C:/Anlogic/TD4.6.4/license/Anlogic.lic
+SYN-1012 : SanityCheck: Model "core"
+SYN-1012 : SanityCheck: Model "control_registers(CORE_ID=1'sb0,NUM_PERF_EVENTS=14)"
+SYN-1012 : SanityCheck: Model "dcache_data_stage"
+SYN-1012 : SanityCheck: Model "oh_to_idx"
+SYN-1012 : SanityCheck: Model "idx_to_oh(NUM_SIGNALS=16)"
+SYN-1012 : SanityCheck: Model "sram_1r1w(DATA_WIDTH=512,SIZE=256)"
+SYN-1012 : SanityCheck: Model "dcache_tag_stage"
+SYN-1012 : SanityCheck: Model "tlb"
+SYN-1012 : SanityCheck: Model "sram_1r1w(DATA_WIDTH=52,SIZE=16)"
+SYN-1012 : SanityCheck: Model "cache_lru(NUM_SETS=64)"
+SYN-1012 : SanityCheck: Model "sram_1r1w(DATA_WIDTH=3,SIZE=64)"
+SYN-1012 : SanityCheck: Model "sram_2r1w(DATA_WIDTH=20,SIZE=64)"
+SYN-1012 : SanityCheck: Model "fp_execute_stage1"
+SYN-1012 : SanityCheck: Model "fp_execute_stage2"
+SYN-1012 : SanityCheck: Model "fp_execute_stage3"
+SYN-1012 : SanityCheck: Model "fp_execute_stage4"
+SYN-1012 : SanityCheck: Model "fp_execute_stage5"
+SYN-1012 : SanityCheck: Model "ifetch_data_stage"
+SYN-1012 : SanityCheck: Model "ifetch_tag_stage(RESET_PC=1'sb0)"
+SYN-1012 : SanityCheck: Model "idx_to_oh"
+SYN-1012 : SanityCheck: Model "rr_arbiter"
+SYN-1012 : SanityCheck: Model "sram_1r1w(DATA_WIDTH=20,SIZE=64)"
+SYN-1012 : SanityCheck: Model "instruction_decode_stage"
+SYN-1012 : SanityCheck: Model "int_execute_stage"
+SYN-1012 : SanityCheck: Model "reciprocal_rom"
+SYN-1012 : SanityCheck: Model "io_request_queue(CORE_ID=1'sb0)"
+SYN-1012 : SanityCheck: Model "l1_l2_interface(CORE_ID=1'sb0)"
+SYN-1012 : SanityCheck: Model "l1_load_miss_queue"
+SYN-1012 : SanityCheck: Model "l1_store_queue"
+SYN-1012 : SanityCheck: Model "operand_fetch_stage"
+SYN-1012 : SanityCheck: Model "sram_2r1w(SIZE=128,_sv2v_width_READ_DURING_WRITE=72,READ_DURING_WRITE="DONT_CARE")"
+SYN-1012 : SanityCheck: Model "performance_counters(NUM_EVENTS=14)"
+SYN-1012 : SanityCheck: Model "thread_select_stage"
+SYN-1012 : SanityCheck: Model "sync_fifo(WIDTH=142,SIZE=8,ALMOST_FULL_THRESHOLD=5)"
+SYN-1012 : SanityCheck: Model "scoreboard"
+SYN-1012 : SanityCheck: Model "writeback_stage"
+SYN-1016 : Merged 71 instances.
+SYN-1016 : Merged 41 instances.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 256x512, write 256x512
+SYN-1023 : Infer 1 Logic DRAMs, 0 Logic BRAMs.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 16x52, write 16x52
+SYN-1023 : Infer 1 Logic DRAMs, 0 Logic BRAMs.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 64x3, write 64x3
+SYN-1023 : Infer 1 Logic DRAMs, 0 Logic BRAMs.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 64x20, write 64x20
+SYN-1027 : Infer Logic DRAM(al_ram_data_al_u0) read 64x20, write 64x20
+SYN-1023 : Infer 2 Logic DRAMs, 0 Logic BRAMs.
+SYN-1016 : Merged 143 instances.
+SYN-1016 : Merged 4368 instances.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 64x20, write 64x20
+SYN-1023 : Infer 1 Logic DRAMs, 0 Logic BRAMs.
+SYN-1016 : Merged 32 instances.
+SYN-1016 : Merged 10192 instances.
+SYN-1016 : Merged 1812 instances.
+SYN-1016 : Merged 4 instances.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 128x32, write 128x32
+SYN-1027 : Infer Logic DRAM(al_ram_data_al_u0) read 128x32, write 128x32
+SYN-1023 : Infer 2 Logic DRAMs, 0 Logic BRAMs.
+SYN-1027 : Infer Logic DRAM(al_ram_data) read 8x142, write 8x142
+SYN-1023 : Infer 1 Logic DRAMs, 0 Logic BRAMs.
+SYN-1011 : Flatten model core
+SYN-1011 : Flatten model control_registers(CORE_ID=1'sb0,NUM_PERF_EVENTS=14)
+SYN-1011 : Flatten model dcache_data_stage
+SYN-1011 : Flatten model oh_to_idx
+SYN-1011 : Flatten model idx_to_oh(NUM_SIGNALS=16)
+SYN-1011 : Flatten model sram_1r1w(DATA_WIDTH=512,SIZE=256)
+SYN-1016 : Merged 35 instances.
+SYN-1011 : Flatten model dcache_tag_stage
+SYN-1011 : Flatten model tlb
+SYN-1011 : Flatten model sram_1r1w(DATA_WIDTH=52,SIZE=16)
+SYN-1016 : Merged 12 instances.
+SYN-1011 : Flatten model cache_lru(NUM_SETS=64)
+SYN-1011 : Flatten model sram_1r1w(DATA_WIDTH=3,SIZE=64)
+SYN-1016 : Merged 2 instances.
+SYN-1011 : Flatten model sram_2r1w(DATA_WIDTH=20,SIZE=64)
+SYN-1016 : Merged 60 instances.
+SYN-1011 : Flatten model fp_execute_stage1
+SYN-1011 : Flatten model fp_execute_stage2
+SYN-1011 : Flatten model fp_execute_stage3
+SYN-1011 : Flatten model fp_execute_stage4
+SYN-1011 : Flatten model fp_execute_stage5
+SYN-1011 : Flatten model ifetch_data_stage
+SYN-1016 : Merged 3 instances.
+SYN-1011 : Flatten model ifetch_tag_stage(RESET_PC=1'sb0)
+SYN-1011 : Flatten model idx_to_oh
+SYN-1011 : Flatten model rr_arbiter
+SYN-1011 : Flatten model sram_1r1w(DATA_WIDTH=20,SIZE=64)
+SYN-1016 : Merged 19 instances.
+SYN-1011 : Flatten model instruction_decode_stage
+SYN-1011 : Flatten model int_execute_stage
+SYN-1011 : Flatten model reciprocal_rom
+SYN-1016 : Merged 32 instances.
+SYN-1011 : Flatten model io_request_queue(CORE_ID=1'sb0)
+SYN-1016 : Merged 3 instances.
+SYN-1011 : Flatten model l1_l2_interface(CORE_ID=1'sb0)
+SYN-1011 : Flatten model l1_load_miss_queue
+SYN-1016 : Merged 3 instances.
+SYN-1011 : Flatten model l1_store_queue
+SYN-1016 : Merged 3 instances.
+SYN-1016 : Merged 15 instances.
+SYN-1011 : Flatten model operand_fetch_stage
+SYN-1011 : Flatten model sram_2r1w(SIZE=128,_sv2v_width_READ_DURING_WRITE=72,READ_DURING_WRITE="DONT_CARE")
+SYN-1016 : Merged 64 instances.
+SYN-1011 : Flatten model performance_counters(NUM_EVENTS=14)
+SYN-1011 : Flatten model thread_select_stage
+SYN-1011 : Flatten model sync_fifo(WIDTH=142,SIZE=8,ALMOST_FULL_THRESHOLD=5)
+SYN-1011 : Flatten model scoreboard
+SYN-1016 : Merged 409 instances.
+SYN-1011 : Flatten model writeback_stage
+SYN-1016 : Merged 946 instances.
+SYN-1014 : Optimize round 1
+SYN-1032 : 123646/3815 useful/useless nets, 114751/545 useful/useless insts
+SYN-1017 : Remove 2 const input seq instances
+SYN-1002 :     fp_execute_stage1/reg0_b120
+SYN-1002 :     fp_execute_stage2/reg4_b120
+SYN-1019 : Optimized 1104 mux instances.
+SYN-1021 : Optimized 2385 onehot mux instances.
+SYN-1020 : Optimized 11465 distributor mux.
+SYN-1016 : Merged 21702 instances.
+SYN-1015 : Optimize round 1, 45698 better
+SYN-1014 : Optimize round 2
+SYN-1044 : Optimized 1 inv instances.
+SYN-1032 : 122776/11402 useful/useless nets, 113881/15053 useful/useless insts
+SYN-1017 : Remove 8 const input seq instances
+SYN-1002 :     io_request_queue/reg0_b48
+SYN-1002 :     io_request_queue/reg1_b48
+SYN-1002 :     io_request_queue/reg2_b48
+SYN-1002 :     io_request_queue/reg3_b48
+SYN-1002 :     l1_l2_interface/l1_load_miss_queue_icache/reg0_b0
+SYN-1002 :     l1_l2_interface/l1_load_miss_queue_icache/reg1_b0
+SYN-1002 :     l1_l2_interface/l1_load_miss_queue_icache/reg2_b0
+SYN-1002 :     l1_l2_interface/l1_load_miss_queue_icache/reg3_b0
+SYN-1019 : Optimized 1 mux instances.
+SYN-1020 : Optimized 768 distributor mux.
+SYN-1016 : Merged 3 instances.
+SYN-1015 : Optimize round 2, 15949 better
+SYN-1014 : Optimize round 3
+SYN-1032 : 124039/1 useful/useless nets, 115144/768 useful/useless insts
+SYN-1019 : Optimized 0 mux instances.
+SYN-1015 : Optimize round 3, 773 better
+SYN-1014 : Optimize round 4
+SYN-1032 : 124039/0 useful/useless nets, 115144/0 useful/useless insts
+SYN-1019 : Optimized 0 mux instances.
+SYN-1015 : Optimize round 4, 0 better
+RUN-1003 : finish command "optimize_rtl" in  56.425563s wall, 56.437500s user + 0.687500s system = 57.125000s CPU (101.2%)
+
+RUN-1004 : used memory is 2008 MB, reserved memory is 2039 MB, peak memory is 2053 MB
+RUN-1002 : start command "report_area -file HGA101_GPU_rtl.area"
+RUN-1001 : standard
+***Report Model: core***
+
+IO Statistics
+#IO                  1409
+  #input              686
+  #output             723
+  #inout                0
+
+Gate Statistics
+#Basic gates        92232
+  #and              21612
+  #nand                 0
+  #or               22227
+  #nor                  0
+  #xor               1120
+  #xnor                 0
+  #buf                  0
+  #not               5071
+  #bufif1               0
+  #MX21             19116
+  #FADD                 0
+  #DFF              23086
+  #LATCH                0
+#MACRO_ADD            393
+#MACRO_EQ             671
+#MACRO_MULT            16
+#MACRO_MUX          21767
+
+RUN-1001 : 
+Report Hierarchy Area:
++-----------------------------------------+
+|Instance |Module |gates  |seq    |macros |
++-----------------------------------------+
+|top      |core   |69146  |23086  |1142   |
++-----------------------------------------+
+
+RUN-1002 : start command "export_db HGA101_GPU_rtl.db"
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported flow parameters
+RUN-1003 : finish command "export_db HGA101_GPU_rtl.db" in  29.585369s wall, 25.078125s user + 1.250000s system = 26.328125s CPU (89.0%)
+
+RUN-1004 : used memory is 2810 MB, reserved memory is 2882 MB, peak memory is 2813 MB
+RUN-1002 : start command "optimize_gate -packarea HGA101_GPU_gate.area"
+RUN-1001 : Open license file C:/Anlogic/TD4.6.4/license/Anlogic.lic
+SYN-2001 : Map 1409 IOs to PADs
+SYN-2501 : Processed 0 LOGIC_BUF instances.
+SYN-2531 : Dram(dcache_data_stage/l1d_data/al_ram_data) write 256x512, read 256x512
+SYN-2531 : DRAM dcache_data_stage/l1d_data/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/dtlb/way_gen[0]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM dcache_tag_stage/dtlb/way_gen[0]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/dtlb/way_gen[1]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM dcache_tag_stage/dtlb/way_gen[1]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/dtlb/way_gen[2]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM dcache_tag_stage/dtlb/way_gen[2]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/dtlb/way_gen[3]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM dcache_tag_stage/dtlb/way_gen[3]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/lru/lru_data/al_ram_data) write 64x3, read 64x3
+SYN-2531 : DRAM dcache_tag_stage/lru/lru_data/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data_al_u0) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data_al_u0) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data_al_u0) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(dcache_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data_al_u0) write 64x20, read 64x20
+SYN-2531 : DRAM dcache_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(ifetch_data_stage/sram_l1i_data/al_ram_data) write 256x512, read 256x512
+SYN-2531 : DRAM ifetch_data_stage/sram_l1i_data/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/cache_lru/lru_data/al_ram_data) write 64x3, read 64x3
+SYN-2531 : DRAM ifetch_tag_stage/cache_lru/lru_data/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/itlb/way_gen[0]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM ifetch_tag_stage/itlb/way_gen[0]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/itlb/way_gen[1]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM ifetch_tag_stage/itlb/way_gen[1]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/itlb/way_gen[2]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM ifetch_tag_stage/itlb/way_gen[2]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/itlb/way_gen[3]$tlb_paddr_sram/al_ram_data) write 16x52, read 16x52
+SYN-2531 : DRAM ifetch_tag_stage/itlb/way_gen[3]$tlb_paddr_sram/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM ifetch_tag_stage/way_tag_gen[0]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM ifetch_tag_stage/way_tag_gen[1]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM ifetch_tag_stage/way_tag_gen[2]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(ifetch_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data) write 64x20, read 64x20
+SYN-2531 : DRAM ifetch_tag_stage/way_tag_gen[3]$sram_tags/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/scalar_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/scalar_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/scalar_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/scalar_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[0]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[0]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[0]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[0]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[10]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[10]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[10]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[10]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[11]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[11]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[11]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[11]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[12]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[12]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[12]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[12]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[13]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[13]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[13]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[13]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[14]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[14]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[14]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[14]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[15]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[15]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[15]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[15]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[1]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[1]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[1]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[1]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[2]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[2]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[2]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[2]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[3]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[3]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[3]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[3]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[4]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[4]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[4]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[4]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[5]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[5]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[5]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[5]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[6]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[6]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[6]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[6]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[7]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[7]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[7]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[7]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[8]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[8]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[8]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[8]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[9]$vector_registers/al_ram_data) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[9]$vector_registers/al_ram_data has no init file
+SYN-2531 : Dram(operand_fetch_stage/vector_lane_gen[9]$vector_registers/al_ram_data_al_u0) write 128x32, read 128x32
+SYN-2531 : DRAM operand_fetch_stage/vector_lane_gen[9]$vector_registers/al_ram_data_al_u0 has no init file
+SYN-2531 : Dram(thread_select_stage/thread_logic_gen[0]$instruction_fifo/al_ram_data) write 8x142, read 8x142
+SYN-2531 : DRAM thread_select_stage/thread_logic_gen[0]$instruction_fifo/al_ram_data has no init file
+SYN-2531 : Dram(thread_select_stage/thread_logic_gen[1]$instruction_fifo/al_ram_data) write 8x142, read 8x142
+SYN-2531 : DRAM thread_select_stage/thread_logic_gen[1]$instruction_fifo/al_ram_data has no init file
+SYN-2531 : Dram(thread_select_stage/thread_logic_gen[2]$instruction_fifo/al_ram_data) write 8x142, read 8x142
+SYN-2531 : DRAM thread_select_stage/thread_logic_gen[2]$instruction_fifo/al_ram_data has no init file
+SYN-2531 : Dram(thread_select_stage/thread_logic_gen[3]$instruction_fifo/al_ram_data) write 8x142, read 8x142
+SYN-2531 : DRAM thread_select_stage/thread_logic_gen[3]$instruction_fifo/al_ram_data has no init file
+SYN-2571 : Map 16 macro multiplier
+SYN-2571 : Optimize after map_dsp, round 1
+SYN-1032 : 160778/4500 useful/useless nets, 126252/96 useful/useless insts
+SYN-1016 : Merged 572 instances.
+SYN-2571 : Optimize after map_dsp, round 1, 5148 better
+SYN-2571 : Optimize after map_dsp, round 2
+SYN-1032 : 160194/0 useful/useless nets, 125680/0 useful/useless insts
+SYN-2571 : Optimize after map_dsp, round 2, 0 better
+SYN-2561 : Map multiplier fp_execute_stage2/mult11_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult12_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult13_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult14_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult15_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult1_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult2_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult3_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult4_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult5_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult6_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult7_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult8_3_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_0_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_0_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_0_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_0_3 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_1_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_1_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_1_2 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_2_0 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_2_1 into carry-chain logic
+SYN-2561 : Map multiplier fp_execute_stage2/mult9_3_0 into carry-chain logic
+SYN-2501 : Optimize round 1
+SYN-1032 : 215761/98 useful/useless nets, 164303/11690 useful/useless insts
+SYN-1016 : Merged 17092 instances.
+SYN-2501 : Optimize round 1, 37354 better
+SYN-2501 : Optimize round 2
+SYN-1032 : 198669/0 useful/useless nets, 147211/0 useful/useless insts
+SYN-2501 : Optimize round 2, 0 better
+SYN-2501 : Map 1239 macro adder
+SYN-3001 : Mapper mapped 3 instances into 1 LUTs, name keeping = 100%.
+SYN-3001 : Mapper mapped 3 instances into 1 LUTs, name keeping = 100%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 14%.
+SYN-3001 : Mapper mapped 63 instances into 7 LUTs, name keeping = 42%.
+SYN-3001 : Mapper mapped 63 instances into 5 LUTs, name keeping = 40%.
+SYN-3001 : Mapper mapped 63 instances into 3 LUTs, name keeping = 66%.
+SYN-3001 : Mapper mapped 7 instances into 1 LUTs, name keeping = 100%.
+SYN-2501 : Inferred 65 ROM instances
+SYN-1032 : 309060/54 useful/useless nets, 257602/0 useful/useless insts
+SYN-3001 : X or Z is treated as constant in optimizing instance performance_counters/_al_const_x.
+SYN-3001 : Running gate level optimization.
+SYN-2581 : Mapping with K=4, #lut = 100734 (3.14), #lev = 14 (4.48)
+SYN-2551 : Post LUT mapping optimization.
+SYN-3001 : Logic optimization runtime opt =  30.10 sec, map =   0.00 sec
+SYN-3001 : Mapper mapped 192580 instances into 97342 LUTs, name keeping = 49%.
+SYN-3001 : Mapper removed 33 lut buffers
+SYN-2551 : Buffer high-fanout nets using max_fanout limit 999 ...
+SYN-3001 : net _al_u51967_o has attribute max_fanout set to 999. Fanout reduced from 1213 to 999 by using 1 buffers
+SYN-3001 : net _al_u85489_o has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net _al_u88243_o has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net _al_u88244_o has attribute max_fanout set to 999. Fanout reduced from 1025 to 999 by using 1 buffers
+SYN-3001 : net dt_request_paddr[10] has attribute max_fanout set to 999. Fanout reduced from 4127 to 999 by using 4 buffers
+SYN-3001 : net dt_request_paddr[11] has attribute max_fanout set to 999. Fanout reduced from 2079 to 999 by using 2 buffers
+SYN-3001 : net dt_request_paddr[6] has attribute max_fanout set to 999. Fanout reduced from 2081 to 999 by using 2 buffers
+SYN-3001 : net dt_request_paddr[7] has attribute max_fanout set to 999. Fanout reduced from 2077 to 999 by using 2 buffers
+SYN-3001 : net dt_request_paddr[8] has attribute max_fanout set to 999. Fanout reduced from 2081 to 999 by using 2 buffers
+SYN-3001 : net dt_request_paddr[9] has attribute max_fanout set to 999. Fanout reduced from 2076 to 999 by using 2 buffers
+SYN-3001 : net dt_thread_idx[0] has attribute max_fanout set to 999. Fanout reduced from 1707 to 999 by using 1 buffers
+SYN-3001 : net ift_pc_paddr[10] has attribute max_fanout set to 999. Fanout reduced from 4110 to 999 by using 4 buffers
+SYN-3001 : net ift_pc_paddr[11] has attribute max_fanout set to 999. Fanout reduced from 2059 to 999 by using 2 buffers
+SYN-3001 : net ift_pc_paddr[6] has attribute max_fanout set to 999. Fanout reduced from 2061 to 999 by using 2 buffers
+SYN-3001 : net ift_pc_paddr[7] has attribute max_fanout set to 999. Fanout reduced from 2059 to 999 by using 2 buffers
+SYN-3001 : net ift_pc_paddr[8] has attribute max_fanout set to 999. Fanout reduced from 2062 to 999 by using 2 buffers
+SYN-3001 : net ift_pc_paddr[9] has attribute max_fanout set to 999. Fanout reduced from 2060 to 999 by using 2 buffers
+SYN-3001 : net l2i_ddata_update_set[0] has attribute max_fanout set to 999. Fanout reduced from 4100 to 999 by using 4 buffers
+SYN-3001 : net l2i_ddata_update_set[1] has attribute max_fanout set to 999. Fanout reduced from 4098 to 999 by using 4 buffers
+SYN-3001 : net l2i_ddata_update_set[2] has attribute max_fanout set to 999. Fanout reduced from 4099 to 999 by using 4 buffers
+SYN-3001 : net l2i_ddata_update_set[3] has attribute max_fanout set to 999. Fanout reduced from 4098 to 999 by using 4 buffers
+SYN-3001 : net of_instruction[65] has attribute max_fanout set to 999. Fanout reduced from 1063 to 999 by using 1 buffers
+SYN-3001 : net of_instruction[66] has attribute max_fanout set to 999. Fanout reduced from 1481 to 999 by using 1 buffers
+SYN-3001 : net of_instruction[67] has attribute max_fanout set to 999. Fanout reduced from 1280 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[4] has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[5] has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[6] has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[78] has attribute max_fanout set to 999. Fanout reduced from 1025 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[79] has attribute max_fanout set to 999. Fanout reduced from 1025 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[7] has attribute max_fanout set to 999. Fanout reduced from 1026 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[80] has attribute max_fanout set to 999. Fanout reduced from 1025 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[81] has attribute max_fanout set to 999. Fanout reduced from 1025 to 999 by using 1 buffers
+SYN-3001 : net ts_instruction[82] has attribute max_fanout set to 999. Fanout reduced from 2049 to 999 by using 2 buffers
+SYN-3001 : net ts_instruction[88] has attribute max_fanout set to 999. Fanout reduced from 2049 to 999 by using 2 buffers
+SYN-3001 : net ts_thread_idx[0] has attribute max_fanout set to 999. Fanout reduced from 3267 to 999 by using 3 buffers
+SYN-3001 : net ts_thread_idx[1] has attribute max_fanout set to 999. Fanout reduced from 1091 to 999 by using 1 buffers
+SYN-3001 : net wb_writeback_reg[0] has attribute max_fanout set to 999. Fanout reduced from 2196 to 999 by using 2 buffers
+SYN-3001 : net wb_writeback_reg[1] has attribute max_fanout set to 999. Fanout reduced from 2196 to 999 by using 2 buffers
+SYN-3001 : net wb_writeback_reg[2] has attribute max_fanout set to 999. Fanout reduced from 2196 to 999 by using 2 buffers
+SYN-3001 : net wb_writeback_reg[3] has attribute max_fanout set to 999. Fanout reduced from 2196 to 999 by using 2 buffers
+SYN-2551 : Buffered 40 high-fanout nets using 76 buffers in total
+SYN-1001 : Packing model "core" ...
+SYN-4010 : Pack lib has 42 rtl pack models with 15 top pack blocks
+SYN-1014 : Optimize round 1
+SYN-1032 : 212804/0 useful/useless nets, 161380/0 useful/useless insts
+SYN-1015 : Optimize round 1, 0 better
+SYN-4002 : Packing 22443 DFF/LATCH to SEQ ...
+SYN-4009 : Pack 316 carry chain into lslice
+SYN-4007 : Packing 16578 adder to BLE ...
+SYN-4008 : Packed 16578 adder and 800 SEQ to BLE.
+SYN-4007 : Packing 0 gate4 to BLE ...
+SYN-4008 : Packed 0 gate4 and 0 SEQ to BLE.
+SYN-4012 : Packed 0 FxMUX
+SYN-4007 : Packing 0 MUX to BLE ...
+SYN-4008 : Packed 0 MUX and 0 SEQ to BLE.
+SYN-4007 : Packing 97450 LUT to BLE ...
+SYN-4008 : Packed 97450 LUT and 11394 SEQ to BLE.
+SYN-4013 : Packed 6764 DRAM and 24 SEQ.
+SYN-4003 : Packing 10225 remaining SEQ's ...
+SYN-4004 : #0: Packed 0 SEQ (10225 nodes)...
+SYN-4004 : #1: Packed 5902 SEQ (43460 nodes)...
+SYN-4005 : Packed 5902 SEQ with LUT/SLICE
+SYN-4006 : 80162 single LUT's are left
+SYN-4006 : 4323 single SEQ's are left
+SYN-4011 : Packing model "core" (AL_USER_NORMAL) with 101773/136355 primitive instances ...
+RUN-1002 : start command "report_area -file HGA101_GPU_gate.area"
+RUN-1001 : standard
+***Report Model: core***
+
+IO Statistics
+#IO                  1409
+  #input              686
+  #output             723
+  #inout                0
+
+Utilization Statistics
+#lut               163644   out of  19600  834.92%
+#reg                22443   out of  19600  114.51%
+#le                167967
+  #lut only        145524   out of 167967   86.64%
+  #reg only          4323   out of 167967    2.57%
+  #lut&reg          18120   out of 167967   10.79%
+#dsp                   29   out of     29  100.00%
+#bram                   0   out of     64    0.00%
+  #bram9k               0
+  #fifo9k               0
+#bram32k                0   out of     16    0.00%
+#pad                 1409   out of    129 1092.25%
+  #ireg               567
+  #oreg                10
+  #treg                 0
+#pll                    0   out of      4    0.00%
+
+RUN-1001 : 
+Report Hierarchy Area:
++--------------------------------------+
+|Instance |Module |le    |lut   |seq   |
++--------------------------------------+
+|top      |core   |167967|163644|22443 |
++--------------------------------------+
+
+RUN-1003 : finish command "report_area -file HGA101_GPU_gate.area" in  1.076032s wall, 1.031250s user + 0.000000s system = 1.031250s CPU (95.8%)
+
+RUN-1004 : used memory is 3758 MB, reserved memory is 3862 MB, peak memory is 3860 MB
+RUN-1003 : finish command "optimize_gate -packarea HGA101_GPU_gate.area" in  365.413159s wall, 363.812500s user + 2.718750s system = 366.531250s CPU (100.3%)
+
+RUN-1004 : used memory is 3758 MB, reserved memory is 3862 MB, peak memory is 3860 MB
+RUN-1002 : start command "legalize_phy_inst"
+SYN-1011 : Flatten model core
+RUN-1003 : finish command "legalize_phy_inst" in  6.434213s wall, 6.078125s user + 0.328125s system = 6.406250s CPU (99.6%)
+
+RUN-1004 : used memory is 4621 MB, reserved memory is 4756 MB, peak memory is 4621 MB
+RUN-1002 : start command "export_db HGA101_GPU_gate.db"
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported flow parameters
+RUN-1003 : finish command "export_db HGA101_GPU_gate.db" in  93.755837s wall, 70.734375s user + 8.125000s system = 78.859375s CPU (84.1%)
+
+RUN-1004 : used memory is 6199 MB, reserved memory is 6723 MB, peak memory is 6199 MB

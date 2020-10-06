@@ -1,0 +1,2 @@
+`define FCU_IADDR_WIDTH 24
+`define FCU_DDATA_WIDTH 32
