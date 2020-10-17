@@ -1,3 +1,4 @@
+`include "global_defines.vh"
 /*
 PRV464的执行单元，含算术运算（ALU）和内存访问（LSU）两个部分
 LSU单元只进行数据移位
@@ -65,13 +66,15 @@ input wire shift_l,			//右移位
 input wire csr_write_id,		//注*后缀ID表示是ID传输进来的信号
 input wire gpr_write_id,
 input wire [11:0]csr_index_id,
-input wire [4:0]rs1_index_id,
-input wire [4:0]rs2_index_id,
 input wire [4:0]rd_index_id,
 
 //数据输出							   
-input wire [63:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
-input wire [63:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
+input wire [`GPU_DDATA_WIDTH-1:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+input wire [`GPU_DDATA_WIDTH-1:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
+input wire [`GPU_VDATA_WIDTH-1:0]vs1,
+input wire [`GPU_VDATA_WIDTH-1:0]vs2,
+input wire [`GPU_DDATA_WIDTH-1:0]fs1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+input wire [`GPU_DDATA_WIDTH-1:0]fs2,
 input wire [63:0]as1,		//地址源1,  pc/rs1/rs1
 input wire [63:0]as2,		//地址源2, imm/imm/00
 input wire [7:0]op_count,	//操作次数码，用于AMO指令或移位指令
@@ -93,12 +96,15 @@ input wire ebreak_id,			//断点
 
 //到下一级 WB信号
 //数据输出
-output reg [63:0]data_rd,
-output reg [63:0]data_csr,
+output reg [`GPU_DDATA_WIDTH-1:0]data_rd,
+output reg [`GPU_DDATA_WIDTH-1:0]data_csr,
+output reg [`GPU_VDATA_WIDTH-1:0]data_vpr,
+output reg [`GPU_DDATA_WIDTH-1:0]data_fr,
 output reg [63:0]new_pc,
 //写回控制
 output reg csr_write,
 output reg gpr_write,
+output reg vpr_write,
 output reg pc_jmp,				//新的PC需要被更改，新的PC由pc_new给出，该信号表明WB阶段需要修改PC
 output reg [11:0]csr_index,
 output reg [4:0]rd_index,
@@ -131,9 +137,9 @@ output reg ebreak,			//断点
 output wire unpage,				//只使用物理地址 data_from_biu
 output wire [3:0]ex_priv,		//ex权限，0001=U 0010=S 0100=H 1000=M 
 output reg [63:0]addr_ex,
-output wire [63:0]data_write,
-input wire [63:0]data_read,
-input wire [63:0]uncache_data,	//没有被缓存的数据
+output wire [`GPU_DDATA_WIDTH-1:0]data_write,
+input wire [`GPU_DDATA_WIDTH-1:0]data_read,
+input wire [`GPU_DDATA_WIDTH-1:0]uncache_data,	//没有被缓存的数据
 output wire [3:0]size_biu,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 output wire cache_l1i_reset,			//缓存刷新信号，用于执行fence指令的时候使用
 output wire cache_l1d_reset,			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
@@ -189,16 +195,16 @@ wire non_shift;					//不移位判断，当shift指令但是opcount=0时不为1�
 wire shift_ready;				//移位完成信号，由rd输出寄存器给出
 wire ls_amo_ready;				//amo，load/store指令完成信号
 //ALU信号
-wire [63:0]ds1_mem_data;		//ALU数据源1选择，当ds1_sel=1时，切换到MEM出来的数据，此举是为了AMO指令
-wire [63:0]alu_data_rd;			//ALU数据数据输出，写回rd寄存器的数据
-wire [63:0]alu_data_mem_csr;	//ALU数据输出，csr数据或者写回内存的数据
+wire [`GPU_DDATA_WIDTH-1:0]ds1_mem_data;		//ALU数据源1选择，当ds1_sel=1时，切换到MEM出来的数据，此举是为了AMO指令
+wire [`GPU_DDATA_WIDTH-1:0]alu_data_rd;			//ALU数据数据输出，写回rd寄存器的数据
+wire [`GPU_DDATA_WIDTH-1:0]alu_data_mem_csr;	//ALU数据输出，csr数据或者写回内存的数据
 
 wire jmp_ok;					//跳转信号，允许跳转，此信号指示WB阶段进行跳转
 //AU信号
 wire [63:0]au_addr_pc;			//AU数据输出，访问内存所需的地址或者是跳转地址
 //LSU信号
 
-wire [63:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AMO指令或Load指令时使用
+wire [`GPU_DDATA_WIDTH-1:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AMO指令或Load指令时使用
 //wire [63:0]data_lsu_uncache;	//lsu输出数据（不被缓存的）
 wire exception_id;
 
@@ -487,7 +493,37 @@ alu_au		alu_au(
 	.jmp_ok				(jmp_ok)
 
 );
+VPU(
+    .ifsel 		(vpu_ifsel),//Function integer/float select
+    .addsel 	(vpu_addsel),
+    .subsel 	(vpu_subsel),
+    .mulsel 	(vpu_mulsel),
+    .itfsel  	(vpu_itfsel), //integer to float
+    .ftisel  	(vpu_ftisel), //float to integer
+    .ftlsel 	(vpu_ftlsel),
+    .maxsel 	(vpu_maxsel),
+    .minsel 	(vpu_minsel),
+    .andsel     (vpu_andsel) ,       //逻辑&
+    .orsel      (vpu_orsel),     //逻辑|
+    .xorsel 	(vpu_xorsel),
+    .srasel 	(vpu_srasel),
+    .srlsel 	(vpu_srlsel),
+    .sllsel 	(vpu_sllsel),
+    .cgesel 	(vpu_cgesel),//compare:great equal
+    .cltsel 	(vpu_cltsel),
+    .ceqsel 	(vpu_ceqsel),
+    .cnqsel 	(vpu_cnqsel),
 
+    .vs1(vs1),
+    .vs2(vs2),
+    .fs(fs1),
+    .rs(rs1),
+    .mask_in(rs2),//MASK=maskreg|{32{!masken}}
+    .rd,
+    .fd,
+    .vd(data_vpr)
+
+);
 //对BIU信号
 assign unpage	=	mprv&(mod_priv==2'b11);				//当启用的MPRV位且MPP位为M时候，绕开分页直接使用物理地址
 assign ex_priv	=	unpage ? mod_priv : priv;		//ex权限，0001=U 0010=S 0100=H 1000=M 

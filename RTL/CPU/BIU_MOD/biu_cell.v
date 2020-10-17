@@ -1,6 +1,7 @@
 /*
 biu_cell单元，是PRV464SX2处理器总线接口部件中的一个部分
 */
+`include "global_defines.vh"
 module biu_cell(
 //全局信号
 input wire clk,
@@ -10,16 +11,16 @@ input wire cache_only,
 input wire [31:0]cacheability_block,	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
 
 //csr信号
-input wire [63:0]satp,			//页表基地址
+//input wire [63:0]satp,			//页表基地址
 input wire sum,					//supervis-user访问允许
 input wire mxr,					//禁用执行位
 //访问接口
 input wire unpage,				//只使用物理地址
 input wire [3:0]priv,			//权限，0001=U 0010=S 0100=H 1000=M 
 input wire [63:0]v_addr,
-input wire [63:0]data_write,
-output wire[63:0]data_read,
-output wire[63:0]data_uncache,
+input wire [`FCU_DDATA_WIDTH-1:0]data_write,
+output wire[`FCU_DDATA_WIDTH-1:0]data_read,
+output wire[`FCU_DDATA_WIDTH-1:0]data_uncache,
 input wire [3:0]size,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 input wire L1_clear,
 
@@ -47,8 +48,8 @@ output wire L1_write_through_req,	//请求写穿
 output wire read_req,			//请求读一次
 output wire read_line_req,		//请求读一行
 output wire [3:0]L1_size,
-output wire [63:0]pa,			//
-output wire [63:0]wt_data,
+output wire [`FCU_IADDR_WIDTH-1:0]pa,			//
+output wire [`FCU_DDATA_WIDTH-1:0]wt_data,
 input wire [63:0]line_data,
 input wire [10:0]addr_count,
 input wire line_write,			//cache写
@@ -57,7 +58,7 @@ input wire trans_rdy,			//传输完成
 input wire bus_error			//访问失败
 );
 
-wire [63:0]PA;			//最终生成的PA
+wire [`FCU_IADDR_WIDTH-1:0]PA;			//最终生成的PA
 
 wire TLB_ready;
 
@@ -67,8 +68,8 @@ wire TLB_ready;
 wire L1_write;
 wire L1_read;
 wire L1_execute;
-
-wire PTE_C;			//页面可以缓存
+//TODO 这里还要改，接驳总线
+wire PTE_C=1;			//页面可以缓存
 
 
 
@@ -79,17 +80,7 @@ assign PA	=	 v_addr ;
 
 
 //L1控制信号
-/*	vm_on	unpage	TLB_ready	通
-	0		0		0			1
-	0		0		1			1
-	0		1		0			1
-	0		1		1			1
-	1		0		0			0
-	1		0		1			1
-	1		1		x			1
-通： 通=1时候表示控制信号可以进到下一级，通=0表示VA-PA没有完成，需要等待TLB查询页表
-
-*/	
+	
 assign L1_read		=read;
 assign L1_write		=write;
 assign L1_execute	=execute;

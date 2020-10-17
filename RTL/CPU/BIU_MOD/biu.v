@@ -1,3 +1,5 @@
+`include "global_defines.vh"
+
 module biu(
 //csr
 input wire clk,
@@ -136,8 +138,8 @@ wire L1_bu_bus_ack;		//总线允许使用
 wire L1_bu_bus_req;		//总线请求使用
 
 //VA-PA直通
-assign I_pa=addr_if;
-assign D_pa=addr_ex;
+//assign I_pa=addr_if;
+//assign D_pa=addr_ex;
 
 //biu_cell_I(指令用的cell）
 
@@ -150,7 +152,7 @@ biu_cell		I_biu_cell(
 .cacheability_block(cacheability_block),	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
 
 //csr信号
-.satp				(satp),			//页表基地址
+//.satp				(satp),			//页表基地址
 .mxr				(mxr),
 .sum				(sum),
 //访问接口
@@ -201,7 +203,7 @@ biu_cell		D_biu_cell(
 .cacheability_block(cacheability_block),	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
 
 //csr信号
-.satp				(satp),			//页表基地址
+//.satp				(satp),			//页表基地址
 .mxr				(mxr),
 .sum				(sum),
 //访问接口

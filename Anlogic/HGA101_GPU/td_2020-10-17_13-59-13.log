@@ -1,0 +1,854 @@
+============================================================
+   Tang Dynasty, V4.6.18154
+   Copyright:   Shanghai Anlogic Infotech Co., Ltd.
+                2011 - 2021
+   Executable = C:/Anlogic/TD4.6.4/bin/td.exe
+   Built at =   16:39:36 Mar 27 2020
+   Run by =     HongXiaoyu
+   Run Date =   Sat Oct 17 13:59:13 2020
+
+   Run on =     HONGXY-LAPTOP
+============================================================
+RUN-1002 : start command "open_project HGA101_GPU.al"
+GUI-8003 ERROR: ../../ref/GPU.v is missing!
+RUN-1002 : start command "import_device eagle_s20.db -package EQFP176"
+ARC-1001 : Device Initialization.
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :            OPTION            |            IO            |   SETTING   
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :   cso_b/cclk/mosi/miso/dout  |  P140/P168/P166/P165/S5  |    gpio    
+ARC-1001 :             done             |           P10            |  dedicated  
+ARC-1001 :           program_b          |           P134           |  dedicated  
+ARC-1001 :        tdi/tms/tck/tdo       |     P46/P44/P47/P43      |  dedicated  
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1004 : Device setting, marked 6 dedicate IOs in total.
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-8007 ERROR: syntax error near ')' in ../../RTL/CPU/EX/VPU/VPU.v(21)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/VPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-8007 ERROR: 'eq2' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(66)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(67)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(68)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/EX/VPU/FALU16.v(172)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/FALU16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-8007 ERROR: unexpected EOF in ../../RTL/CPU/EX/bshifter16.v(35)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/bshifter16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-8007 ERROR: syntax error near ',' in ../../RTL/CPU/EX/VPU/VPU.v(63)
+HDL-8007 ERROR: syntax error near ',' in ../../RTL/CPU/EX/VPU/VPU.v(64)
+HDL-8007 ERROR: syntax error near ',' in ../../RTL/CPU/EX/VPU/VPU.v(65)
+HDL-8007 ERROR: syntax error near 'endgenerate' in ../../RTL/CPU/EX/VPU/VPU.v(76)
+HDL-8007 ERROR: Verilog 2000 keyword endgenerate used in incorrect context in ../../RTL/CPU/EX/VPU/VPU.v(76)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/VPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-8007 ERROR: 'eq2' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(66)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(67)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(68)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/EX/VPU/FALU16.v(172)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/FALU16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-8007 ERROR: unexpected EOF in ../../RTL/CPU/EX/bshifter16.v(35)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/bshifter16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-8007 ERROR: syntax error near 'endgenerate' in ../../RTL/CPU/EX/VPU/VPU.v(87)
+HDL-8007 ERROR: Verilog 2000 keyword endgenerate used in incorrect context in ../../RTL/CPU/EX/VPU/VPU.v(87)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/VPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-8007 ERROR: 'eq2' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(66)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(67)
+HDL-8007 ERROR: 'sym1' is not declared in ../../RTL/CPU/EX/VPU/FALU16.v(68)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/EX/VPU/FALU16.v(172)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/FALU16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-8007 ERROR: unexpected EOF in ../../RTL/CPU/EX/bshifter16.v(35)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/bshifter16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-8007 ERROR: syntax error near 'endgenerate' in ../../RTL/CPU/EX/VPU/VPU.v(87)
+HDL-8007 ERROR: Verilog 2000 keyword endgenerate used in incorrect context in ../../RTL/CPU/EX/VPU/VPU.v(87)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/VPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-8007 ERROR: unexpected EOF in ../../RTL/CPU/EX/bshifter16.v(35)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/bshifter16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-8007 ERROR: unexpected EOF in ../../RTL/CPU/EX/bshifter16.v(35)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/bshifter16.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-8007 ERROR: cannot open include file 'global_defines.vh' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csr_gpu/csr_top.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_top.v
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(184)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(185)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(186)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(188)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(189)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(190)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(191)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(192)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(193)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(195)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(197)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(198)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(199)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(200)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(202)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(203)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(204)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(205)
+HDL-8007 ERROR: 'csr_index' is not declared in ../../RTL/CPU/CU&RU/csrs/csr_top.v(206)
+HDL-1007 : Sorry, too many errors..
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/cu_ru.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/cu_ru.v' in ../../RTL/CPU/CU&RU/cu_ru.v(1)
+HDL-8007 ERROR: 'mepc' is not declared in ../../RTL/CPU/CU&RU/cu_ru.v(168)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/CU&RU/cu_ru.v(204)
+HDL-1007 : Verilog file '../../RTL/CPU/CU&RU/cu_ru.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/VGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu.v' in ../../RTL/CPU/BIU_MOD/biu.v(1)
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/biu_cell.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : back to file '../../RTL/CPU/BIU_MOD/biu_cell.v' in ../../RTL/CPU/BIU_MOD/biu_cell.v(4)
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : back to file '../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v' in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(3)
+HDL-1007 : analyze verilog file ../../RTL/CPU/fcc4g32e_top.v
+HDL-1007 : analyze included file ../../RTL/CPU/global_defines.vh in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : back to file '../../RTL/CPU/fcc4g32e_top.v' in ../../RTL/CPU/fcc4g32e_top.v(15)
+HDL-1007 : analyze verilog file ../../RTL/CPU/ID/ins_dec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/FGPR.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/replace_arbiter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/PIP_CTRL/pip_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v
+HDL-5007 WARNING: overwrite current module module in ../../RTL/CPU/CU&RU/GPRs_For_Anlogic/Anlogic_GPR_Sample.v(76)
+HDL-1007 : previous definition of design element 'Anlogic_GPR_Sample' is here in ../../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v(69)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/bu_req_mux.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache_entry.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/byte_sel.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/l1_bus_unit.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/BIU_MOD/cache/cache.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/mro_csr.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MUL.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/MulCyc_DIV.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/IF/ins_fetch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_status.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/csr_satp.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ie.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_cause.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_epc.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_ip.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_tval.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top VPU"
+HDL-1007 : elaborate module VPU in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-1007 : elaborate module FALU16 in ../../RTL/CPU/EX/VPU/FALU16.v(6)
+HDL-5007 WARNING: instantiate unknown module bshifter in ../../RTL/CPU/EX/VPU/FALU16.v(82)
+HDL-5007 WARNING: actual bit length 16 differs from formal bit length 11 for port 'datain' in ../../RTL/CPU/EX/VPU/FALU16.v(127)
+HDL-5007 WARNING: actual bit length 32 differs from formal bit length 6 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(128)
+HDL-5007 WARNING: actual bit length 16 differs from formal bit length 11 for port 'dataout' in ../../RTL/CPU/EX/VPU/FALU16.v(130)
+HDL-5007 WARNING: actual bit length 4 differs from formal bit length 32 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(148)
+HDL-8007 ERROR: cannot find port 'fltout' on this module in ../../RTL/CPU/EX/VPU/VPU.v(57)
+HDL-1007 : module 'VPU' remains a black box, due to errors in its contents in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-8007 ERROR: VPU is a black box in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-8007 ERROR: bshifter is a black box
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top VPU"
+HDL-1007 : elaborate module VPU in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-1007 : elaborate module FALU16 in ../../RTL/CPU/EX/VPU/FALU16.v(6)
+HDL-5007 WARNING: instantiate unknown module bshifter in ../../RTL/CPU/EX/VPU/FALU16.v(82)
+HDL-5007 WARNING: actual bit length 16 differs from formal bit length 11 for port 'datain' in ../../RTL/CPU/EX/VPU/FALU16.v(127)
+HDL-5007 WARNING: actual bit length 32 differs from formal bit length 6 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(128)
+HDL-5007 WARNING: actual bit length 16 differs from formal bit length 11 for port 'dataout' in ../../RTL/CPU/EX/VPU/FALU16.v(130)
+HDL-5007 WARNING: actual bit length 4 differs from formal bit length 32 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(148)
+HDL-5007 WARNING: instantiate unknown module ALU16 in ../../RTL/CPU/EX/VPU/VPU.v(86)
+HDL-8007 ERROR: net 'fd[30]' is constantly driven from multiple places in ../../RTL/CPU/EX/VPU/VPU.v(42)
+HDL-8007 ERROR: another driver from here in ../../RTL/CPU/EX/VPU/VPU.v(42)
+HDL-1007 : module 'VPU' remains a black box, due to errors in its contents in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-8007 ERROR: VPU is a black box in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-8007 ERROR: bshifter is a black box
+HDL-8007 ERROR: ALU16 is a black box
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/CORDIC16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top exu"
+HDL-1007 : elaborate module exu in ../../RTL/CPU/EX/exu.v(5)
+HDL-1007 : elaborate module alu_au in ../../RTL/CPU/EX/ALU&AU/alu_au.v(1)
+HDL-1007 : elaborate module barrel_shifter in ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v(10)
+HDL-1007 : elaborate module lsu in ../../RTL/CPU/EX/LSU/lsu.v(3)
+HDL-1200 : Current top model is exu
+HDL-1100 : Inferred 0 RAMs.
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(39)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(40)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(41)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(42)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(43)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(44)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(45)
+HDL-8007 ERROR: 'maskin' is not declared in ../../RTL/CPU/EX/VPU/VPU.v(46)
+HDL-8007 ERROR: ignore module module due to previous errors in ../../RTL/CPU/EX/VPU/VPU.v(101)
+HDL-1007 : Verilog file '../../RTL/CPU/EX/VPU/VPU.v' ignored due to errors
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top VPU"
+HDL-1007 : elaborate module VPU in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-1007 : elaborate module FALU16 in ../../RTL/CPU/EX/VPU/FALU16.v(6)
+HDL-1007 : elaborate module bshifter16 in ../../RTL/CPU/EX/bshifter16.v(6)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'datain' in ../../RTL/CPU/EX/VPU/FALU16.v(78)
+HDL-5007 WARNING: actual bit length 6 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(79)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'dataout' in ../../RTL/CPU/EX/VPU/FALU16.v(81)
+HDL-5007 WARNING: actual bit length 32 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(128)
+HDL-5007 WARNING: instantiate unknown module ALU16 in ../../RTL/CPU/EX/VPU/VPU.v(95)
+HDL-5007 WARNING: net 'VPU_FPU[0].vec_en' does not have a driver in ../../RTL/CPU/EX/VPU/VPU.v(56)
+HDL-8007 ERROR: ALU16 is a black box
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top VPU"
+HDL-1007 : elaborate module VPU in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-1007 : elaborate module FALU16 in ../../RTL/CPU/EX/VPU/FALU16.v(6)
+HDL-1007 : elaborate module bshifter16 in ../../RTL/CPU/EX/bshifter16.v(6)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'datain' in ../../RTL/CPU/EX/VPU/FALU16.v(78)
+HDL-5007 WARNING: actual bit length 6 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(79)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'dataout' in ../../RTL/CPU/EX/VPU/FALU16.v(81)
+HDL-5007 WARNING: actual bit length 32 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(128)
+HDL-5007 WARNING: instantiate unknown module ALU16 in ../../RTL/CPU/EX/VPU/VPU.v(95)
+HDL-5007 WARNING: net 'VPU_FPU[0].vec_en' does not have a driver in ../../RTL/CPU/EX/VPU/VPU.v(56)
+HDL-8007 ERROR: ALU16 is a black box
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/FALU16.v
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(36)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(37)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(38)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(39)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(40)
+HDL-5007 WARNING: identifier 'ftlout' is used before its declaration in ../../RTL/CPU/EX/VPU/FALU16.v(41)
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/VPU/VPU.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/bshifter16.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/FPU/FALU64.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/exu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/alu_au.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/LSU/lsu.v
+HDL-1007 : analyze verilog file ../../RTL/CPU/EX/ALU&AU/barrel_shifter.v
+RUN-1002 : start command "elaborate -top VPU"
+HDL-1007 : elaborate module VPU in ../../RTL/CPU/EX/VPU/VPU.v(1)
+HDL-1007 : elaborate module FALU16 in ../../RTL/CPU/EX/VPU/FALU16.v(6)
+HDL-1007 : elaborate module bshifter16 in ../../RTL/CPU/EX/bshifter16.v(6)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'datain' in ../../RTL/CPU/EX/VPU/FALU16.v(78)
+HDL-5007 WARNING: actual bit length 6 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(79)
+HDL-5007 WARNING: actual bit length 11 differs from formal bit length 16 for port 'dataout' in ../../RTL/CPU/EX/VPU/FALU16.v(81)
+HDL-5007 WARNING: actual bit length 32 differs from formal bit length 4 for port 'shiftnum' in ../../RTL/CPU/EX/VPU/FALU16.v(128)
+HDL-5007 WARNING: instantiate unknown module ALU16 in ../../RTL/CPU/EX/VPU/VPU.v(95)
+HDL-5007 WARNING: net 'VPU_FPU[0].vec_en' does not have a driver in ../../RTL/CPU/EX/VPU/VPU.v(56)
+HDL-8007 ERROR: ALU16 is a black box

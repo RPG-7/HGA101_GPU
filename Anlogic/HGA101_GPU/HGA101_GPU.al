@@ -9,8 +9,17 @@
         <Device>EG4D20EG176</Device>
     </HardWare>
     <Source_Files>
+        <Header/>
         <Verilog>
-            <File>../../ref/GPU.v</File>
+            <File>../../RTL/CPU/EX/VPU/ALU16.V</File>
+            <File>../../RTL/CPU/EX/VPU/FALU16.v</File>
+            <File>../../RTL/CPU/EX/VPU/VPU.v</File>
+            <File>../../RTL/CPU/EX/bshifter16.v</File>
+            <File>../../RTL/CPU/EX/FPU/FALU64.v</File>
+            <File>../../RTL/CPU/EX/exu.v</File>
+            <File>../../RTL/CPU/EX/ALU&amp;AU/alu_au.v</File>
+            <File>../../RTL/CPU/EX/LSU/lsu.v</File>
+            <File>../../RTL/CPU/EX/ALU&amp;AU/barrel_shifter.v</File>
         </Verilog>
         <ADC_FILE/>
         <SDC_FILE/>
@@ -18,7 +27,7 @@
     </Source_Files>
     <TOP_MODULE>
         <LABEL/>
-        <MODULE>core</MODULE>
+        <MODULE>VPU</MODULE>
         <CREATEINDEX>user</CREATEINDEX>
     </TOP_MODULE>
     <Device_Settings>
@@ -27,8 +36,8 @@
         </EG4X>
     </Device_Settings>
     <Project_Settings>
-        <Step_Last_Change>2020-10-03 00:09:36</Step_Last_Change>
-        <Current_Step>30</Current_Step>
-        <Step_Status>true</Step_Status>
+        <Step_Last_Change>2020-10-17 14:46:56</Step_Last_Change>
+        <Current_Step>10</Current_Step>
+        <Step_Status>false</Step_Status>
     </Project_Settings>
 </Project>

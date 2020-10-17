@@ -1,5 +1,5 @@
-//适用于PRV464的指令解码单元
-//支持RV64IA指令解码
+//基于PRV464的指令解码单元
+//支持RV32IA+4G32E扩展指令解码
 //特别注意 RISCV的J和B的立即数编码是混乱的（大草）
 
 module ins_dec(
@@ -8,7 +8,6 @@ input wire clk,
 input wire rst,
 
 //csr
-input wire [3:0]priv,		//当前机器权限
 input wire tvm,
 input wire tsr,
 input wire tw,
@@ -154,7 +153,16 @@ parameter user = 4'b0001;
 parameter supe = 4'b0010;
 parameter mach = 4'b1000;
 
+//设计非标准GPU指令扩展，占用加长指令/扩展指令槽
+parameter custom0_encode=7'b0001011; //group load store
+parameter custom1_encode=7'b0101011; //CMP/SFunc
+parameter custom2_encode=7'b1011011; //
+parameter custom3_encode=7'b1111011; //
+parameter longinstr_encode=5'b11111; //Masked-SIMD运算指令槽
+
 //opcode译码
+wire [6:0]opcode;
+assign opcode=ins_in[6:0];
 wire op_system;		//CSR操作指令
 wire op_imm;		//立即数操作指令（I type）
 wire op_32_imm;
@@ -169,8 +177,10 @@ wire op_reg;		//寄存器操作指令（R type）
 wire op_32_reg;
 wire op_amo;
 wire op_m;			// 内存屏障指令
-
+wire op_gpu_group;
 //funct3译码
+wire [2:0]funct3;
+assign funct3=ins_in[14:12];
 wire funct3_0; 
 wire funct3_1;
 wire funct3_2;
@@ -180,6 +190,8 @@ wire funct3_5;
 wire funct3_6;
 wire funct3_7;
 //funct5译码
+wire [4:0]funct5;
+assign funct5=ins_in[31:27];
 wire funct5_0;
 wire funct5_1;
 wire funct5_2;
@@ -227,9 +239,13 @@ wire funct5_30;
 wire funct5_31;
 */
 //funct6译码	funct6是移位指令用的
+wire [5:0]funct6;
+assign funct6=ins_in[31:25];
 wire funct6_0;
 wire funct6_16;
 //funct7译码
+wire [6:0]funct7;
+assign funct7=ins_in[31:25];
 wire funct7_32;
 wire funct7_24;
 wire funct7_8;
@@ -237,6 +253,8 @@ wire funct7_9;
 wire funct7_0;
 
 //funct12译码
+wire [11:0]funct12;
+assign funct12=ins_in[31:20];
 wire funct12_0;
 wire funct12_1;
 //立即数译码
@@ -354,6 +372,17 @@ wire dec_csr_acc_fault;		//访问不该访问的csr
 wire dec_ins_unpermit;		//指令不被允许执行
 wire dec_ins_dec_fault;		//指令解码失败
 
+//GPU寄存器操作指令集
+wire vinst_type,vmask_en,vector_en;//vector related instr flags
+wire [4:0]mask_reg;//向量：16b x 8lane
+wire [4:0]op5;//4bit operation type;
+assign vinst_type=funct3[0];//向量指令是向量+向量or向量+标量
+assign vmask_en=funct3[1];//使能向量mask功能（屏蔽向量执行）
+//assign vtype_en=;//向量指令指示
+assign mask_reg={funct7[1:0],funct3[2],ins_in[6:5]};//从标量（整数）寄存器中取mask
+assign op5=funct7[6:2];//32 non-mask+32条masked向量GPU指令
+
+
 //判断是否需要将ALU输入源ds1转换为MEM单元的数据
 wire ds1_mem_iden;
 assign ds1_mem_iden = ins_amoswapd|ins_amoswapw|ins_amoaddw|ins_amoaddd|ins_amoxorw|ins_amoxord
@@ -362,91 +391,92 @@ assign ds1_mem_iden = ins_amoswapd|ins_amoswapw|ins_amoaddw|ins_amoaddd|ins_amox
 		ins_lb|ins_lbu|ins_lh|ins_lhu|ins_lw|ins_lwu|ins_ld|ins_lrw|ins_lrd;
 
 //首先对opcode进行译码
-assign op_system	= (ins_in[6:0]==system_encode);
-assign op_imm		= (ins_in[6:0]==imm_encode);
-assign op_32_imm	= (ins_in[6:0]==imm_32_encode);
-assign op_lui		= (ins_in[6:0]==lui_encode);
-assign op_auipc	= (ins_in[6:0]==auipc_encode);
-assign op_jal		= (ins_in[6:0]==jal_encode);
-assign op_jalr		= (ins_in[6:0]==jalr_encode);
-assign op_branch	= (ins_in[6:0]==branch_encode);
-assign op_load		= (ins_in[6:0]==load_encode);
-assign op_store		= (ins_in[6:0]==store_encode);
-assign op_reg		= (ins_in[6:0]==reg_encode);
-assign op_32_reg	= (ins_in[6:0]==reg_32_encode);
-assign op_amo		= (ins_in[6:0]==amo_encode);
+assign op_system	= (opcode==system_encode);
+assign op_imm		= (opcode==imm_encode);
+assign op_32_imm	= (opcode==imm_32_encode);
+assign op_lui		= (opcode==lui_encode);
+assign op_auipc		= (opcode==auipc_encode);
+assign op_jal		= (opcode==jal_encode);
+assign op_jalr		= (opcode==jalr_encode);
+assign op_branch	= (opcode==branch_encode);
+assign op_load		= (opcode==load_encode);
+assign op_store		= (opcode==store_encode);
+assign op_reg		= (opcode==reg_encode);
+assign op_32_reg	= (opcode==reg_32_encode);
+assign op_amo		= (opcode==amo_encode);
 
-assign op_m			= (ins_in[6:0]==mem_encode);
+assign op_m			= (opcode==mem_encode);
 
+assign op_gpu_group = (opcode[4:0]==longinstr_encode);
 //对funct3译码
-assign funct3_0		= (ins_in[14:12]==3'h0);
-assign funct3_1		= (ins_in[14:12]==3'h1);
-assign funct3_2		= (ins_in[14:12]==3'h2);
-assign funct3_3		= (ins_in[14:12]==3'h3);
-assign funct3_4		= (ins_in[14:12]==3'h4);
-assign funct3_5		= (ins_in[14:12]==3'h5);
-assign funct3_6		= (ins_in[14:12]==3'h6);
-assign funct3_7		= (ins_in[14:12]==3'h7);
+assign funct3_0		= (funct3==3'h0);
+assign funct3_1		= (funct3==3'h1);
+assign funct3_2		= (funct3==3'h2);
+assign funct3_3		= (funct3==3'h3);
+assign funct3_4		= (funct3==3'h4);
+assign funct3_5		= (funct3==3'h5);
+assign funct3_6		= (funct3==3'h6);
+assign funct3_7		= (funct3==3'h7);
 //funct5
-assign funct5_0		= (ins_in[31:27]==5'h00);
-assign funct5_1		= (ins_in[31:27]==5'h01);
-assign funct5_2		= (ins_in[31:27]==5'h02);
-assign funct5_3		= (ins_in[31:27]==5'h03);
-assign funct5_4		= (ins_in[31:27]==5'h04);
+assign funct5_0		= (funct5==5'h00);
+assign funct5_1		= (funct5==5'h01);
+assign funct5_2		= (funct5==5'h02);
+assign funct5_3		= (funct5==5'h03);
+assign funct5_4		= (funct5==5'h04);
 /*
-assign funct5_5		= (ins_in[31:27]==5'h05);
-assign funct5_6		= (ins_in[31:27]==5'h06);
-assign funct5_7		= (ins_in[31:27]==5'h07);
+assign funct5_5		= (funct5==5'h05);
+assign funct5_6		= (funct5==5'h06);
+assign funct5_7		= (funct5==5'h07);
 */
-assign funct5_8		= (ins_in[31:27]==5'h08);
+assign funct5_8		= (funct5==5'h08);
 /*
-assign funct5_9		= (ins_in[31:27]==5'h09);
-assign funct5_10	= (ins_in[31:27]==5'h0a);
-assign funct5_11	= (ins_in[31:27]==5'h0b);
+assign funct5_9		= (funct5==5'h09);
+assign funct5_10	= (funct5==5'h0a);
+assign funct5_11	= (funct5==5'h0b);
 */
-assign funct5_12	= (ins_in[31:27]==5'h0c);
+assign funct5_12	= (funct5==5'h0c);
 /*
-assign funct5_13	= (ins_in[31:27]==5'h0d);
-assign funct5_14	= (ins_in[31:27]==5'h0e);
-assign funct5_15	= (ins_in[31:27]==5'h0f);
+assign funct5_13	= (funct5==5'h0d);
+assign funct5_14	= (funct5==5'h0e);
+assign funct5_15	= (funct5==5'h0f);
 */
-assign funct5_16	= (ins_in[31:27]==5'h10);
+assign funct5_16	= (funct5==5'h10);
 /*
-assign funct5_17	= (ins_in[31:27]==5'h11);
-assign funct5_18	= (ins_in[31:27]==5'h12);
-assign funct5_19	= (ins_in[31:27]==5'h13);
+assign funct5_17	= (funct5==5'h11);
+assign funct5_18	= (funct5==5'h12);
+assign funct5_19	= (funct5==5'h13);
 */
-assign funct5_20	= (ins_in[31:27]==5'h14);
+assign funct5_20	= (funct5==5'h14);
 /*
-assign funct5_21	= (ins_in[31:27]==5'h15);
-assign funct5_22	= (ins_in[31:27]==5'h16);
-assign funct5_23	= (ins_in[31:27]==5'h17);
+assign funct5_21	= (funct5==5'h15);
+assign funct5_22	= (funct5==5'h16);
+assign funct5_23	= (funct5==5'h17);
 */
-assign funct5_24	= (ins_in[31:27]==5'h18);
+assign funct5_24	= (funct5==5'h18);
 /*
-assign funct5_25	= (ins_in[31:27]==5'h19);
-assign funct5_26	= (ins_in[31:27]==5'h1a);
-assign funct5_27	= (ins_in[31:27]==5'h1b);
+assign funct5_25	= (funct5==5'h19);
+assign funct5_26	= (funct5==5'h1a);
+assign funct5_27	= (funct5==5'h1b);
 */
-assign funct5_28	= (ins_in[31:27]==5'h1c);
+assign funct5_28	= (funct5==5'h1c);
 /*
-assign funct5_29	= (ins_in[31:27]==5'h1d);
-assign funct5_30	= (ins_in[31:27]==5'h1e);
-assign funct5_31	= (ins_in[31:27]==5'h1f);
+assign funct5_29	= (funct5==5'h1d);
+assign funct5_30	= (funct5==5'h1e);
+assign funct5_31	= (funct5==5'h1f);
 */
 //funct6
-assign funct6_0		= (ins_in[31:26]==6'b000000);
-assign funct6_16	= (ins_in[31:26]==6'b010000);
+assign funct6_0		= (funct6==6'b000000);
+assign funct6_16	= (funct6==6'b010000);
 //funct7译码
-assign funct7_0		= (ins_in[31:25]==7'h00);
-assign funct7_8		= (ins_in[31:25]==7'h08);
-assign funct7_9		= (ins_in[31:25]==7'h09);
-assign funct7_24	= (ins_in[31:25]==7'h18);
-assign funct7_32	= (ins_in[31:25]==7'h20);
+assign funct7_0		= (funct7==7'h00);
+assign funct7_8		= (funct7==7'h08);
+assign funct7_9		= (funct7==7'h09);
+assign funct7_24	= (funct7==7'h18);
+assign funct7_32	= (funct7==7'h20);
 
 //funct12译码
-assign funct12_0	= (ins_in[31:20]==12'h0);
-assign funct12_1	= (ins_in[31:20]==12'h1);
+assign funct12_0	= (funct12==12'h0);
+assign funct12_1	= (funct12==12'h1);
 //指令解码
 assign ins_lui 		= op_lui;
 assign ins_auipc 	= op_auipc;
@@ -563,7 +593,7 @@ assign op_count_decode	= 		(ins_slliw|ins_srliw|ins_sraiw)?{3'b0,dec_rs2_index}:
 assign dec_rs1_index= (op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :(ins_in[19:15]);
 assign dec_rs2_index= (op_reg|op_32_reg|op_branch|op_store|op_amo)?(ins_in[24:20]) : 5'b0;//只有reg branch amo store指令需要使用rs2，其余都不使用rs2，使用常0寄存器
 assign dec_rd_index	= (ins_in[11:7]);
-assign dec_csr_index= (ins_in[31:20]);
+assign dec_csr_index= (funct12);
 
 
 //译出当前指令是否需要多周期
@@ -586,8 +616,9 @@ assign dec_csr_acc_fault= (ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|i
 assign dec_ins_unpermit	= (tsr&ins_sret)|(tvm&(ins_sfencevma|(ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi)&(priv==supe)&(dec_csr_index==12'h180)))|
 						  (tw&ins_wfi)|
 						  (priv==supe)&ins_mret;
-//opcode无法解码，直接判定为异常指令						  
-assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op_jalr|op_branch|op_store|op_load|op_reg|op_32_reg|op_amo);
+//opcode无法解码，直接判定为异常指令		
+//TODO:GPU译码这里也要改				  
+assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op_jalr|op_branch|op_store|op_load|op_reg|op_32_reg|op_amo|op_gpu_group);
 assign dec_ill_ins		= dec_ins_unpermit|dec_csr_acc_fault|dec_ins_dec_fault;//异常指令
 
 //输出寄存器，往EX

@@ -12,7 +12,7 @@ ISA		: RISC-V 32I with Shrinked CSR
 
 
 */
-`include "global_defines.h"
+`include "global_defines.vh"
 module fcc4g32e_top(
 //用户配置信号
 
@@ -52,14 +52,14 @@ wire sum;
 wire mxr;
 wire mprv;
 wire tw;
-wire [`FCU_DDATA_WIDTH-1:0]csr_data;
+wire [`GPU_DDATA_WIDTH-1:0]csr_data;
 wire [11:0]id_csr_index;
-wire [`FCU_DDATA_WIDTH-1:0]rs1_data;
+wire [`GPU_DDATA_WIDTH-1:0]rs1_data;
 wire [4:0]id_rs1_index;
-wire [`FCU_DDATA_WIDTH-1:0]rs2_data;
+wire [`GPU_DDATA_WIDTH-1:0]rs2_data;
 wire [4:0]id_rs2_index;
 
-wire [`FCU_IADDR_WIDTH-1:0]flush_pc;
+wire [`GPU_IADDR_WIDTH-1:0]flush_pc;
 //CR对IF信号
 wire int_req;
 wire pip_flush;
@@ -67,7 +67,7 @@ wire pip_flush;
 
 //BIU对IF信号
 wire [3:0]if_priv;
-wire [63:0]addr_if;
+wire [`GPU_IADDR_WIDTH-1:0]addr_if;
 wire rd_ins;
 wire [63:0]ins_read;	//读取到的指令
 wire ins_acc_fault;
@@ -76,10 +76,10 @@ wire cache_ready_if;
 //BIU对EX信号
 wire unpage;//TODO 删减TLB，简化cache
 wire [3:0]ex_priv;
-wire [63:0]addr_ex;
-wire [63:0]data_read;
-wire [63:0]data_write;
-wire [63:0]uncache_data;
+wire [`GPU_DADDR_WIDTH-1:0]addr_ex;
+wire [`GPU_DDATA_WIDTH-1:0]data_read;
+wire [`GPU_DDATA_WIDTH-1:0]data_write;
+wire [`GPU_DDATA_WIDTH-1:0]uncache_data;
 wire [3:0]size;
 wire cache_l1i_reset;
 wire cache_l1d_reset;
@@ -94,7 +94,7 @@ wire cache_ready_ex;
 wire uncache_data_rdy;
 //IF对ID信号
 wire [31:0]id_ins;
-wire [63:0]id_ins_pc;
+wire [`GPU_IADDR_WIDTH-1:0]id_ins_pc;
 wire id_ins_acc_fault;
 wire id_ins_addr_mis;
 wire id_ins_page_fault;
@@ -103,7 +103,7 @@ wire id_valid;
 
 //ID对EX信号
 wire [63:0]ex_exc_code;		//错误码
-wire [63:0]ex_ins_pc;		//指令PC
+wire [`GPU_IADDR_WIDTH-1:0]ex_ins_pc;		//指令PC
 //操作码 ALU,运算码
 //rd数据选择
 wire rd_data_ds1;		//ds1直通
@@ -157,10 +157,10 @@ wire [4:0]ex_rs2_index;
 wire [4:0]ex_rd_index;
 
 //数据输出							   
-wire [63:0]ds1;		//数据源1，imm/rs1/rs1/csr/pc /pc
-wire [63:0]ds2;		//数据源2，00 /rs2/imm/imm/imm/04
-wire [63:0]as1;		//地址源1,  pc/rs1/rs1
-wire [63:0]as2;		//地址源2, imm/imm/00
+wire [`GPU_DADDR_WIDTH-1:0]ds1;		//数据源1，imm/rs1/rs1/csr/pc /pc
+wire [`GPU_DADDR_WIDTH-1:0]ds2;		//数据源2，00 /rs2/imm/imm/imm/04
+wire [`GPU_DADDR_WIDTH-1:0]as1;		//地址源1,  pc/rs1/rs1
+wire [`GPU_DADDR_WIDTH-1:0]as2;		//地址源2, imm/imm/00
 wire [7:0]op_count;	//操作次数码，用于AMO指令或移位指令
 //机器控制段
 //机器控制段负责WB阶段时csr的自动更新
@@ -206,9 +206,9 @@ wire wb_ebreak;
 wire pc_jmp;
 wire [11:0]csr_index;
 wire [4:0]wb_rd_index;
-wire [63:0]data_csr;
-wire [63:0]data_rd;
-wire [63:0]new_pc;
+wire [`GPU_DDATA_WIDTH-1:0]data_csr;
+wire [`GPU_DDATA_WIDTH-1:0]data_rd;
+wire [`GPU_IADDR_WIDTH-1:0]new_pc;
 wire [63:0]wb_exc_code;
 wire [63:0]wb_ins_pc;
 //EX信号
@@ -534,8 +534,6 @@ exu exu(
 .csr_write_id			(ex_csr_write),
 .gpr_write_id			(ex_gpr_write),
 .csr_index_id			(ex_csr_index),
-.rs1_index_id			(),
-.rs2_index_id			(),
 .rd_index_id			(ex_rd_index),
 
 //数据输出							   

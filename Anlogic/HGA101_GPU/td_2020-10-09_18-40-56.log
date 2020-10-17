@@ -1,0 +1,25 @@
+============================================================
+   Tang Dynasty, V4.6.18154
+   Copyright:   Shanghai Anlogic Infotech Co., Ltd.
+                2011 - 2021
+   Executable = C:/Anlogic/TD4.6.4/bin/td.exe
+   Built at =   16:39:36 Mar 27 2020
+   Run by =     HongXiaoyu
+   Run Date =   Fri Oct  9 18:40:56 2020
+
+   Run on =     HONGXY-LAPTOP
+============================================================
+RUN-1002 : start command "open_project HGA101_GPU.al"
+GUI-8003 ERROR: ../../ref/GPU.v is missing!
+RUN-1002 : start command "import_device eagle_s20.db -package EQFP176"
+ARC-1001 : Device Initialization.
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :            OPTION            |            IO            |   SETTING   
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1001 :   cso_b/cclk/mosi/miso/dout  |  P140/P168/P166/P165/S5  |    gpio    
+ARC-1001 :             done             |           P10            |  dedicated  
+ARC-1001 :           program_b          |           P134           |  dedicated  
+ARC-1001 :        tdi/tms/tck/tdo       |     P46/P44/P47/P43      |  dedicated  
+ARC-1001 : ----------------------------------------------------------------------
+ARC-1004 : Device setting, marked 6 dedicate IOs in total.
+GUI-8003 ERROR: ../../ref/GPU.v is missing!
