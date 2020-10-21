@@ -11,9 +11,6 @@ input wire cache_only,
 input wire [31:0]cacheability_block,	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
 
 //csr信号
-//input wire [63:0]satp,			//页表基地址
-input wire sum,					//supervis-user访问允许
-input wire mxr,					//禁用执行位
 //访问接口
 input wire unpage,				//只使用物理地址
 input wire [3:0]priv,			//权限，0001=U 0010=S 0100=H 1000=M 
@@ -60,7 +57,6 @@ input wire bus_error			//访问失败
 
 wire [`FCU_IADDR_WIDTH-1:0]PA;			//最终生成的PA
 
-wire TLB_ready;
 
 
 
@@ -128,7 +124,6 @@ l1				L1(
 .cache_entry_write	(cache_entry_write),	//更新缓存entry
 .trans_rdy			(trans_rdy),			//传输完成
 .bus_error			(bus_error)			//访问失败
-
 );
 assign data_uncache	=	data_read;
 

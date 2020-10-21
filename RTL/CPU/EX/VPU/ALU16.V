@@ -26,8 +26,8 @@ input wire [15:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
 
 output gt,
 output eq,
-output [15:0]alu_data_rd
-
+output [15:0]alu_data_rd,
+output [31:0]rd_out
 
 );
 
@@ -79,7 +79,7 @@ assign alu_data_rd		=	(!enable 		? ds1		: 16'b0)|			//ds1直通
 							(maxsel			? alu_max 	: 16'b0)|		//逻辑&
 							(minsel 		? alu_min 	: 16'b0);
 
-
+assign rd_out={{17{ds1[15]}},ds1[14:0]};
 //筒形移位器
 ///*
 //Type: 00/01=Left Shift
@@ -89,7 +89,7 @@ assign alu_data_rd		=	(!enable 		? ds1		: 16'b0)|			//ds1直通
 bshifter16 bshifter16
 (
     .datain		(ds1),
-    .type		({!sllsel,!srlsel}),
+    .typ		({!sllsel,!srlsel}),
     .shiftnum	(ds2[3:0]),
     .dataout	(alu_shift)
 );

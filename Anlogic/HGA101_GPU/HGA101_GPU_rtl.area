@@ -1,35 +1,34 @@
 standard
-***Report Model: core***
+***Report Model: tag_arbiter***
 
 IO Statistics
-#IO                  1409
-  #input              686
-  #output             723
+#IO                    74
+  #input               70
+  #output               4
   #inout                0
 
 Gate Statistics
-#Basic gates        92232
-  #and              21612
+#Basic gates          313
+  #and                 46
   #nand                 0
-  #or               22227
+  #or                   2
   #nor                  0
-  #xor               1120
+  #xor                  0
   #xnor                 0
   #buf                  0
-  #not               5071
+  #not                 15
   #bufif1               0
-  #MX21             19116
+  #MX21                10
   #FADD                 0
-  #DFF              23086
+  #DFF                240
   #LATCH                0
-#MACRO_ADD            393
-#MACRO_EQ             671
-#MACRO_MULT            16
-#MACRO_MUX          21767
+#MACRO_ADD              7
+#MACRO_EQ              31
+#MACRO_MUX              6
 
 Report Hierarchy Area:
-+-----------------------------------------+
-|Instance |Module |gates  |seq    |macros |
-+-----------------------------------------+
-|top      |core   |69146  |23086  |1142   |
-+-----------------------------------------+
++----------------------------------------------+
+|Instance |Module      |gates  |seq    |macros |
++----------------------------------------------+
+|top      |tag_arbiter |73     |240    |38     |
++----------------------------------------------+

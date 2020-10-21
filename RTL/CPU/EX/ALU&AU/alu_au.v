@@ -133,7 +133,7 @@ Type: 00/01=Left Shift
 barrel_shifter barrel_shifter
 (
     .datain		(ds1),
-    .type		({shift_r,!unsign}),
+    .typ		({shift_r,!unsign}),
     .shiftnum	(op_count[5:0]),
     .dataout	(alu_shift)
 );

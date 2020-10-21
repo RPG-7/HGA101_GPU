@@ -1,6 +1,6 @@
 module l1(
 //配置信号
-input wire [31:0]cacheability_block,
+input wire cacheable,
 input wire cache_only,
 input wire clk,
 input wire rst,
@@ -13,7 +13,6 @@ input wire L1_clear,
 
 input wire [3:0]size,		//
 
-input wire PTE_C,			//可缓存
 
 input wire [63:0]addr_pa,
 input wire [63:0]data_write,
@@ -49,10 +48,7 @@ parameter access_fault	=	3'b111;		//访问失败
 
 reg [2:0]main_state;
 
-
-wire cacheable;		//可以被缓存
-
-assign cacheable	=	(addr_pa[63:31]==cacheability_block) | PTE_C;	//SV39CT分页方案！
+	//可以被缓存
 //缓存命中
 wire entry0_hit;
 wire entry1_hit;
@@ -257,7 +253,7 @@ cache 				l1
     .di				(di),
     .we				(we),
     .bsel			(byte_sel),
-    .do				(dout),
+    .dato				(dout),
     .clk			(clk)
 );
 //准备好信号

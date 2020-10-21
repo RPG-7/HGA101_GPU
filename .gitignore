@@ -1,2 +1,6 @@
 /Gowin/impl
+/Xilinx/HGA101_GPU.cache
+/Xilinx/HGA101_GPU.runs
+/Xilinx/HGA101_GPU.sim
 *.db
+*.log

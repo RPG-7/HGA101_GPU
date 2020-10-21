@@ -33,6 +33,7 @@ wire [31:0]Fcmpout,Acmpout;
 wire [7:0]fgt,feq,fcmpo;
 wire [7:0]igt,ieq,icmpo;
 wire [31:0]fd_arr[7:0];
+wire [31:0]rd_arr[7:0];
 assign vd=(ifsel)?FPUout:ALUout;
 assign fd=  (fd_arr[0]&{32{mask_in[0]}})|
             (fd_arr[1]&{32{mask_in[1]}})|
@@ -42,6 +43,16 @@ assign fd=  (fd_arr[0]&{32{mask_in[0]}})|
             (fd_arr[5]&{32{mask_in[5]}})|
             (fd_arr[6]&{32{mask_in[6]}})|
             (fd_arr[7]&{32{mask_in[7]}});
+assign rd=  (cgesel|cltsel|ceqsel|cnqsel)?
+            {24'h0,(ifsel)?fcmpo:icmpo}:
+           ((rd_arr[0]&{32{mask_in[0]}})|
+            (rd_arr[1]&{32{mask_in[1]}})|
+            (rd_arr[2]&{32{mask_in[2]}})|
+            (rd_arr[3]&{32{mask_in[3]}})|
+            (rd_arr[4]&{32{mask_in[4]}})|
+            (rd_arr[5]&{32{mask_in[5]}})|
+            (rd_arr[6]&{32{mask_in[6]}})|
+            (rd_arr[7]&{32{mask_in[7]}}));
 assign fcmpo=   (cgesel ?   (fgt|feq)   : 7'h00)|
                 (cltsel ?   !(fgt|feq)  : 7'h00)|
                 (ceqsel ?       feq     : 7'h00)|
@@ -50,8 +61,9 @@ assign icmpo=   (cgesel ?   (igt|ieq)   : 7'h00)|
                 (cltsel ?   !(igt|ieq)  : 7'h00)|
                 (ceqsel ?       ieq     : 7'h00)|
                 (cnqsel ?   !   ieq     : 7'h00);
-assign rd={24'h0,(ifsel)?fcmpo:icmpo};
-genvar i;
+
+
+genvar i;//Array gen
 generate 
     for(i=0;i<8;i=i+1) 
     begin : VPU_FPU
@@ -98,6 +110,7 @@ generate
 
             .gt(igt[i]),
             .eq(ieq[i]),
+            .rd_out(rd_arr[i]),
             .alu_data_rd(ALUout[15+16*i:16*i])
         );
         

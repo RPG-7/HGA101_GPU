@@ -1,97 +1,117 @@
 `include "global_defines.vh"
 /*
-PRV464的执行单元，含算术运算（ALU）和内存访问（LSU）两个部分
+PRV432的执行单元，含算术运算（ALU）和内存访问（LSU）两个部分
 LSU单元只进行数据移位
 */
 module exu(
-input wire clk,
-input wire rst,
+input clk,
+input rst,
 
-input wire [3:0]priv,		//当前机器权限
+input [3:0]priv,		//当前机器权限
 //csr输入
-input wire mprv,			//更改权限
-input wire [3:0]mod_priv,	//要被更改的权限
+input mprv,			//更改权限
+input [3:0]mod_priv,	//要被更改的权限
 //上一级 ID输入
 //异常码
 //当非法指时候，该码被更新为ins，当指令页面错误，被更新为addr
-input wire [63:0]exc_code_id,
+input [63:0]exc_code_id,
 //当前指令pc
-input wire [63:0]ins_pc_id,
+input [63:0]ins_pc_id,
 
 //操作码 ALU,运算码
 //rd数据选择
-input wire rd_data_ds1,		//ds1直通
-input wire rd_data_add,		//加
-input wire rd_data_sub,		//减
-input wire rd_data_and,		//逻辑&
-input wire rd_data_or,		//逻辑|
-input wire rd_data_xor,		//逻辑^
-input wire rd_data_slt,		//比较大小
-input wire compare,			//比较大小，配合bge0_blt1\beq0_bne1控制线并产生分支信号
-input wire amo_lr_sc,		//lr/sc读写成功标志，LR/SC指令总是读写成功
+input rd_data_ds1,		//ds1直通
+input rd_data_add,		//加
+input rd_data_sub,		//减
+input rd_data_and,		//逻辑&
+input rd_data_or,		//逻辑|
+input rd_data_xor,		//逻辑^
+input rd_data_slt,		//比较大小
+input compare,			//比较大小，配合bge0_blt1\beq0_bne1控制线并产生分支信号
+input amo_lr_sc,		//lr/sc读写成功标志，LR/SC指令总是读写成功
 
 //mem_csr_data数据选择
-input wire mem_csr_data_ds1,
-input wire mem_csr_data_ds2,
-input wire mem_csr_data_add,
-input wire mem_csr_data_and,
-input wire mem_csr_data_or,
-input wire mem_csr_data_xor,
-input wire mem_csr_data_max,
-input wire mem_csr_data_min,
+input mem_csr_data_ds1,
+input mem_csr_data_ds2,
+input mem_csr_data_add,
+input mem_csr_data_and,
+input mem_csr_data_or,
+input mem_csr_data_xor,
+input mem_csr_data_max,
+input mem_csr_data_min,
 //运算,跳转辅助控制信号
-input wire blt,				
-input wire bge,
-input wire beq,				
-input wire bne,
-input wire jmp,				//无条件跳转，适用于JAL JALR指令
-input wire unsign,			//无符号操作，同时控制mem单元信号的符号拓展
-input wire and_clr,			//将csr操作的and转换为clr操作
-input wire ds1_sel,			//ALU ds1选择，为0选择ds1，为1选择LSU读取的数据
-
+input blt,				
+input bge,
+input beq,				
+input bne,
+input jmp,				//无条件跳转，适用于JAL JALR指令
+input unsign,			//无符号操作，同时控制mem单元信号的符号拓展
+input and_clr,			//将csr操作的and转换为clr操作
+input ds1_sel,			//ALU ds1选择，为0选择ds1，为1选择LSU读取的数据
+//VPU功能组
+input vpu_ifsel,//Function integer/float select
+input vpu_addsel,
+input vpu_subsel,
+input vpu_mulsel,
+input vpu_itfsel, //integer to float
+input vpu_ftisel, //float to integer
+input vpu_ftlsel,
+input vpu_maxsel,
+input vpu_minsel,
+input vpu_andsel,		//逻辑&
+input vpu_orsel,		//逻辑|
+input vpu_xorsel,
+input vpu_srasel,
+input vpu_srlsel,
+input vpu_sllsel,
+input vpu_cgesel,//compare:great equal
+input vpu_cltsel,
+input vpu_ceqsel,
+input vpu_cnqsel,
+input vpu_enable,//进行VPU存取/指示data_rd&data_fd采用VPU回送信号
 //位宽控制
-input wire [3:0]size, 		//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
+input [3:0]size, 		//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
 //多周期控制
 //多周期控制信号线控制EX单元进行多周期操作
-input wire load,
-input wire store,
-input wire amo,
-input wire l1i_reset,		//命令 缓存刷新信号，此信号可以与内存进行同步
-input wire l1d_reset,		//命令 缓存复位信号，下次访问内存时重新刷新页表
-input wire TLB_reset,
-input wire shift_r,			//左移位
-input wire shift_l,			//右移位
+input load,
+input store,
+input amo,
+input l1i_reset,		//命令 缓存刷新信号，此信号可以与内存进行同步
+input l1d_reset,		//命令 缓存复位信号，下次访问内存时重新刷新页表
+input TLB_reset,
+input shift_r,			//左移位
+input shift_l,			//右移位
 
 //写回控制，当valid=0时候，所有写回不有效
-input wire csr_write_id,		//注*后缀ID表示是ID传输进来的信号
-input wire gpr_write_id,
-input wire [11:0]csr_index_id,
-input wire [4:0]rd_index_id,
+input csr_write_id,		//注*后缀ID表示是ID传输进来的信号
+input gpr_write_id,
+input [11:0]csr_index_id,
+input [4:0]rd_index_id,
 
 //数据输出							   
-input wire [`GPU_DDATA_WIDTH-1:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
-input wire [`GPU_DDATA_WIDTH-1:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
-input wire [`GPU_VDATA_WIDTH-1:0]vs1,
-input wire [`GPU_VDATA_WIDTH-1:0]vs2,
-input wire [`GPU_DDATA_WIDTH-1:0]fs1,		//数据源1，imm/rs1/rs1/csr/pc /pc
-input wire [`GPU_DDATA_WIDTH-1:0]fs2,
-input wire [63:0]as1,		//地址源1,  pc/rs1/rs1
-input wire [63:0]as2,		//地址源2, imm/imm/00
-input wire [7:0]op_count,	//操作次数码，用于AMO指令或移位指令
+input [`GPU_DDATA_WIDTH-1:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+input [`GPU_DDATA_WIDTH-1:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
+input [`GPU_VDATA_WIDTH-1:0]vs1,
+input [`GPU_VDATA_WIDTH-1:0]vs2,
+input [`GPU_DDATA_WIDTH-1:0]fs1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+input [`GPU_DDATA_WIDTH-1:0]fs2,
+input [63:0]as1,		//地址源1,  pc/rs1/rs1
+input [63:0]as2,		//地址源2, imm/imm/00
+input [7:0]op_count,	//操作次数码，用于AMO指令或移位指令
 //机器控制段
 //机器控制段负责WB阶段时csr的自动更新
-input wire id_system_id,		//system指令，op code=system的时候被置1
-input wire id_jmp_id,			//会产生跳转的指令 opcode=branch时候置1
-input wire ins_acc_fault_id,	//指令访问失败
-input wire ins_addr_mis_id, 	//指令地址错误
-input wire ins_page_fault_id,	//指令页面错误
-input wire int_acc_id,			//中断接收信号
-input wire valid_id, 			//指令有效信号
-input wire ill_ins_id,			//异常指令信号
-input wire m_ret_id,				//返回信号
-input wire s_ret_id,
-input wire ecall_id,			//环境调用
-input wire ebreak_id,			//断点
+input id_system_id,		//system指令，op code=system的时候被置1
+input id_jmp_id,			//会产生跳转的指令 opcode=branch时候置1
+input ins_acc_fault_id,	//指令访问失败
+input ins_addr_mis_id, 	//指令地址错误
+input ins_page_fault_id,	//指令页面错误
+input int_acc_id,			//中断接收信号
+input valid_id, 			//指令有效信号
+input ill_ins_id,			//异常指令信号
+input m_ret_id,				//返回信号
+input s_ret_id,
+input ecall_id,			//环境调用
+input ebreak_id,			//断点
 //到EX信号完
 
 //到下一级 WB信号
@@ -138,21 +158,24 @@ output wire unpage,				//只使用物理地址 data_from_biu
 output wire [3:0]ex_priv,		//ex权限，0001=U 0010=S 0100=H 1000=M 
 output reg [63:0]addr_ex,
 output wire [`GPU_DDATA_WIDTH-1:0]data_write,
-input wire [`GPU_DDATA_WIDTH-1:0]data_read,
-input wire [`GPU_DDATA_WIDTH-1:0]uncache_data,	//没有被缓存的数据
+input [`GPU_DDATA_WIDTH-1:0]data_read,
+input [`GPU_DDATA_WIDTH-1:0]uncache_data,	//没有被缓存的数据
+output wire [`GPU_VDATA_WIDTH-1:0]data_vpu_store,//VPU的存取默认都是cached，显存的刷新依赖flush和原子操作
+input [`GPU_VDATA_WIDTH-1:0]data_vpu_load,
+
 output wire [3:0]size_biu,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 output wire cache_l1i_reset,			//缓存刷新信号，用于执行fence指令的时候使用
 output wire cache_l1d_reset,			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
 output wire cache_TLB_reset,
 output wire read,				//读数据信号
 output wire write,				//写数据信号
-
-input wire load_acc_fault,
-input wire load_page_fault,
-input wire store_acc_fault,
-input wire store_page_fault,
-input wire cache_ready_ex,		//cache数据准备好信号，此信号比read_data提前一个周期出现
-input wire uncache_data_ready,	//不可缓存的数据准备好，此信号与uncache_data一个周期出现
+output wire l1d_vpusel,//VPU专用存取选择，忽略size，128b直写
+input load_acc_fault,
+input load_page_fault,
+input store_acc_fault,
+input store_page_fault,
+input cache_ready_ex,		//cache数据准备好信号，此信号比read_data提前一个周期出现
+input uncache_data_ready,	//不可缓存的数据准备好，此信号与uncache_data一个周期出现
 
 //pip_ctrl信号
 //pip_ctrl负责检查这些信号并控制整个流水线的操作
@@ -161,8 +184,8 @@ input wire uncache_data_ready,	//不可缓存的数据准备好，此信号与un
 output wire ex_exception,				//ex发生错误，此信号比WB阶段的信号提早1T出现，
 output wire ex_ready,					//ex准备好信号,和同步sram信号一样，这个信号在T1出现，T2才会更新出有效数据
 
-input wire ex_hold,						//ID等待
-input wire ex_nop						//ID插空
+input ex_hold,						//ID等待
+input ex_nop						//ID插空
 
 );
 parameter p_stb 		= 4'b0000;	//等待状态
@@ -198,7 +221,7 @@ wire ls_amo_ready;				//amo，load/store指令完成信号
 wire [`GPU_DDATA_WIDTH-1:0]ds1_mem_data;		//ALU数据源1选择，当ds1_sel=1时，切换到MEM出来的数据，此举是为了AMO指令
 wire [`GPU_DDATA_WIDTH-1:0]alu_data_rd;			//ALU数据数据输出，写回rd寄存器的数据
 wire [`GPU_DDATA_WIDTH-1:0]alu_data_mem_csr;	//ALU数据输出，csr数据或者写回内存的数据
-
+wire [`GPU_VDATA_WIDTH-1:0]vpu_data_vd;
 wire jmp_ok;					//跳转信号，允许跳转，此信号指示WB阶段进行跳转
 //AU信号
 wire [63:0]au_addr_pc;			//AU数据输出，访问内存所需的地址或者是跳转地址
@@ -207,6 +230,11 @@ wire [63:0]au_addr_pc;			//AU数据输出，访问内存所需的地址或者是
 wire [`GPU_DDATA_WIDTH-1:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AMO指令或Load指令时使用
 //wire [63:0]data_lsu_uncache;	//lsu输出数据（不被缓存的）
 wire exception_id;
+
+//VPU data
+wire [`GPU_VDATA_WIDTH-1:0]vpu_data_vd;
+wire [`GPU_DDATA_WIDTH-1:0]vpu_data_rd;//写回lane/mask
+
 
 
 wire load_addr_mis;				//load地址不对齐
@@ -233,6 +261,7 @@ assign exception_id = 	ins_acc_fault_id | ins_addr_mis_id | ins_page_fault_id | 
 assign ex_exception	=	load_acc_fault	|load_page_fault|store_acc_fault|store_page_fault|load_addr_mis|store_addr_mis;
 
 //主状态机
+//TODO VPU存取状态机
 always@(posedge clk)begin
 	if(rst)begin
 		main_state <= p_stb;
@@ -288,32 +317,64 @@ assign c_fence 		= (main_state==p_fence);
 
 //对WB的数据输出
 //rd值输出寄存器，移位指令也在其中处理
-always@(posedge clk)begin
-	if(rst)begin
-		data_rd <= 64'b0;
+always@(posedge clk)
+begin
+	if(rst)
+	begin
+		data_rd <= 32'b0;
 	end
-	else if(ex_hold)begin
+	else if(ex_hold)
+	begin
 		data_rd <= data_rd;
 	end
 
-	else if(c_stb)begin
+	else if(c_stb)
+	begin
 		data_rd 	<=	alu_data_rd;
+	end
+	else if(vpu_enable)
+	begin
+		data_rd<=vpu_data_rd;
+		
 	end
 	/*
 	因为AHB总线的HREADY和数据是同周期出现，而cache是SSRAM，数据和准备好信号之间延迟一个周期，故在这里
 	寄存两次来保证数据正确
 	*/
 	//AMO指令访问内存之后进行数据寄存，以便进行下一步操作
-	else if(c_load|c_amo_mem0|c_load_1|c_amo_mem01)begin
+	else if(c_load|c_amo_mem0|c_load_1|c_amo_mem01)
+	begin
 		data_rd		<=  data_lsu_cache;		//存储数据
 	end
 	
 end
+always@(posedge clk) //VPU写回管理
+begin
+	if(ex_hold)
+	begin
+		data_vpr <= data_vpr;
+	end
+
+	else if(c_stb)
+	begin
+		data_vpr 	<=	vpu_data_vd;
+	end
+	/*
+	因为AHB总线的HREADY和数据是同周期出现，而cache是SSRAM，数据和准备好信号之间延迟一个周期，故在这里
+	寄存两次来保证数据正确
+	*/
+	//AMO指令访问内存之后进行数据寄存，以便进行下一步操作
+	else if(c_load|c_amo_mem0|c_load_1|c_amo_mem01)
+	begin
+		data_vpr		<=  data_vpu_load;		//存储数据
+	end
+
+end
 //data_csr和newpc寄存器
 always@(posedge clk)begin
 	if(rst)begin
-		data_csr	<=	64'b0;
-		new_pc		<= 	64'b0;
+		data_csr	<=	32'b0;
+		new_pc		<= 	32'b0;
 	end
 	else if(ex_hold)begin
 		data_csr	<= 	data_csr;
@@ -328,8 +389,8 @@ end
 //传递到下一级的异常码
 always@(posedge clk)begin
 	if(rst)begin
-		ins_pc	<=	64'b0;
-		exc_code<= 	64'b0;
+		ins_pc	<=	32'b0;
+		exc_code<= 	32'b0;
 	end
 	else if(ex_hold)begin
 		ins_pc 	<=	ins_pc;
@@ -493,35 +554,35 @@ alu_au		alu_au(
 	.jmp_ok				(jmp_ok)
 
 );
-VPU(
-    .ifsel 		(vpu_ifsel),//Function integer/float select
-    .addsel 	(vpu_addsel),
-    .subsel 	(vpu_subsel),
-    .mulsel 	(vpu_mulsel),
-    .itfsel  	(vpu_itfsel), //integer to float
-    .ftisel  	(vpu_ftisel), //float to integer
-    .ftlsel 	(vpu_ftlsel),
-    .maxsel 	(vpu_maxsel),
-    .minsel 	(vpu_minsel),
-    .andsel     (vpu_andsel) ,       //逻辑&
-    .orsel      (vpu_orsel),     //逻辑|
-    .xorsel 	(vpu_xorsel),
-    .srasel 	(vpu_srasel),
-    .srlsel 	(vpu_srlsel),
-    .sllsel 	(vpu_sllsel),
-    .cgesel 	(vpu_cgesel),//compare:great equal
-    .cltsel 	(vpu_cltsel),
-    .ceqsel 	(vpu_ceqsel),
-    .cnqsel 	(vpu_cnqsel),
+VPU vpu1(
+    .ifsel(vpu_ifsel),//Function integer/float select
+	.addsel(vpu_addsel),
+	.subsel(vpu_subsel),
+	.mulsel(vpu_mulsel),
+	.itfsel(vpu_itfsel),//integer to float
+	.ftisel(vpu_ftisel),//float to integer
+	.ftlsel(vpu_ftlsel),
+	.maxsel(vpu_maxsel),
+	.minsel(vpu_minsel),
+	.andsel(vpu_andsel),//逻辑&
+	.orsel(vpu_orsel),//逻辑|
+	.xorsel(vpu_xorsel),
+	.srasel(vpu_srasel),
+	.srlsel(vpu_srlsel),
+	.sllsel(vpu_sllsel),
+	.cgesel(vpu_cgesel),//compare:great equal
+	.cltsel(vpu_cltsel),
+	.ceqsel(vpu_ceqsel),
+	.cnqsel(vpu_cnqsel),
 
     .vs1(vs1),
     .vs2(vs2),
     .fs(fs1),
     .rs(rs1),
     .mask_in(rs2),//MASK=maskreg|{32{!masken}}
-    .rd,
-    .fd,
-    .vd(data_vpr)
+    .rd(vpu_data_rd),
+    .fd(vpu_data_fd),
+    .vd(vpu_data_vd)
 
 );
 //对BIU信号
@@ -529,7 +590,7 @@ assign unpage	=	mprv&(mod_priv==2'b11);				//当启用的MPRV位且MPP位为M时
 assign ex_priv	=	unpage ? mod_priv : priv;		//ex权限，0001=U 0010=S 0100=H 1000=M 
 always@(posedge clk)begin
 	if(rst)begin
-		addr_ex	<=	64'b0;
+		addr_ex	<=	32'b0;
 	end
 	else begin
 		addr_ex	<=	au_addr_pc;

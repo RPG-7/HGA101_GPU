@@ -77,7 +77,7 @@ bshifter16 fshifter1
 (
     .datain(base_smaller),
     .shiftnum(exp_diff),
-    .type(2'b10),
+    .typ(2'b10),
     .dataout(aligned_out)
 );
 
@@ -126,7 +126,7 @@ bshifter16 itfshifter1
 (
     .datain({op1[14:0],1'b0}),
     .shiftnum(exp_get+1),
-    .type(2'b00),//Left shift
+    .typ(2'b00),//Left shift
     .dataout(itf_shift)
 );
 
@@ -146,7 +146,7 @@ bshifter16 ftishifter1
 (
     .datain(ftival),
     .shiftnum(ftiexp),
-    .type({ftishiftdir,1'b1}),//
+    .typ({ftishiftdir,1'b1}),//
     .dataout(ftishift)
 );
 assign fticalc=(belowzero)?16'b0:{op1[15],ftishift[14:0]};

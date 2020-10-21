@@ -20,6 +20,9 @@
             <File>../../RTL/CPU/EX/ALU&amp;AU/alu_au.v</File>
             <File>../../RTL/CPU/EX/LSU/lsu.v</File>
             <File>../../RTL/CPU/EX/ALU&amp;AU/barrel_shifter.v</File>
+            <File>../../RTL/CPU/EX/FPU/fpu32.v</File>
+            <File>../../RTL/CPU/EX/VPU/CORDIC16.v</File>
+            <File>../../RTL/CPU/BIU_MOD/tag_arbiter.v</File>
         </Verilog>
         <ADC_FILE/>
         <SDC_FILE/>
@@ -27,7 +30,7 @@
     </Source_Files>
     <TOP_MODULE>
         <LABEL/>
-        <MODULE>VPU</MODULE>
+        <MODULE>tag_arbiter</MODULE>
         <CREATEINDEX>user</CREATEINDEX>
     </TOP_MODULE>
     <Device_Settings>
@@ -36,8 +39,8 @@
         </EG4X>
     </Device_Settings>
     <Project_Settings>
-        <Step_Last_Change>2020-10-17 14:46:56</Step_Last_Change>
-        <Current_Step>10</Current_Step>
-        <Step_Status>false</Step_Status>
+        <Step_Last_Change>2020-10-21 10:20:06</Step_Last_Change>
+        <Current_Step>20</Current_Step>
+        <Step_Status>true</Step_Status>
     </Project_Settings>
 </Project>

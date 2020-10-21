@@ -5,7 +5,7 @@ module cache
     input [63:0]di,
     input we,
     input [7:0]bsel,
-    output [63:0]do,
+    output [63:0]dato,
     input clk
 );
 cachemem8 cacheblk0
@@ -13,7 +13,7 @@ cachemem8 cacheblk0
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[7:0]),
-    .do(do[7:0]),
+    .dato(dato[7:0]),
     .we(we&bsel[0])
 );
 cachemem8 cacheblk1
@@ -21,7 +21,7 @@ cachemem8 cacheblk1
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[15:8]),
-    .do(do[15:8]),
+    .dato(dato[15:8]),
     .we(we&bsel[1])
 );
 cachemem8 cacheblk2
@@ -29,7 +29,7 @@ cachemem8 cacheblk2
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[23:16]),
-    .do(do[23:16]),
+    .dato(dato[23:16]),
     .we(we&bsel[2])
 );
 cachemem8 cacheblk3
@@ -37,7 +37,7 @@ cachemem8 cacheblk3
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[31:24]),
-    .do(do[31:24]),
+    .dato(dato[31:24]),
     .we(we&bsel[3])
 );
 cachemem8 cacheblk4
@@ -45,7 +45,7 @@ cachemem8 cacheblk4
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[39:32]),
-    .do(do[39:32]),
+    .dato(dato[39:32]),
     .we(we&bsel[4])
 );
 cachemem8 cacheblk5
@@ -53,7 +53,7 @@ cachemem8 cacheblk5
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[47:40]),
-    .do(do[47:40]),
+    .dato(dato[47:40]),
     .we(we&bsel[5])
 );
 cachemem8 cacheblk6
@@ -61,7 +61,7 @@ cachemem8 cacheblk6
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[55:48]),
-    .do(do[55:48]),
+    .dato(dato[55:48]),
     .we(we&bsel[6])
 );
 cachemem8 cacheblk7
@@ -69,7 +69,7 @@ cachemem8 cacheblk7
     .raddr(raddr[12:3]),
     .waddr(waddr[12:3]),
     .di(di[63:56]),
-    .do(do[63:56]),
+    .dato(dato[63:56]),
     .we(we&bsel[7])
 );
 
@@ -81,14 +81,14 @@ module cachemem8
     input [9:0]raddr,
     input [9:0]waddr,
     input [7:0]di,
-    output reg[7:0]do,
+    output reg[7:0]dato,
     input we
 );
 reg [7:0]memcell[1023:0];
 
 always @(posedge clk)
 begin
-	do<=memcell[raddr]; 
+	dato<=memcell[raddr]; 
     if(we)
       memcell[waddr]<=di;
 //    else
