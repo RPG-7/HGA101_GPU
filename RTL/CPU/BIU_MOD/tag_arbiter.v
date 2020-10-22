@@ -10,14 +10,17 @@ module tag_arbiter
 input clk,
 input rst,
 input entry_read,   //Core interface
-input entry_write,
+input entry_vwrite,
 input [31:0]access_addr,	
 
 input valid_clear, //flush
 
 input [31:0]refill_pa,//BIU interface
-input line_refill,
-output line_miss,//refill req
+input line_refill, //cachemem write, confirm refill valid
+input force_sync,//sync cache with memory(write back all dirty line)
+input writeback_complete,// handshake for dirty, clear 
+output line_miss,//refill request
+output replace_dirty, //page dirty, need to write back first
 output [SEL_WIDTH-1:0]entry_replace_sel, //for BIU
 
 output [SEL_WIDTH-1:0]entry_select_addr//addr for access 
@@ -33,18 +36,19 @@ reg [ENTRY_NUM-1:0]line_dirty;
 
 reg [ENTRY_NUM-1:0]entry_hit;
 reg [ENTRY_NUM-1:0]replaceable_indicator;
+//TODO 脏块管理逻辑，如何消除脏块？脏块握手？
 
-
-assign line_miss	=	(entry_read | entry_write) & (entry_hit==0);
-
-
+assign line_miss	=	(entry_read | entry_vwrite) & (entry_hit==0);
+/*situations of replace_dirty:
+1. tag invalid but dirty
+2. LFU replace but dirty
+3. forced sync ,write back all dirty
+*/
 always @(*)
     for ( i=0;i<ENTRY_NUM;i=i+1 ) 
     begin
         entry_hit[i]=(access_addr[TAG_MSB-1:TAG_LSB-1]==tag_addr[i])&line_valid[i];
         replaceable_indicator[i] = access_cnt[i]==0;
-        
-        //entry_replace_sel=(replaceable_indicator[i]==1)?i:entry_replace_sel;
     end
 reg [SEL_WIDTH-1:0]entry_replace_encode[ENTRY_NUM-1:0];
 reg [SEL_WIDTH-1:0]entry_select_encode[ENTRY_NUM-1:0];
@@ -74,10 +78,10 @@ begin
             tag_addr[i]	<=	refill_pa[TAG_MSB-1:TAG_LSB-1];
             line_valid[i]	<=	1'b1;
         end
-//        else if(entry_write&entry_hit[i]) //WIP:脏位和write back缓存
-//        begin
+        else if(entry_write&entry_hit[i]) //TODO:脏位和write back缓存
+        begin
             
-//        end
+        end
     end
 end
 

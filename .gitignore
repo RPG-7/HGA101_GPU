@@ -4,3 +4,6 @@
 /Xilinx/HGA101_GPU.sim
 *.db
 *.log
+*.bak
+*.log
+*.area

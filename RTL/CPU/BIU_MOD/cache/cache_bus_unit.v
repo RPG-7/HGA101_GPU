@@ -9,6 +9,7 @@ input wire rst,
 input wire write_through_req,	//请求写穿
 input wire read_req,			//请求读一次
 input wire read_line_req,		//请求读一行
+input wire write_line_req,		//请求写一行
 input wire [3:0]size,
 input wire [63:0]pa,			//
 input wire [63:0]wt_data,
@@ -45,7 +46,9 @@ parameter nseq = 2'b10;
 parameter idle = 2'b00;
 parameter seq  = 2'b11;
 
-
+//TODO 替换&写穿 
+//TODO 重构核心总线
+//TODO 确认写回状态机完成无误
 //ahb burst
 parameter Single=3'b000;
 parameter INCR  =3'b001;
@@ -59,7 +62,9 @@ parameter rd1  = 4'b0101;
 parameter rd_b0= 4'b1001;		//read burst 批量读入，阶段0，使用一个nseq开启seq传输
 parameter rd_b1= 4'b1010;		//read burst 阶段1，使用seq连续传输，直到最后一个地址
 parameter rd_b2= 4'b1011;		//read burst 阶段2，末尾最后一个数据传输
-
+parameter wr_b0= 4'b1100;		//WR burst 批量写入，阶段0，使用一个nseq开启seq传输
+parameter wr_b1= 4'b1101;		//WR burst 阶段1，使用seq连续传输，直到最后一个地址
+parameter wr_b2= 4'b1110;		//WR burst 阶段2，末尾最后一个数据传输
 parameter acc_fault=4'b1111;	//访问失败
 
 reg [3:0]statu;					//状态机
@@ -80,18 +85,26 @@ always@(posedge clk)begin
 			stb:				if(!bus_ack)begin
 									statu	<=	statu;
 								end
-								else if(read_line_req)begin
+								else if(write_line_req)//TODO 写回应当绝对优先于读入
+								begin
+									statu<=wr_b0;
+								end
+								else if(read_line_req)
+								begin
 									statu	<=	rd_b0;
 								end
-								else if(read_req)begin
+								else if(read_req)
+								begin
 									statu	<=	rd0;
 								end
-								else if(write_through_req)begin
+								else if(write_through_req)
+								begin
 									statu	<=	wr0;
 								end
 				
 			//连续读read burst
 			rd_b0:	statu <= rd_b1;
+			wr_b0:	statu <= wr_b1;
 			//单次写，打出TRANS和HBURST
 			wr0:	statu <= wr1;
 			//单次读
@@ -99,12 +112,13 @@ always@(posedge clk)begin
 
 			//当传输到最后一个数据时候，停止传输，并等待传输完成
 			rd_b1:	statu <= hresp?acc_fault:((addr_counter==8'b11111111)&hready)?rd_b2:statu;		//特别注意，同步内存写入不需要延迟一个clk，但是读出需要延迟一个clk
+			rd_b1:	statu <= hresp?acc_fault:((addr_counter==8'b11111111)&hready)?wr_b2:statu;		//特别注意，同步内存写入不需要延迟一个clk，但是读出需要延迟一个clk
 			wr1:	statu <= hresp?acc_fault:hready?stb:statu;
 			rd1:	statu <= hresp?acc_fault:hready?stb:statu;
 	
 	//状态机第三层
 			rd_b2:	statu <= hresp?acc_fault:hready?stb:statu;
-	
+			wr_b2:	statu <= hresp?acc_fault:hready?stb:statu;
 	//状态机第四层
 		acc_fault:	statu <= stb;
 			default: statu<= stb;
@@ -131,7 +145,7 @@ assign last_addr 	= addr_counter - 8'b1;
 //由于AHB总线总是在第二个周期给出应答信号，此时addr counter已经自动+1，故切换到上一个地址
 //
 assign line_write = ((statu==rd_b1)|(statu==rd_b2))?hready:1'b0;
-assign addr_count	= (statu==rd_b2) ? {addr_counter,3'b0} : {last_addr,3'b0};
+assign addr_count	= ((statu==rd_b2)|(statu==wr_b2)) ? {addr_counter,3'b0} : {last_addr,3'b0};
 
 //AHB总线
 //AHB输出寄存器
@@ -153,18 +167,22 @@ assign hsize[0]	= size[1] | size[3];
 assign hsize[1]	= size[2] | size[3];
 assign hsize[2] = 1'b0;
 
-assign hburst	= ((statu==wr0)|(statu==rd0))?Single:((statu==rd_b0)|(statu==rd_b1))?INCR:Single;
+assign hburst	= ((statu==wr0)|(statu==rd0))?Single:
+					((statu==rd_b0)|(statu==rd_b1)|(statu==wr_b0)|(statu==wr_b1))?
+																		INCR:Single;
 assign hprot 	= 4'b0011;
-assign htrans	= ((statu==wr0)|(statu==rd0)|(statu==rd_b0))?nseq:((statu==rd_b1))?seq:idle;	//Burst传输第一个是NSEQ
+assign htrans	= ((statu==wr0)|(statu==rd0)|(statu==rd_b0)|(statu==wr_b0))?
+														nseq:
+														((statu==rd_b1))?seq:idle;	//Burst传输第一个是NSEQ
 assign hmastlock= 1'b0;
 
 //cache控制器逻辑
 
 assign line_data			=	hrdata;
 assign cache_entry_write	=	trans_rdy & read_line_req;	//更新缓存entry
-assign trans_rdy			=	((statu==rd1)|(statu==wr1)|(statu==rd_b2))?hready:1'b0;		//传输完成
+assign trans_rdy			=	((statu==rd1)|(statu==wr1)|(statu==rd_b2)|(statu==wr_b2))?hready:1'b0;		//传输完成
 assign bus_error			=	(statu==acc_fault);			//访问失败
-assign bus_req				=	write_through_req | read_line_req | read_req;
+assign bus_req				=	write_through_req | write_line_req | read_line_req | read_req;
 
 
 

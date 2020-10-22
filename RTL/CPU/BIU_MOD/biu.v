@@ -215,7 +215,7 @@ l1d				L1_D(
 .line_data			(D_line_data),
 .addr_count			(D_addr_count),
 .line_write			(D_line_write),			//cache写
-.cache_entry_write	(D_cache_entry_write),	//更新缓存entry
+.cache_entry_refill	(D_cache_entry_write),	//更新缓存entry
 .trans_rdy			(D_trans_rdy),			//传输完成
 .bus_error			(D_bus_error)			//访问失败
 );
