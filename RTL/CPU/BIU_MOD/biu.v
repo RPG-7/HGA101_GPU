@@ -41,10 +41,14 @@ input wire [63:0]addr_ex,
 input wire [63:0]data_write,
 output wire[63:0]data_read,
 output wire[63:0]data_uncache,
+input wire [127:0]vpu_write,
+output wire[127:0]vpu_read,
+input vpu_access,
 input wire [3:0]size,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 input wire l1i_reset,			//缓存刷新信号，用于执行fence指令的时候使用
 input wire l1d_reset,			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
-input wire TLB_reset,
+input wire force_sync,
+output sync_ok,
 input wire read,				//读数据信号
 input wire write,				//写数据信号
 
@@ -165,12 +169,9 @@ l1				L1_I(
 .uncache_data_ready	(ins_acc_fault1),	//不可缓存的数据准备好
 
 //cache控制器逻辑
-.write_through_req	(I_write_through_req),	//请求写穿
-.read_req			(I_read_req),			//请求读一次
 .read_line_req		(I_read_line_req),		//请求读一行
 .L1_size			(I_size),
 .pa					(I_pa),			//
-.wt_data			(I_wt_data),
 .line_data			(I_line_data),
 .addr_count			(I_addr_count),
 .line_write			(I_line_write),			//cache写
@@ -191,13 +192,18 @@ l1d				L1_D(
 .write				(write),
 .execute			(1'b0),
 .L1_clear			(l1d_reset),			//L1缓存清零，用于fence指令同步数据
-
+.vpu_access         (vpu_access),
 .size				(size),				//
 
+
+.force_sync(force_sync),      //TO EX 内存同步握手
+.sync_ok(sync_ok),
 
 .addr_pa			(addr_ex),
 .data_write			(data_write),
 .data_read			(data_read),
+.vpu_write          (vpu_write),
+.vpu_read           (vpu_read),
 //应答通道
 .load_acc_fault		(load_acc_fault),
 .store_acc_fault	(store_acc_fault),
@@ -207,6 +213,7 @@ l1d				L1_D(
 
 //cache控制器逻辑
 .write_through_req	(D_write_through_req),	//请求写穿
+.write_line_req     (D_write_line_req),		//脏页写回
 .read_req			(D_read_req),			//请求读一次
 .read_line_req		(D_read_line_req),		//请求读一行
 .L1_size			(D_size),
@@ -214,6 +221,7 @@ l1d				L1_D(
 .wt_data			(D_wt_data),
 .line_data			(D_line_data),
 .addr_count			(D_addr_count),
+
 .line_write			(D_line_write),			//cache写
 .cache_entry_refill	(D_cache_entry_write),	//更新缓存entry
 .trans_rdy			(D_trans_rdy),			//传输完成
@@ -223,38 +231,11 @@ l1d				L1_D(
 bu_req_mux		bu_req_mux(
 .clk				(clk),
 .rst				(rst),
-
-.TLB0_write_through_req	(1'b0),	//写穿请求
-.TLB0_translate_req		(1'b0),		//页面转换请求
-.TLB0_tsl_execute		(1'b0),		//页面转换用的参数
-.TLB0_tsl_read			(1'b0),
-.TLB0_tsl_write			(1'b0),
-.TLB0_tsl_priv			(1'b0),
-
-//TLB1
-
-.TLB1_write_through_req	(1'b0),	//写穿请求
-.TLB1_translate_req		(1'b0),		//页面转换请求
-.TLB1_tsl_execute		(1'b0),		//页面转换用的参数
-.TLB1_tsl_read			(1'b0),
-.TLB1_tsl_write			(1'b0),
-.TLB1_tsl_priv			(1'b0),
-
-
-//TLB_bus_unit
-
-.TLB_bu_ready			(1'b1),
-.TLB_entry_write		(1'b0),
-.TLB_D_set				(1'b0),
-.TLB_page_fault			(1'b0),
 //cache bug unit
 //L1-I
-.I_write_through_req	(I_write_through_req),	//请求写穿
-.I_read_req				(I_read_req),			//请求读一次
 .I_read_line_req		(I_read_line_req),		//请求读一行
 .I_size					(I_size),
 .I_pa					(I_pa),			//
-.I_wt_data				(I_wt_data),
 .I_line_data			(I_line_data),
 .I_addr_count			(I_addr_count),
 .I_line_write			(I_line_write),			//cache写
@@ -263,6 +244,7 @@ bu_req_mux		bu_req_mux(
 .I_bus_error			(I_bus_error),			//访问失败
 //L1-D
 .D_write_through_req	(D_write_through_req),	//请求写穿
+.D_write_line_req	    (D_write_line_req),
 .D_read_req				(D_read_req),			//请求读一次
 .D_read_line_req		(D_read_line_req),		//请求读一行
 .D_size					(D_size),
@@ -276,6 +258,7 @@ bu_req_mux		bu_req_mux(
 .D_bus_error			(D_bus_error),			//访问失败
 //L1 bus unit
 .write_through_req		(write_through_req),	//请求写穿
+.write_line_req		    (write_line_req),
 .read_req				(read_req),			//请求读一次
 .read_line_req			(read_line_req),		//请求读一行
 .size					(bu_size),
@@ -296,6 +279,7 @@ cache_bus_unit		L1_bus_unit(
 
 //cache控制器逻辑
 .write_through_req		(write_through_req),	//请求写穿
+.write_line_req		    (write_line_req),
 .read_req				(read_req),			//请求读一次
 .read_line_req			(read_line_req),		//请求读一行
 .size					(bu_size),
@@ -335,7 +319,6 @@ bu_mux bu_mux(
 
 //TLB bu ahb
 //ahb
-.TLB_bu_bus_req			(1'b0),	//总线请求使用
 //TLB bu ahb
 .L1_bu_haddr					(L1_bu_haddr),
 .L1_bu_hwrite					(L1_bu_hwrite),

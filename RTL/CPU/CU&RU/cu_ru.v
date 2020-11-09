@@ -51,9 +51,6 @@ input wire [`FCU_VDATA_WIDTH-1:0]data_vd,
 input wire [`FCU_DDATA_WIDTH-1:0]data_csr,
 input wire [`FCU_IADDR_WIDTH-1:0]new_pc,
 
-//对BIU信号
-output wire sum,
-output wire mxr,
 
 //写回控制
 input wire csr_write,
@@ -64,6 +61,7 @@ input wire pc_jmp,				//新的PC需要被更改，新的PC由pc_new给出，该�
 input wire [11:0]csr_index,
 input wire [4:0]rd_index,
 input wire [4:0]fd_index,
+input wire [4:0]vd_index,
 //异常码
 input wire [63:0]ins_pc,
 input wire [63:0]exc_code,		//如果是非法指令异常，则为非法指令，如果是硬件断点和储存器访问失败，则是虚拟地址

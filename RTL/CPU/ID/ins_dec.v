@@ -46,7 +46,27 @@ output reg rd_data_xor,		//逻辑^
 output reg rd_data_slt,		//比较大小
 output reg compare,			//比较大小，配合bge0_blt1\beq0_bne1控制线并产生分支信号
 output reg amo_lr_sc,		//lr/sc读写成功标志
-
+//VPU操作码
+output reg vpu_ifsel,//Function integer/float select
+output reg vpu_addsel,
+output reg vpu_subsel,
+output reg vpu_mulsel,
+output reg vpu_itfsel, //integer to float
+output reg vpu_ftisel, //float to integer
+output reg vpu_laneop,
+output reg vpu_maxsel,
+output reg vpu_minsel,
+output reg vpu_andsel,		//逻辑&
+output reg vpu_orsel,		//逻辑|
+output reg vpu_xorsel,
+output reg vpu_srasel,
+output reg vpu_srlsel,
+output reg vpu_sllsel,
+output reg vpu_cgqsel,//compare:great equal
+output reg vpu_cltsel,
+output reg vpu_ceqsel,
+output reg vpu_cnqsel,
+output reg vpu_enable,
 //mem_csr_data数据选择
 output reg mem_csr_data_ds1,
 output reg mem_csr_data_ds2,
@@ -75,7 +95,8 @@ output reg store,
 output reg amo,
 output reg l1i_reset,		//缓存刷新信号，此信号可以与内存进行同步
 output reg l1d_reset,		//缓存复位信号，下次访问内存时重新刷新页表
-output reg TLB_reset,		//TLB复位
+//output reg TLB_reset,		//TLB复位
+output reg force_sync,
 output reg shift_r,			//左移位
 output reg shift_l,			//右移位
 
@@ -177,7 +198,9 @@ wire op_reg;		//寄存器操作指令（R type）
 wire op_32_reg;
 wire op_amo;
 wire op_m;			// 内存屏障指令
-wire op_gpu_group;
+wire op_gpu_scalc;
+wire op_gpu_mfunc;
+wire op_gpu_sldst;
 //funct3译码
 wire [2:0]funct3;
 assign funct3=ins_in[14:12];
@@ -197,47 +220,33 @@ wire funct5_1;
 wire funct5_2;
 wire funct5_3;
 wire funct5_4;
-/*
 wire funct5_5;
 wire funct5_6;
 wire funct5_7;
-*/
 wire funct5_8;
-/*
 wire funct5_9;
 wire funct5_10;
 wire funct5_11;
-*/
 wire funct5_12;
-/*
 wire funct5_13;
 wire funct5_14;
 wire funct5_15;
-*/
 wire funct5_16;
-/*
 wire funct5_17;
 wire funct5_18;
 wire funct5_19;
-*/
 wire funct5_20;
-/*
 wire funct5_21;
 wire funct5_22;
 wire funct5_23;
-*/
 wire funct5_24;
-/*
 wire funct5_25;
 wire funct5_26;
 wire funct5_27;
-*/
 wire funct5_28;
-/*
 wire funct5_29;
 wire funct5_30;
 wire funct5_31;
-*/
 //funct6译码	funct6是移位指令用的
 wire [5:0]funct6;
 assign funct6=ins_in[31:25];
@@ -361,6 +370,32 @@ wire ins_amomind;
 wire ins_amomaxd;
 wire ins_amominud;
 wire ins_amomaxud;
+//GPU vector calc
+wire gins_sfadd;
+wire gins_sfsub;
+wire gins_sfmul;
+wire gins_sadd;
+wire gins_ssub;
+wire gins_sand;
+wire gins_sor;
+wire gins_sxor;
+wire gins_slsh;
+wire gins_srsa;
+wire gins_srsl;
+//GPU convert&pick&compare
+wire gins_sfti;//convert
+wire gins_sitf;
+wire gins_smax;//pick max/min
+wire gins_smin;
+wire gins_scgq;//compare and generate mask
+wire gins_sclt;
+wire gins_sceq;
+wire gins_scnq;
+wire gins_slan;//lane operation
+wire gins_sload;//load store
+wire gins_sstor;
+//Graphic: float writeback
+wire gmod_float;
 //模式特权指令
 wire ins_mret;
 wire ins_sret;
@@ -375,12 +410,11 @@ wire dec_ins_dec_fault;		//指令解码失败
 //GPU寄存器操作指令集
 wire vinst_type,vmask_en,vector_en;//vector related instr flags
 wire [4:0]mask_reg;//向量：16b x 8lane
-wire [4:0]op5;//4bit operation type;
 assign vinst_type=funct3[0];//向量指令是向量+向量or向量+标量
 assign vmask_en=funct3[1];//使能向量mask功能（屏蔽向量执行）
 //assign vtype_en=;//向量指令指示
 assign mask_reg={funct7[1:0],funct3[2],ins_in[6:5]};//从标量（整数）寄存器中取mask
-assign op5=funct7[6:2];//32 non-mask+32条masked向量GPU指令
+//32 non-mask+32条masked向量GPU指令
 
 
 //判断是否需要将ALU输入源ds1转换为MEM单元的数据
@@ -406,8 +440,10 @@ assign op_32_reg	= (opcode==reg_32_encode);
 assign op_amo		= (opcode==amo_encode);
 
 assign op_m			= (opcode==mem_encode);
-
-assign op_gpu_group = (opcode[4:0]==longinstr_encode);
+//TODO GPU OPERATIONS
+assign op_gpu_scalc = (opcode[4:0]==longinstr_encode);
+assign op_gpu_mfunc=  (opcode==custom1_encode);
+assign op_gpu_sldst=  (opcode==custom0_encode);
 //对funct3译码
 assign funct3_0		= (funct3==3'h0);
 assign funct3_1		= (funct3==3'h1);
@@ -423,47 +459,33 @@ assign funct5_1		= (funct5==5'h01);
 assign funct5_2		= (funct5==5'h02);
 assign funct5_3		= (funct5==5'h03);
 assign funct5_4		= (funct5==5'h04);
-/*
 assign funct5_5		= (funct5==5'h05);
 assign funct5_6		= (funct5==5'h06);
 assign funct5_7		= (funct5==5'h07);
-*/
 assign funct5_8		= (funct5==5'h08);
-/*
 assign funct5_9		= (funct5==5'h09);
 assign funct5_10	= (funct5==5'h0a);
 assign funct5_11	= (funct5==5'h0b);
-*/
 assign funct5_12	= (funct5==5'h0c);
-/*
 assign funct5_13	= (funct5==5'h0d);
 assign funct5_14	= (funct5==5'h0e);
 assign funct5_15	= (funct5==5'h0f);
-*/
 assign funct5_16	= (funct5==5'h10);
-/*
 assign funct5_17	= (funct5==5'h11);
 assign funct5_18	= (funct5==5'h12);
 assign funct5_19	= (funct5==5'h13);
-*/
 assign funct5_20	= (funct5==5'h14);
-/*
 assign funct5_21	= (funct5==5'h15);
 assign funct5_22	= (funct5==5'h16);
 assign funct5_23	= (funct5==5'h17);
-*/
 assign funct5_24	= (funct5==5'h18);
-/*
 assign funct5_25	= (funct5==5'h19);
 assign funct5_26	= (funct5==5'h1a);
 assign funct5_27	= (funct5==5'h1b);
-*/
 assign funct5_28	= (funct5==5'h1c);
-/*
 assign funct5_29	= (funct5==5'h1d);
 assign funct5_30	= (funct5==5'h1e);
 assign funct5_31	= (funct5==5'h1f);
-*/
 //funct6
 assign funct6_0		= (funct6==6'b000000);
 assign funct6_16	= (funct6==6'b010000);
@@ -567,6 +589,34 @@ assign ins_mret		= op_system&(dec_rs2_index==5'b00010)&funct7_24;
 assign ins_sret		= op_system&(dec_rs2_index==5'b00010)&funct7_8;
 assign ins_sfencevma= op_system&funct7_9;
 assign ins_wfi		= op_system&funct7_8;								//wfi指令
+
+//TODO: GPU decode
+//GPU vector calc
+assign gins_sfadd=op_gpu_scalc&funct5_0 ;
+assign gins_sfsub=op_gpu_scalc&funct5_1 ;
+assign gins_sfmul=op_gpu_scalc&funct5_2 ;
+assign gins_sadd=op_gpu_scalc&funct5_16 ;
+assign gins_ssub=op_gpu_scalc&funct5_17 ;
+assign gins_sand=op_gpu_scalc&funct5_18 ;
+assign gins_sor=op_gpu_scalc&funct5_19 ;
+assign gins_sxor=op_gpu_scalc&funct5_20 ;
+assign gins_slsh=op_gpu_scalc&funct5_21 ;
+assign gins_srsa=op_gpu_scalc&funct5_22 ;
+assign gins_srsl=op_gpu_scalc&funct5_23 ;
+//GPU convert&pick&compare
+assign gins_sfti=op_gpu_mfunc&(funct7==7'h08);//convert
+assign gins_sitf=op_gpu_mfunc&(funct7==7'h09);
+assign gins_smax=op_gpu_mfunc&(funct7==7'h0c);//pick max/min
+assign gins_smin=op_gpu_mfunc&(funct7==7'h0d);
+assign gins_scgq=op_gpu_mfunc&(funct7==7'h10);//compare and generate mask
+assign gins_sclt=op_gpu_mfunc&(funct7==7'h11);
+assign gins_sceq=op_gpu_mfunc&(funct7==7'h12);
+assign gins_scnq=op_gpu_mfunc&(funct7==7'h13);
+assign gins_slan=op_gpu_mfunc&(funct7==7'h7F);//lane operation
+
+assign gins_sload=op_gpu_sldst&(!funct3[0]);//load store
+assign gins_sstor=op_gpu_sldst&(funct3[0]);
+
 //译出立即数
 assign imm20 	= {{32{ins_in[31]}},ins_in[31:12],12'b0};				//LUI，AUIPC指令使用的20位立即数（进行符号位拓展）
 assign imm20_jal= {{44{ins_in[31]}},ins_in[19:12],ins_in[20],ins_in[30:21],1'b0};				//jal指令使用的20位立即数，左移一位，高位进行符号拓展
@@ -611,15 +661,16 @@ assign dec_gpr_write		= !(op_branch|op_store|ins_fence|ins_mret|ins_sret) & !dec
 
 //译出当前是否为异常指令
 //译出当前指令是否访问了不该访问的csr
-assign dec_csr_acc_fault= (ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi)?((priv==mach)|(priv==supe)|((priv==user)&(dec_csr_index[9:8]==2'b00))):1'b0;
-//当tsr tvm tw位为1时候，执行这些指令会被禁止,并且SRET指令不允许在M模式下被执行
-assign dec_ins_unpermit	= (tsr&ins_sret)|(tvm&(ins_sfencevma|(ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi)&(priv==supe)&(dec_csr_index==12'h180)))|
-						  (tw&ins_wfi)|
-						  (priv==supe)&ins_mret;
+assign dec_csr_acc_fault= (ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi)?(dec_csr_index[9:8]==2'b00):1'b0;
+
 //opcode无法解码，直接判定为异常指令		
 //TODO:GPU译码这里也要改				  
-assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op_jalr|op_branch|op_store|op_load|op_reg|op_32_reg|op_amo|op_gpu_group);
-assign dec_ill_ins		= dec_ins_unpermit|dec_csr_acc_fault|dec_ins_dec_fault;//异常指令
+assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op_jalr|op_branch|op_store|op_load|op_reg|op_32_reg|op_amo|op_gpu_scalc);
+assign dec_ill_ins		= dec_csr_acc_fault|dec_ins_dec_fault;//异常指令
+
+//TODO GPU 指令译码信号输出部分
+wire gpu_ifsel;
+assign gpu_ifsel=(op_gpu_scalc&(!funct5[4]))|(op_gpu_mfunc&funct3[3]);
 
 //输出寄存器，往EX
 always@(posedge clk)begin
@@ -645,6 +696,26 @@ always@(posedge clk)begin
 		mem_csr_data_xor	<= 1'b0;
 		mem_csr_data_max	<= 1'b0;
 		mem_csr_data_min	<= 1'b0;
+		vpu_ifsel<=1'b0;//Function integer/float select
+		vpu_addsel<=1'b0;
+		vpu_subsel<=1'b0;
+		vpu_mulsel<=1'b0;
+		vpu_itfsel<=1'b0; //integer to float
+		vpu_ftisel<=1'b0; //float to integer
+		vpu_laneop<=1'b0;
+		vpu_maxsel<=1'b0;
+		vpu_minsel<=1'b0;
+		vpu_andsel<=1'b0;		//逻辑&
+		vpu_orsel<=1'b0;		//逻辑|
+		vpu_xorsel<=1'b0;
+		vpu_srasel<=1'b0;
+		vpu_srlsel<=1'b0;
+		vpu_sllsel<=1'b0;
+		vpu_cgqsel<=1'b0;//compare:great equal
+		vpu_cltsel<=1'b0;
+		vpu_ceqsel<=1'b0;
+		vpu_cnqsel<=1'b0;
+		vpu_enable<=1'b0;
 	end
 	//当进行hold的时候，输出寄存器均被保持
 	else if(id_hold)begin
@@ -670,6 +741,28 @@ always@(posedge clk)begin
 		mem_csr_data_xor	<= mem_csr_data_xor;
 		mem_csr_data_max	<= mem_csr_data_max;
 		mem_csr_data_min	<= mem_csr_data_min;
+
+		vpu_ifsel<=vpu_ifsel;//Function integer/float select
+		vpu_addsel<=vpu_addsel;
+		vpu_subsel<=vpu_subsel;
+		vpu_mulsel<=vpu_mulsel;
+		vpu_andsel<=vpu_andsel;		//逻辑&
+		vpu_orsel<=vpu_orsel;		//逻辑|
+		vpu_xorsel<=vpu_xorsel;
+		vpu_srasel<=vpu_srasel;
+		vpu_srlsel<=vpu_srlsel;
+		vpu_sllsel<=vpu_sllsel;
+
+		vpu_itfsel<=vpu_itfsel; //integer to float
+		vpu_ftisel<=vpu_ftisel; //float to integer
+		vpu_laneop<=vpu_laneop;
+		vpu_maxsel<=vpu_maxsel;
+		vpu_minsel<=vpu_minsel;
+		vpu_cgqsel<=vpu_cgqsel;//compare:great equal
+		vpu_cltsel<=vpu_cltsel;
+		vpu_ceqsel<=vpu_ceqsel;
+		vpu_cnqsel<=vpu_cnqsel;
+		vpu_enable<=vpu_enable;
 	end
 	//在没有保持的时候，进行指令解码
 	else begin
@@ -696,6 +789,26 @@ always@(posedge clk)begin
 		mem_csr_data_xor	<= ins_amoxord|ins_amoxorw;
 		mem_csr_data_max	<= ins_amomaxw|ins_amomaxuw|ins_amomaxd|ins_amomaxud;
 		mem_csr_data_min	<= ins_amominw|ins_amominuw|ins_amomind|ins_amominud;
+		vpu_ifsel<=gpu_ifsel;//Function integer/float select
+		vpu_addsel<=(gins_sadd|gins_sfadd);
+		vpu_subsel<=(gins_ssub|gins_sfsub);
+		vpu_mulsel<=(gins_sfmul);
+		vpu_andsel<=gins_sand;		//逻辑&
+		vpu_orsel<=gins_sor;		//逻辑|
+		vpu_xorsel<=gins_sxor;
+		vpu_srasel<=gins_srsa;
+		vpu_srlsel<=gins_srsl;
+		vpu_sllsel<=gins_slsh;
+		vpu_itfsel<=gins_sitf; //integer to float
+		vpu_ftisel<=(gins_sfti); //float to integer
+		vpu_laneop<=gins_slan;
+		vpu_maxsel<=gins_smax;
+		vpu_minsel<=gins_smin;
+		vpu_cgqsel<=gins_scgq;//compare:great equal
+		vpu_cltsel<=gins_sclt;
+		vpu_ceqsel<=gins_sceq;
+		vpu_cnqsel<=gins_scnq;
+		vpu_enable<=op_gpu_mfunc|op_gpu_scalc|op_gpu_sldst;
 	end		
 end
 
@@ -761,7 +874,7 @@ always@(posedge clk)begin
 		amo			<= 1'b0;
 		l1i_reset	<= 1'b0;		//缓存刷新信号，此信号可以与内存进行同步
 		l1d_reset	<= 1'b0;		//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
-		TLB_reset	<= 1'b0;
+		force_sync	<= 1'b0;
 		shift_r		<= 1'b0;						//右移位
 		shift_l		<= 1'b0;						//左移位//写回控制，当valid=0时候，所有写回不有效
 		csr_write	<= 1'b0;
@@ -777,7 +890,7 @@ always@(posedge clk)begin
 		amo			<= amo;
 		l1i_reset	<= l1i_reset;	//缓存刷新信号，此信号可以与内存进行同步
 		l1d_reset	<= l1d_reset;	//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
-		TLB_reset	<=	TLB_reset;
+		force_sync	<=	force_sync;
 		shift_r		<= shift_r;		//右移位
 		shift_l		<= shift_l;		//左移位
 		csr_write	<= csr_write;
@@ -793,7 +906,7 @@ always@(posedge clk)begin
 		amo			<= op_amo;
 		l1i_reset 	<= ins_fence_i	;		//指令缓存刷新信号，sfence.vma或者fence.i指令使用 
 		l1d_reset	<= ins_fence | ins_fence_i 	;	    //数据缓存刷新信号，sfence.vma或者fence指令使用
-		TLB_reset	<= ins_sfencevma;
+		force_sync	<= gins_forcesync;
 		shift_r		<= ins_srli|ins_srliw|ins_srai|ins_sraiw|ins_srl|ins_srlw|ins_sra|ins_sraw;						//右移位
 		shift_l		<= ins_slli|ins_slliw|ins_sll|ins_sllw;						//左移位
 		csr_write	<= (ins_csrrwi|ins_csrrw|ins_csrrci|ins_csrrc|ins_csrrs|ins_csrrsi)&!dec_ill_ins;	//只有CSRRxx指令且没有发生异常指令才会要求写回CSR

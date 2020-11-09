@@ -121,7 +121,7 @@ always@(posedge clk)begin
 			rb_dl:	statu <= hresp?acc_fault:hready?stb:statu;
 			wb_dl:	statu <= hresp?acc_fault:hready?stb:statu;
 	//状态机第四层
-		acc_fault:	statu <= stb;
+			acc_fault:	statu <= stb;
 			default: statu<= stb;
 		endcase
 	end	

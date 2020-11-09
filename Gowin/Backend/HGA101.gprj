@@ -1,0 +1,29 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW2A-18" pn="GW2A-LV18PG484C8/I7">gw2a18-004</Device>
+    <FileList>
+        <File path="src/backend_top.v" type="file.verilog" enable="1"/>
+        <File path="src/gowin_picorv32/gowin_picorv32.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/FiFO.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/ViewToScreenConverter.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/dualPortRam.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/matrix4x4x1.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/qadd.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/qdiv.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/qmult.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/qmults.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/spi_slave.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/sram_tte_example.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/staticRam.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/top.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/vert_projector.v" type="file.verilog" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/vgaSignalGenerator.v" type="file.verilog" enable="1"/>
+        <File path="src/HGA101.cst" type="file.cst" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/framebuffer.mem" type="file.other" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/testMatrixData.mem" type="file.other" enable="1"/>
+        <File path="D:/Projects/FPGA/HGA101/RTL/GPipe/simpleGPU/testVertexData.mem" type="file.other" enable="1"/>
+    </FileList>
+</Project>

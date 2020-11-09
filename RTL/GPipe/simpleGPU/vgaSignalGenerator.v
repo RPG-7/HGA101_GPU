@@ -1,5 +1,4 @@
-(* DONT_TOUCH = "yes" *)
-    module vgaSignalGenerator(
+module vgaSignalGenerator(
         input wire i_clk,           // base clock
         input wire i_pix_stb,       // pixel clock strobe
         output wire o_hs,           // horizontal sync

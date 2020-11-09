@@ -83,7 +83,7 @@ wire [`GPU_DDATA_WIDTH-1:0]uncache_data;
 wire [3:0]size;
 wire cache_l1i_reset;
 wire cache_l1d_reset;
-wire cache_TLB_reset;
+wire cache_force_sync;
 wire read;
 wire write;
 wire load_acc_fault;
@@ -144,7 +144,7 @@ wire store;
 wire amo;
 wire l1i_reset;		//
 wire l1d_reset;		//
-wire TLB_reset;
+wire force_sync;
 wire shift_r;			//左移位
 wire shift_l;			//右移位
 
@@ -264,7 +264,7 @@ biu biu(
 .size					(size),					//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 .l1i_reset				(cache_l1i_reset),		//缓存刷新信号，用于执行fence.i或者sfence.vma指令的时候使用
 .l1d_reset				(cache_l1d_reset),		//缓存刷新信号，用于执行fence或者sfence.vma指令的时候使用
-.TLB_reset				(cache_TLB_reset),
+.force_sync				(cache_force_sync),
 .read					(read),					//读数据信号
 .write					(write),				//写数据信号
 
@@ -418,7 +418,7 @@ ins_dec ins_dec(
 .amo					(amo),
 .l1i_reset				(l1i_reset),		//缓存刷新信号，此信号可以与内存进行同步
 .l1d_reset				(l1d_reset),		//缓存复位信号，下次访问内存时重新刷新页表
-.TLB_reset				(TLB_reset),
+.force_sync				(force_sync),
 .shift_r				(shift_r),			//左移位
 .shift_l				(shift_l),			//右移位
 
@@ -516,7 +516,27 @@ exu exu(
 .unsign					(unsign),			//无符号操作，同时控制mem单元信号的符号
 .and_clr				(and_clr),			//将csr操作的and转换为clr操作
 .ds1_sel				(ds1_sel),			//ALU ds1选择，为0选择ds1，为1选择MEM读取信号
-
+//VPU功能组
+.vpu_ifsel(),//Function integer/float select
+.vpu_addsel(),
+.vpu_subsel(),
+.vpu_mulsel(),
+.vpu_itfsel(), //integer to float
+.vpu_ftisel(), //float to integer
+.vpu_ftlsel(),
+.vpu_maxsel(),
+.vpu_minsel(),
+.vpu_andsel(),		//逻辑&
+.vpu_orsel(),		//逻辑|
+.vpu_xorsel(),
+.vpu_srasel(),
+.vpu_srlsel(),
+.vpu_sllsel(),
+.vpu_cgesel(),//compare:great equal
+.vpu_cltsel(),
+.vpu_ceqsel(),
+.vpu_cnqsel(),
+.vpu_enable(),//进行VPU存取/指示data_rd&data_fd采用VPU回送信号
 //位宽控制
 .size					(ex_size), 		//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
 //多周期控制
@@ -526,7 +546,8 @@ exu exu(
 .amo					(amo),
 .l1i_reset				(l1i_reset),		
 .l1d_reset				(l1d_reset),	
-.TLB_reset				(TLB_reset),	
+.force_sync				(force_sync),	
+.sync_ok                (sync_ok),
 .shift_r				(shift_r),			//左移位
 .shift_l				(shift_l),			//右移位
 
@@ -539,6 +560,10 @@ exu exu(
 //数据输出							   
 .ds1					(ds1),		//数据源1，imm/rs1/rs1/csr/pc /pc
 .ds2					(ds2),		//数据源2，00 /rs2/imm/imm/imm/04
+.vs1,
+.vs2,
+.fs1,		
+.fs2,
 .as1					(as1),		//地址源1,  pc/rs1/rs1
 .as2					(as2),		//地址源2, imm/imm/00
 .op_count				(op_count),	//操作次数码，用于AMO指令或移位指令
@@ -601,13 +626,16 @@ exu exu(
 .data_write				(data_write),
 .data_read				(data_read),
 .uncache_data			(uncache_data),	//没有被缓存的数据
+.data_vpu_store,//VPU的存取默认都是cached，显存的刷新依赖flush和原子操作
+.data_vpu_load,
+
 .size_biu				(size),			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 .cache_l1i_reset		(cache_l1i_reset),			//缓存刷新信号，用于执行fence指令的时候使用
 .cache_l1d_reset		(cache_l1d_reset),			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
-.cache_TLB_reset		(cache_TLB_reset),
+.cache_force_sync		(cache_force_sync),
 .read					(read),				//读数据信号
 .write					(write),				//写数据信号
-
+.l1d_vpusel,
 .load_acc_fault			(load_acc_fault),
 .load_page_fault		(load_page_fault),
 .store_acc_fault		(store_acc_fault),
@@ -634,9 +662,6 @@ cu_ru cu_ru(
 .m_time_int				(m_time_int),
 .m_soft_int				(m_soft_int),
 .m_ext_int				(m_ext_int),	//对M模式的中断信号
-.s_ext_int				(s_ext_int),	//对S模式的中断信号
-//外部时钟信号
-.mtime					(mtime),	//mtime寄存器实时值
 
 //对IF信号
 .int_req				(int_req),		//中断请求信号
@@ -644,8 +669,6 @@ cu_ru cu_ru(
 .pip_flush				(pip_flush),		//流水线冲刷信号
 
 //对ID信号
-.satp					(satp),
-.priv					(priv),		//当前机器权限
 .tvm					(tvm),
 .tsr					(tsr),
 .tw						(tw),
@@ -655,6 +678,16 @@ cu_ru cu_ru(
 .rs1_data				(rs1_data),
 .rs2_index				(id_rs2_index),
 .rs2_data				(rs2_data),
+.fs1_index,
+.fs1_data,
+.fs2_index,
+.fs2_data,
+
+.vs1_index,
+.vs1_data,
+.vs2_index,
+.vs2_data,
+
 //对EX信号
 .mprv					(mprv),
 .mod_priv				(mod_priv),
@@ -663,17 +696,20 @@ cu_ru cu_ru(
 .data_rd				(data_rd),
 .data_csr				(data_csr),
 .new_pc					(new_pc),
-
+.data_fd,
+.data_vd,
 //对BIU信号
-.sum					(sum),
-.mxr					(mxr),
 
 //写回控制
 .csr_write				(wb_csr_write),
 .gpr_write				(wb_gpr_write),
+.fgpr_write             ,
+.vgpr_write             ,
 .pc_jmp					(pc_jmp),				//新的PC需要被更改，新的PC由pc_new给出，该信号表明WB阶段需要修改PC
 .csr_index				(csr_index),
 .rd_index				(wb_rd_index),
+.fd_index               ,
+.vd_index               ,
 //异常码
 .ins_pc					(wb_ins_pc),
 .exc_code				(wb_exc_code),		//如果是非法指令异常，则为非法指令，如果是硬件断点和储存器访问失败，则是虚拟地址

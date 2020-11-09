@@ -78,7 +78,8 @@ input store,
 input amo,
 input l1i_reset,		//命令 缓存刷新信号，此信号可以与内存进行同步
 input l1d_reset,		//命令 缓存复位信号，下次访问内存时重新刷新页表
-input TLB_reset,
+input force_sync,
+input sync_ok,			//检查sync完成
 input shift_r,			//左移位
 input shift_l,			//右移位
 
@@ -166,7 +167,7 @@ input [`GPU_VDATA_WIDTH-1:0]data_vpu_load,
 output wire [3:0]size_biu,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 output wire cache_l1i_reset,			//缓存刷新信号，用于执行fence指令的时候使用
 output wire cache_l1d_reset,			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
-output wire cache_TLB_reset,
+output wire cache_force_sync,
 output wire read,				//读数据信号
 output wire write,				//写数据信号
 output wire l1d_vpusel,//VPU专用存取选择，忽略size，128b直写
@@ -189,7 +190,7 @@ input ex_nop						//ID插空
 
 );
 parameter p_stb 		= 4'b0000;	//等待状态
-parameter p_shift		= 4'b0001;	//移位指令，需要多周期
+parameter p_mdiv		= 4'b0001;	//乘除指令，需要多周期,除法逃不掉
 parameter p_load		= 4'b0010;	//load指令，需要多周期
 parameter p_load1		= 4'b0011;	//load指令，第二周期
 parameter p_store 		= 4'b0100;	//store指令
@@ -201,7 +202,7 @@ parameter p_fence		= 4'b1100;	//fence指令
 
 //EXU状态机控制线
 wire c_stb;		//对系统主状态机译码
-//wire c_shift;
+wire c_mdiv;
 wire c_load;
 wire c_load_1;
 wire c_store;
@@ -232,7 +233,6 @@ wire [`GPU_DDATA_WIDTH-1:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AM
 wire exception_id;
 
 //VPU data
-wire [`GPU_VDATA_WIDTH-1:0]vpu_data_vd;
 wire [`GPU_DDATA_WIDTH-1:0]vpu_data_rd;//写回lane/mask
 
 
@@ -274,7 +274,7 @@ always@(posedge clk)begin
 		main_state <= 	load								?p_load		:
 						store								?p_store	:
 						amo									?p_amo_mem0	:
-						(l1i_reset|l1d_reset|TLB_reset)		?p_fence	:main_state;
+						(l1i_reset|l1d_reset|force_sync)		?p_fence	:main_state;
 	end
 	
 	else if(main_state==p_load)begin
@@ -497,7 +497,7 @@ assign ex_ready			=	valid_id ? (!(load|store|amo|l1i_reset|l1d_reset) | //没有
 							load & load_ready | 
 							store & store_ready | 
 							amo&amo_ready | 
-							(l1i_reset|l1d_reset|TLB_reset) & fence_ready)  : 1'b1 ; //valid_id=0时，为空操作，此时EX准备好
+							(l1i_reset|l1d_reset|force_sync) & fence_ready)  : 1'b1 ; //valid_id=0时，为空操作，此时EX准备好
 										//ID如果发生异常，EX不会执行操作，直接准备好
 
 alu_au		alu_au(
@@ -586,8 +586,8 @@ VPU vpu1(
 
 );
 //对BIU信号
-assign unpage	=	mprv&(mod_priv==2'b11);				//当启用的MPRV位且MPP位为M时候，绕开分页直接使用物理地址
-assign ex_priv	=	unpage ? mod_priv : priv;		//ex权限，0001=U 0010=S 0100=H 1000=M 
+assign unpage	=	1;				//当启用的MPRV位且MPP位为M时候，绕开分页直接使用物理地址
+assign ex_priv	=	4'b1000;		//ex权限，0001=U 0010=S 0100=H 1000=M 
 always@(posedge clk)begin
 	if(rst)begin
 		addr_ex	<=	32'b0;
@@ -601,7 +601,7 @@ end
 assign size_biu			=	size;			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 assign cache_l1i_reset 	= 	l1i_reset & c_fence;			//缓存刷新信号，用于执行fence指令的时候使用
 assign cache_l1d_reset 	= 	l1d_reset & c_fence;			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
-assign cache_TLB_reset 	= 	TLB_reset & c_fence;
+assign cache_force_sync 	= 	force_sync & c_fence;
 assign read				=	load & c_load | amo & c_amo_mem0;				//读数据信号
 assign write			=	store & c_store | amo & c_amo_mem1;				//写数据信号
 

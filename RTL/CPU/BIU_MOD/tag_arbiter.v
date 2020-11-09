@@ -4,7 +4,7 @@ module tag_arbiter
     parameter ENTRY_NUM=8,
     SEL_WIDTH = ((ENTRY_NUM > 1) ? $clog2(ENTRY_NUM) : 1),
     TAG_MSB=32,
-    TAG_LSB=11//1K per page
+    TAG_LSB=12//1K per page
 )(
 //entry0
 input clk,

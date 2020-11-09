@@ -312,7 +312,7 @@ module top(
                      if(stateCounter == 101) begin
                      //assert the write bit for a clock.
                      if(pixelOnScreen ==1) begin
-                        frameBuffer_we_ = 0;
+                        frameBuffer_we_ <= 0;
                         end
                        stateCounter <= 102;
 

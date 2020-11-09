@@ -1,5 +1,4 @@
-(* DONT_TOUCH = "yes" *)
-    //-----------------------------------------------------
+//-----------------------------------------------------
     module dualPortStaticRam (
         address_1     , // Address Input
         address_2     , // Address Input
@@ -32,12 +31,7 @@
         reg [DATA_WIDTH-1:0] mem [RAM_DEPTH-1:0];
         
         //--------------Code Starts Here------------------ 
-        initial begin
-          $readmemb(ROMFILE, mem);
-          for (i = 0; i < RAM_DEPTH; i = i + 1) begin
-          //#1 $display("%d: %d ",i,mem[i]);
-          end
-        end
+        
         
         always @(posedge clock)
         begin

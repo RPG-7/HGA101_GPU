@@ -1,61 +1,10 @@
-/*
-* Graphical processor (Frame Synthesizer)
-* Generates video from VRAM
-*/
-module FSX(
-    //VGA I/O
-    input               vga_clk,
+module backend_top
+(
+
     
-    output wire [2:0]   vga_r,
-    output wire [2:0]   vga_g,
-    output wire [1:0]   vga_b,
-    output wire         vga_hs,
-    output wire         vga_vs,
-
-    //CRT Video
-    output          crt_sync,
-    output [2:0]    crt_r,
-    output [2:0]    crt_g,
-    output [1:0]    crt_b,
-
-    //VRAM32
-    output [13:0]       vram32_addr,
-    input  [31:0]       vram32_q, 
-
-    //VRAM322
-    output [13:0]       vram322_addr,
-    input  [31:0]       vram322_q, 
-
-    //VRAM8
-    output [13:0]       vram8_addr,
-    input  [7:0]        vram8_q,
-
-    //VRAMSPR
-    output [13:0]       vramSPR_addr,
-    input  [8:0]        vramSPR_q,
-
-    //Interrupt signal
-    output reg         frameDrawn
 );
-//assign vga_blk = 1'b1;
-//assign frameDrawn = o_frame;
 
-//DISPLAY SIGNAL GENERATION
-/* 480x272 TFT screen
-parameter
-    H_RES=480,      // horizontal resolution (pixels)
-    V_RES=272,      // vertical resolution (lines)
-    H_FP=2,        // horizontal front porch
-    H_SYNC=41,      // horizontal sync
-    H_BP=2,        // horizontal back porch
-    V_FP=2,        // vertical front porch
-    V_SYNC=10,       // vertical sync
-    V_BP=2,        // vertical back porch
-    H_POL=0,        // horizontal sync polarity (0:neg, 1:pos)
-    V_POL=0;        // vertical sync polarity (0:neg, 1:pos)
-*/
-
-//CRT 360p
+//2D Sprite GPU 
 //TODO 改到480p 
 parameter
     H_RES   = 640,      // horizontal resolution (pixels)
@@ -84,66 +33,8 @@ localparam VA_STA = VS_END + V_BP;      // active start
 localparam VA_END = VA_STA + V_RES;     // active end 
 localparam FRAME  = VA_END;             // frame lines 
 
-reg [9:0] h_count;  // line position in pixels including blanking 
-reg [8:0] v_count;  // frame position in lines including blanking 
 
-wire o_hs, o_vs, o_de, o_h, o_v, o_frame;
-assign crt_sync = !(o_hs^o_vs);
-assign vga_hs = o_hs;
-assign vga_vs = o_vs;
 
-// generate sync signals with correct polarity
-assign o_hs = H_POL ? (h_count > HS_STA & h_count <= HS_END)
-    : ~(h_count > HS_STA & h_count <= HS_END);
-assign vga_hs = o_hs;
-assign o_vs = V_POL ? (v_count > VS_STA & v_count <= VS_END)
-    : ~(v_count > VS_STA & v_count <= VS_END);
-assign vga_vs = o_vs;
-    
-// display enable: high during active period
-assign o_de = h_count > HA_STA & h_count <= HA_END
-    & v_count > VA_STA & v_count <= VA_END; 
-
-// keep o_h and o_v bound within active pixels
-assign o_h = (o_de & h_count > HA_STA & h_count <= HA_END) ? 
-                h_count - (HA_STA + 1): 0;
-assign o_v = (o_de & v_count > VA_STA & v_count <= VA_END) ? 
-                v_count - (VA_STA + 1): 0;
-
-// o_frame: high for some ticks when last frame is drawn
-assign o_frame = (v_count == 0 & h_count < 8);
- 
-always @ (posedge vga_clk)
-begin
-    if (h_count == LINE)  // end of line
-    begin
-         h_count <= 0;
-         if (v_count == FRAME) // end of frame
-         begin      
-              v_count <= 0;
-         end
-         else
-              v_count <= v_count + 1;
-    end
-    else 
-         h_count <= h_count + 1;
-
-    if (v_count == 0 && h_count < 8)
-        frameDrawn <= 1'b1;
-    else
-        frameDrawn <= 1'b0;
-end
-
-initial begin
-    h_count = 12'd0;
-    v_count = 12'd0;
-end
-
-/*
-reg [2:0] BGW_r = 0;
-reg [2:0] BGW_g = 0;
-reg [1:0] BGW_b = 0;
-*/
 
 
 wire [2:0] BGW_r;
@@ -191,11 +82,6 @@ BGWrenderer #(
     .vram8_q(vram8_q)
 );
 
-/*
-reg [2:0] SPR_r = 0;
-reg [2:0] SPR_g = 0;
-reg [1:0] SPR_b = 0;
-*/
 
 wire [2:0] SPR_r;
 wire [2:0] SPR_g;
@@ -248,26 +134,14 @@ Spriterenderer #(
     .draw_behind_bg(draw_behind_bg)
 );
 
-//FRAME TO PICTURE IN SIMULATION
-
-//integer file;
-//integer framecounter = "0";
-//always @(negedge vga_vs)
-//begin
-    //file = $fopen({"/home/bart/Documents/FPGA/FPGC4/Verilog/output/frame",framecounter,".ppm"}, "w");
-    ////$fwrite(file, "P3\n");
-   // $fwrite(file, "320 240\n");
-   //// $fwrite(file, "7\n");
-   // framecounter = framecounter + 1;
-//end
-
-always @(posedge vga_clk)
-begin
-    if (o_de)
-    begin
-        $fwrite(file, "%d  %d  %d\n", crt_r, crt_g, {1'b1, crt_b});
-    end
-end
+vgaSignalGenerator vgaPart (
+                         .i_clk(i_clk),
+                         .i_pix_stb(pix_stb),
+                         .o_hs(hs),
+                         .o_vs(vs),
+                         .o_x(xvga),
+                         .o_y(yvga)
+                     );
 
 //temporary for testing. Should implement some kind of pixelvalid in spriterenderer
 wire sprite_drawn;

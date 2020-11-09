@@ -90,7 +90,7 @@ wire [63:0]dout;
 
 wire line_dirty,writeback_ok;
 assign writeback_ok=(writeback)&trans_rdy;
-assign sync_ok=main_state==wb_seqence&trans_rdy&(!line_dirty);
+assign sync_ok=(main_state==wb_seqence)&trans_rdy&(!line_dirty);
 //cache更新
 
 
@@ -106,6 +106,8 @@ always@(posedge clk)begin
 								main_state	<=	cacheable ? ((line_dirty)?wb_replace:read_line) : 
 											(read|execute) ? read_singal : write_singal;
 							end
+							else if(force_sync)
+								main_state	<=	wb_seqence;
 							else if(write)
 							begin		//如果是读操作，那单次读
 								main_state	<=	write_singal;
@@ -162,9 +164,9 @@ assign data_read	=	cache_only?dout:(main_state==read_singal) ? line_data	:
 //生成缓存地址
 //L1读地址由命中情况生成
 wire [127:0]write_data;
-assign read_addr	=	(writeback) ?{write_block_sel,addr_count[9:1]}:{read_block_sel,addr_pa[9:1]};
+assign read_addr	=	(writeback) ?{write_block_sel,addr_count[10:1]}:{read_block_sel,addr_pa[10:1]};
 //L1写地址由当前是否处在缓存行更新阶段生成，如果缓存行没有被更新，地址是正常地址
-assign write_addr	=	(main_state==read_line) ? {write_block_sel,addr_count[9:1]} : read_addr;
+assign write_addr	=	(main_state==read_line) ? {write_block_sel,addr_count[10:1]} : read_addr;
 //如果是进行行更新，写入信号切换到外部cache控制器
 assign we	=	(main_state==read_line) ? line_write : cache_write;
 assign we_u =we&( addr_count[4]|vpu_access);

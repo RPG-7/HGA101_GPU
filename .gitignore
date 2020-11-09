@@ -1,7 +1,11 @@
-/Gowin/impl
+/Gowin/Frontend/impl
+/Gowin/Backend/impl
 /Xilinx/HGA101_GPU.cache
 /Xilinx/HGA101_GPU.runs
 /Xilinx/HGA101_GPU.sim
+/Altera/db/
+/Altera/incremental_db/
+/Altera/output_files
 *.db
 *.log
 *.bak

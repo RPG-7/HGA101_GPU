@@ -111,10 +111,7 @@ module vert_projector(
                                 counter <= 0;
                                 divide_start <= 0;
                                 out_vector_reg <= {xResult,yResult,zResult}; 
-                                #1 $display("x %b ,y %b ,z %b" , xResult,yResult,zResult);
-                                #1 $display("x %d,%f",xResult[N-2:Q],$itor(xResult[Q:0])*2.0**-16.0);
-                                 #1 $display("y %d,%f",yResult[N-2:Q],$itor(yResult[Q:0])*2.0**-16.0);
-                                  #1 $display("z %d,%f",zResult[N-2:Q],$itor(zResult[Q:0])*2.0**-16.0);
+                               
                         end // if
                     end // if
                 end //start if
@@ -125,12 +122,7 @@ module vert_projector(
                     in_start_1 <= in_start;
                    //only do anything if we detect a start pulse.
                    if(in_start && ~in_start_1) begin
-                           #1 $display("The original vertex");
-                           #1 $display("x %b ,y %b ,z %b , w%b" , xcomp,ycomp,zcomp,wcomp);
-                           #1 $display("x %d,%f",xcomp[N-2:Q],$itor(xcomp[Q:0])*2.0**-16.0);
-                           #1 $display("y %d,%f",ycomp[N-2:Q],$itor(ycomp[Q:0])*2.0**-16.0);
-                           #1 $display("z %d,%f",zcomp[N-2:Q],$itor(zcomp[Q:0])*2.0**-16.0);
-                           #1 $display("w %d,%f",wcomp[N-2:Q],$itor(wcomp[Q:0])*2.0**-16.0);
+                          
 
                        //we saw the pulse so we're now doing our work:
                        inProgress <= 1;
@@ -139,7 +131,7 @@ module vert_projector(
                      end
                    if(internal_done == 1) begin
                          inProgress <= 0;
-                         out_done_reg =1;
+                         out_done_reg <=1;
                    end
                end // always
                
