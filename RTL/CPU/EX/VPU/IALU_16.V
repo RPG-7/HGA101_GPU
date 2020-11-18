@@ -1,4 +1,4 @@
-module ALU16(
+module IALU_16(
 
 //操作码 ALU,运算码
 //rd数据选择
@@ -94,3 +94,5 @@ bshifter16 bshifter16
     .dataout	(alu_shift)
 );
 endmodule
+
+

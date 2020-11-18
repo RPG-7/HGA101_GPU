@@ -15,6 +15,9 @@ input wire [63:0]csr_data,
 //GPR输入
 input wire [63:0]rs1_data,
 input wire [63:0]rs2_data,
+//VPR信号
+input wire [127:0]ss1_data,
+input wire [127:0]ss2_data,
 
 //上一级（IF）信号
 //指令输出
@@ -67,6 +70,18 @@ output reg vpu_cltsel,
 output reg vpu_ceqsel,
 output reg vpu_cnqsel,
 output reg vpu_enable,
+
+input [127:0] data_ss1_i,
+input [127:0] data_ss2_i,
+
+output reg [127:0]data_ss1,
+output reg [127:0]data_ss2,
+output reg [31:0]data_mask,
+
+output wire [4:0]dec_ss1_index,			
+output wire [4:0]dec_ss2_index,
+output wire [4:0]dec_sd_index,
+
 //mem_csr_data数据选择
 output reg mem_csr_data_ds1,
 output reg mem_csr_data_ds2,
@@ -104,10 +119,8 @@ output reg shift_l,			//右移位
 output reg csr_write,
 output reg gpr_write,
 output reg [11:0]csr_index,
-output reg [4:0]rs1_index,
-output reg [4:0]rs2_index,
 output reg [4:0]rd_index,
-
+output reg [4:0]sd_index,
 //数据输出							   
 output reg [63:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
 output reg [63:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
@@ -136,6 +149,7 @@ output reg ebreak,			//断点
 output wire [4:0]dec_rs1_index,			//立即解码得到的rs1index
 output wire [4:0]dec_rs2_index,
 output wire [4:0]dec_rd_index,
+
 output wire [11:0]dec_csr_index,
 //ID独有pip_ctrl信号
 output wire dec_gpr_write,
@@ -411,6 +425,7 @@ wire dec_ins_dec_fault;		//指令解码失败
 wire vinst_type,vmask_en,vector_en;//vector related instr flags
 wire [4:0]mask_reg;//向量：16b x 8lane
 assign vinst_type=funct3[0];//向量指令是向量+向量or向量+标量
+assign gpuinst_enable=op_gpu_scalc|op_gpu_sldst|op_gpu_mfunc;
 assign vmask_en=funct3[1];//使能向量mask功能（屏蔽向量执行）
 //assign vtype_en=;//向量指令指示
 assign mask_reg={funct7[1:0],funct3[2],ins_in[6:5]};//从标量（整数）寄存器中取mask
@@ -640,8 +655,10 @@ assign op_count_decode	= 		(ins_slliw|ins_srliw|ins_sraiw)?{3'b0,dec_rs2_index}:
 
 //译出信号给pip_ctrl单元
 //译出当前指令索引
-assign dec_rs1_index= (op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :(ins_in[19:15]);
-assign dec_rs2_index= (op_reg|op_32_reg|op_branch|op_store|op_amo)?(ins_in[24:20]) : 5'b0;//只有reg branch amo store指令需要使用rs2，其余都不使用rs2，使用常0寄存器
+assign dec_rs1_index= (op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :
+					  (vmask_en)?mask_reg:(ins_in[19:15]); //增加GPU MASK译码
+assign dec_rs2_index= (op_reg|op_32_reg|op_branch|op_store|op_amo|(gpuinst_enable&vinst_type))?
+						(ins_in[24:20]) : 5'b0;//只有reg branch amo store 以及GPU的V指令需要使用rs2，其余都不使用rs2，使用常0寄存器
 assign dec_rd_index	= (ins_in[11:7]);
 assign dec_csr_index= (funct12);
 
@@ -669,8 +686,12 @@ assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op
 assign dec_ill_ins		= dec_csr_acc_fault|dec_ins_dec_fault;//异常指令
 
 //TODO GPU 指令译码信号输出部分
-wire gpu_ifsel;
+wire gpu_ifsel,gpu_vprwb;
 assign gpu_ifsel=(op_gpu_scalc&(!funct5[4]))|(op_gpu_mfunc&funct3[3]);
+assign dec_ss1_index=ins_in[19:15];
+assign dec_ss2_index=ins_in[24:20];
+assign gpu_vprwb=op_gpu_scalc|
+
 
 //输出寄存器，往EX
 always@(posedge clk)begin
@@ -789,6 +810,8 @@ always@(posedge clk)begin
 		mem_csr_data_xor	<= ins_amoxord|ins_amoxorw;
 		mem_csr_data_max	<= ins_amomaxw|ins_amomaxuw|ins_amomaxd|ins_amomaxud;
 		mem_csr_data_min	<= ins_amominw|ins_amominuw|ins_amomind|ins_amominud;
+
+		
 		vpu_ifsel<=gpu_ifsel;//Function integer/float select
 		vpu_addsel<=(gins_sadd|gins_sfadd);
 		vpu_subsel<=(gins_ssub|gins_sfsub);
@@ -800,7 +823,7 @@ always@(posedge clk)begin
 		vpu_srlsel<=gins_srsl;
 		vpu_sllsel<=gins_slsh;
 		vpu_itfsel<=gins_sitf; //integer to float
-		vpu_ftisel<=(gins_sfti); //float to integer
+		vpu_ftisel<=gins_sfti; //float to integer
 		vpu_laneop<=gins_slan;
 		vpu_maxsel<=gins_smax;
 		vpu_minsel<=gins_smin;
@@ -808,7 +831,7 @@ always@(posedge clk)begin
 		vpu_cltsel<=gins_sclt;
 		vpu_ceqsel<=gins_sceq;
 		vpu_cnqsel<=gins_scnq;
-		vpu_enable<=op_gpu_mfunc|op_gpu_scalc|op_gpu_sldst;
+		vpu_enable<=gpuinst_enable;
 	end		
 end
 

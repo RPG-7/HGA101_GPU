@@ -426,8 +426,6 @@ ins_dec ins_dec(
 .csr_write				(ex_csr_write),
 .gpr_write				(ex_gpr_write),
 .csr_index				(ex_csr_index),
-.rs1_index(),
-.rs2_index(),
 .rd_index				(ex_rd_index),
 
 //数据输出							   

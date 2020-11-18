@@ -1,4 +1,5 @@
 module VPU(
+	 input vec_en,
     input ifsel,//Function integer/float select
     input addsel,
     input subsel,
@@ -87,10 +88,12 @@ generate
             .gt(fgt[i]),
             .eq(feq[i])
         );
-    end
-    for(i=0;i<8;i=i+1) 
+    end                
+endgenerate
+generate  
+for(i=0;i<8;i=i+1) 
     begin : VPU_ALU
-        ALU16 ALU16_ARR
+        IALU_16 IALU16_ARR
         (
             .enable(mask_in[i]),		//ds1直通
             .addsel(addsel),		//加
@@ -113,7 +116,6 @@ generate
             .rd_out(rd_arr[i]),
             .alu_data_rd(ALUout[15+16*i:16*i])
         );
-        
     end
 endgenerate
 

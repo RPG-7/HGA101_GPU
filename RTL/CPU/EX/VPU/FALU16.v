@@ -52,7 +52,7 @@ wire [5:0]exp_diff;
 wire [5:0]exp_dif1,exp_dif2;
 wire [10:0]base_smaller;
 wire [10:0]base_larger;
-wire much_larger;
+wire much_larger,diff_sym;
 assign diff_sym=sign1^sign2;
 assign exp_diff=exp_dif1-exp_dif2;
 assign much_larger=(exp_diff>5'd10);

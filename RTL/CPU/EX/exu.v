@@ -431,8 +431,8 @@ end
 //机器控制段负责WB阶段时csr的自动更新
 always@(posedge clk)begin
 	if(rst | ex_nop)begin
-		id_system		<=	1'b0;		//system指令，op code=system的时候被置1
-		id_jmp			<=	1'b0;		//会产生跳转的指令 opcode=branch时候置1
+		id_system		<=	1'b0;	//system指令，op code=system的时候被置1
+		id_jmp			<=	1'b0;	//会产生跳转的指令 opcode=branch时候置1
 		ins_acc_fault	<=	1'b0;	//指令访问失败
 		ins_addr_mis	<=	1'b0;	//指令地址错误
 		ins_page_fault	<=	1'b0;	//指令页面错误

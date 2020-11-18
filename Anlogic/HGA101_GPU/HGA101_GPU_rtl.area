@@ -1,34 +1,38 @@
 standard
-***Report Model: tag_arbiter***
+***Report Model: FALU16***
 
 IO Statistics
-#IO                    74
-  #input               70
-  #output               4
-  #inout                0
+#IO                     124
+  #input                 74
+  #output                50
+  #inout                  0
 
 Gate Statistics
-#Basic gates          313
-  #and                 46
-  #nand                 0
-  #or                   2
-  #nor                  0
-  #xor                  0
-  #xnor                 0
-  #buf                  0
-  #not                 15
-  #bufif1               0
-  #MX21                10
-  #FADD                 0
-  #DFF                240
-  #LATCH                0
-#MACRO_ADD              7
-#MACRO_EQ              31
-#MACRO_MUX              6
+#Basic gates            289
+  #and                    6
+  #nand                   0
+  #or                   179
+  #nor                    0
+  #xor                    2
+  #xnor                   0
+  #buf                    0
+  #not                   57
+  #bufif1                 0
+  #MX21                  45
+  #FADD                   0
+  #DFF                    0
+  #LATCH                  0
+#MACRO_ADD               19
+#MACRO_EQ                 4
+#MACRO_MULT               1
+#MACRO_MUX              496
 
 Report Hierarchy Area:
-+----------------------------------------------+
-|Instance |Module      |gates  |seq    |macros |
-+----------------------------------------------+
-|top      |tag_arbiter |73     |240    |38     |
-+----------------------------------------------+
++----------------------------------------------------+
+|Instance      |Module       |gates  |seq    |macros |
++----------------------------------------------------+
+|top           |FALU16       |289    |0      |24     |
+|  fshifter1   |bshifter16_1 |4      |0      |0      |
+|  ftishifter1 |bshifter16_2 |3      |0      |0      |
+|  itfshifter1 |bshifter16   |0      |0      |0      |
++----------------------------------------------------+
