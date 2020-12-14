@@ -1,150 +1,186 @@
-//基于PRV464的指令解码单元
-//支持RV32IA+4G32E扩展指令解码
-//特别注意 RISCV的J和B的立即数编码是混乱的（大草）
+/*====================================================================
+适用于PRV464PRO的指令解码单元
+支持RV64IA指令解码
+20201119特别注意:RISCV的J和B的立即数编码是混乱的（大草）
 
+Tags in the names of sgnals:
+	i:input(IDi means IF input)
+	o:output(IDo means IF output)
+	BIU: Bus Interfence Unit, means the singals is connected to the BIU
+	CSR: Control State Registers, means the singals is connected to the CSR
+	DATA: DATA transfer to the next stage
+	MSC: Machine State Control
+	OPx: Operation x, OP0-OP114514
+	MC: Multi Cycle Control
+	FC: Flow Control
+	VPU: HGA101 expanded SIMD process unit
+=========================================================================*/
 module ins_dec(
 
 input wire clk,
 input wire rst,
 
 //csr
-input wire tvm,
-input wire tsr,
-input wire tw,
-input wire [63:0]csr_data,
+input wire CSR_tvm,
+input wire CSR_tsr,
+input wire CSR_tw,
+input wire [63:0]CSR_data,
 //GPR输入
-input wire [63:0]rs1_data,
-input wire [63:0]rs2_data,
+input wire [63:0]GPR_rs1_data,
+input wire [63:0]GPR_rs2_data,
 
+input wire [63:0]FREG_fs1_data,
+input wire [63:0]FREG_fs2_data,
+
+input wire [63:0]VREG_vs1_data,
+input wire [63:0]VREG_vs2_data,
 //上一级（IF）信号
 //指令输出
-input wire [31:0]ins_in,
+input wire [31:0]IDi_DATA_instruction,
 //指令对应的PC值输出
-input wire [63:0]ins_pc,
+input wire [63:0]IDi_DATA_pc,
 //机器控制段
-input wire ins_acc_fault_if,	//指令访问失败
-input wire ins_addr_mis_if, 	//指令地址错误
-input wire ins_page_fault_if,	//指令页面错误
-input wire int_acc_if,			//中断接收信号
-input wire valid_if,			//指令有效信号
+input wire IDi_MSC_ins_acc_fault,	//指令访问失败
+input wire IDi_MSC_ins_addr_mis, 	//指令地址错误
+input wire IDi_MSC_ins_page_fault,	//指令页面错误
+input wire IDi_MSC_interrupt,		//中断接收信号
+input wire IDi_MSC_valid,			//指令有效信号
+//流控信号
+output wire IDo_FC_hold,
+output wire IDo_FC_nop,
+input wire IDi_FC_system,
 
 //下一级（EX）信号
 //异常码
 //当非法指时候，该码被更新为ins，当指令页面错误，被更新为addr
-output reg [63:0]exc_code,
+output reg [63:0]IDo_DATA_trap_value,
 //当前指令pc
-output reg [63:0]ins_pc_id,
+output reg [63:0]IDo_DATA_pc,
 
 //操作码 ALU,运算码
 //rd数据选择
-output reg rd_data_ds1,		//ds1直通
-output reg rd_data_add,		//加
-output reg rd_data_sub,		//减
-output reg rd_data_and,		//逻辑&
-output reg rd_data_or,		//逻辑|
-output reg rd_data_xor,		//逻辑^
-output reg rd_data_slt,		//比较大小
-output reg compare,			//比较大小，配合bge0_blt1\beq0_bne1控制线并产生分支信号
-output reg amo_lr_sc,		//lr/sc读写成功标志
+output reg IDo_OP_ALU_ds1,		//ds1直通
+output reg IDo_OP_ALU_add,		//加
+output reg IDo_OP_ALU_sub,		//减
+output reg IDo_OP_ALU_and,		//逻辑&
+output reg IDo_OP_ALU_or,		//逻辑|
+output reg IDo_OP_ALU_xor,		//逻辑^
+output reg IDo_OP_ALU_slt,		//比较大小
+output reg IDo_OP_ALU_compare,		//比较大小，配合IDo_OP_ALU_bge0_IDo_OP_ALU_blt1\IDo_OP_ALU_beq0_IDo_OP_ALU_bne1控制线并产生分支信号
+output reg IDo_OP_ALU_amo_lrsc,		//lr/sc读写成功标志
 //VPU操作码
-output reg vpu_ifsel,//Function integer/float select
-output reg vpu_addsel,
-output reg vpu_subsel,
-output reg vpu_mulsel,
-output reg vpu_itfsel, //integer to float
-output reg vpu_ftisel, //float to integer
-output reg vpu_laneop,
-output reg vpu_maxsel,
-output reg vpu_minsel,
-output reg vpu_andsel,		//逻辑&
-output reg vpu_orsel,		//逻辑|
-output reg vpu_xorsel,
-output reg vpu_srasel,
-output reg vpu_srlsel,
-output reg vpu_sllsel,
-output reg vpu_cgqsel,//compare:great equal
-output reg vpu_cltsel,
-output reg vpu_ceqsel,
-output reg vpu_cnqsel,
-output reg vpu_enable,
-//mem_csr_data数据选择
-output reg mem_csr_data_ds1,
-output reg mem_csr_data_ds2,
-output reg mem_csr_data_add,
-output reg mem_csr_data_and,
-output reg mem_csr_data_or,
-output reg mem_csr_data_xor,
-output reg mem_csr_data_max,
-output reg mem_csr_data_min,
+output reg IDo_OP_VPU_ifsel,//Function integer/float select
+output reg IDo_OP_VPU_addsel,
+output reg IDo_OP_VPU_subsel,
+output reg IDo_OP_VPU_mulsel,
+output reg IDo_OP_VPU_itfsel, //integer to float
+output reg IDo_OP_VPU_ftisel, //float to integer
+output reg IDo_OP_VPU_laneop,
+output reg IDo_OP_VPU_maxsel,
+output reg IDo_OP_VPU_minsel,
+output reg IDo_OP_VPU_andsel,		//逻辑&
+output reg IDo_OP_VPU_orsel,		//逻辑|
+output reg IDo_OP_VPU_xorsel,
+output reg IDo_OP_VPU_srasel,
+output reg IDo_OP_VPU_srlsel,
+output reg IDo_OP_VPU_sllsel,
+output reg IDo_OP_VPU_cgqsel,//IDo_OP_ALU_compare:great equal
+output reg IDo_OP_VPU_cltsel,
+output reg IDo_OP_VPU_ceqsel,
+output reg IDo_OP_VPU_cnqsel,
+output reg IDo_OP_VPU_enable,
+//mem_CSR_data数据选择
+output reg IDo_OP_csr_mem_ds1,
+output reg IDo_OP_csr_mem_ds2,
+output reg IDo_OP_csr_mem_add,
+output reg IDo_OP_csr_mem_and,
+output reg IDo_OP_csr_mem_or,
+output reg IDo_OP_csr_mem_xor,
+output reg IDo_OP_csr_mem_max,
+output reg IDo_OP_csr_mem_min,
 //运算,跳转辅助控制信号
-output reg blt,				//条件跳转，blt bltu指令时为1
-output reg bge,
-output reg beq,				//条件跳转，bne指令时为一
-output reg bne,				//
-output reg jmp,				//无条件跳转，适用于JAL JALR指令
-output reg unsign,			//无符号操作，同时控制mem单元信号的符号
-output reg and_clr,			//将csr操作的and转换为clr操作
-output reg ds1_sel,			//ALU ds1选择，为0选择ds1，为1选择MEM读取信号
+output reg IDo_OP_ALU_blt,				//条件跳转，IDo_OP_ALU_blt IDo_OP_ALU_bltu指令时为1
+output reg IDo_OP_ALU_bge,
+output reg IDo_OP_ALU_beq,				//条件跳转，IDo_OP_ALU_bne指令时为一
+output reg IDo_OP_ALU_bne,				//
+output reg IDo_OP_ALU_jmp,				//无条件跳转，适用于JAL JALR指令
+output reg IDo_OP_ALU_unsign,			//无符号操作，同时控制mem单元信号的符号
+output reg IDo_OP_ALU_clr,				//将csr操作的and转换为clr操作
+output reg IDo_OP_ds1_sel,				//ALU ds1选择，为0选择ds1，为1选择MEM读取信号
+output reg IDo_OP_ALU_mdiv,				//ALU选择输出乘除
+//M extension
+output reg IDo_OP_MDIV_mdivsel,			//0=MUL 1=DIV		
+output reg IDo_OP_MDIV_hlowsel,			//0=LOW XLEN	1=HIGH XLEN
+output reg IDo_OP_MDIV_signsel,			//0=SIGNED		1=UNSIGN
 
 //位宽控制
-output reg [3:0]size, 		//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
+output reg [3:0]IDo_OP_size, 			//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
 //多周期控制
 //多周期控制信号线控制EX单元进行多周期操作
-output reg load,
-output reg store,
-output reg amo,
-output reg l1i_reset,		//缓存刷新信号，此信号可以与内存进行同步
-output reg l1d_reset,		//缓存复位信号，下次访问内存时重新刷新页表
+output reg IDo_OP_MC_load,
+output reg IDo_OP_MC_store,
+output reg IDo_OP_MC_amo,
+output reg IDo_OP_MC_L1i_flush,	//缓存刷新信号，此信号可以与内存进行同步
+output reg IDo_OP_MC_L1d_flush,		//缓存复位信号，下次访问内存时重新刷新页表
 //output reg TLB_reset,		//TLB复位
-output reg force_sync,
-output reg shift_r,			//左移位
-output reg shift_l,			//右移位
+output reg IDo_OP_MC_L1d_sync,	//强制L1D写回
+output reg IDo_OP_ALU_div,		//左移位
+output reg IDo_OP_ALU_ShiftLeft,		//右移位
 
 //写回控制，当valid=0时候，所有写回不有效
-output reg csr_write,
-output reg gpr_write,
-output reg [11:0]csr_index,
-output reg [4:0]rs1_index,
-output reg [4:0]rs2_index,
-output reg [4:0]rd_index,
-
+output reg IDo_WB_CSRwrite,
+output reg IDo_WB_GPRwrite,
+output reg IDo_WB_FREGwrite,
+output reg IDo_WB_VREGwrite,
+output reg [11:0]IDo_WB_CSRindex,
+output reg [4:0]IDo_WB_RS1index,
+output reg [4:0]IDo_WB_RS2index,
+output reg [4:0]IDo_WB_RDindex,
+output reg [4:0]IDo_WB_FDindex,
+output reg [4:0]IDo_WB_IDindex,
 //数据输出							   
-output reg [63:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
-output reg [63:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
-output reg [63:0]as1,		//地址源1,  pc/rs1/rs1
-output reg [63:0]as2,		//地址源2, imm/imm/00
-output reg [7:0]op_count,	//操作次数码，用于AMO指令或移位指令
+output reg [63:0]IDo_DATA_ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+output reg [63:0]IDo_DATA_ds2,		//数据源2，00 /rs2/imm/imm/imm/04
+output reg [31:0]IDo_DATA_fs1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+output reg [31:0]IDo_DATA_fs2,
+output reg [127:0]IDo_DATA_vs1,		//数据源1，imm/rs1/rs1/csr/pc /pc
+output reg [127:0]IDo_DATA_vs2,
+output reg [63:0]IDo_DATA_as1,		//地址源1,  pc/rs1/rs1
+output reg [63:0]IDo_DATA_as2,		//地址源2, imm/imm/00
+output reg [7:0]IDo_DATA_opcount,	//操作次数码，用于移位指令
 //机器控制段
 //机器控制段负责WB阶段时csr的自动更新
-output reg id_system,		//system指令，op code=system的时候被置1
-output reg id_jmp,			//会产生跳转的指令 opcode=branch时候置1
-output reg ins_acc_fault,	//指令访问失败
-output reg ins_addr_mis, 	//指令地址错误
-output reg ins_page_fault,	//指令页面错误
-output reg int_acc,			//中断接收信号
-output reg valid, 			//指令有效信号
-output reg ill_ins,			//异常指令信号
-output reg m_ret,				//返回信号
-output reg s_ret,
-output reg ecall,			//环境调用
-output reg ebreak,			//断点
+
+output reg IDo_MSC_ins_acc_fault,	//指令访问失败
+output reg IDo_MSC_ins_addr_mis, 	//指令地址错误
+output reg IDo_MSC_ins_page_fault,	//指令页面错误
+output reg IDo_MSC_interrupt,		//中断接收信号
+output reg IDo_MSC_valid, 			//指令有效信号
+output reg IDo_MSC_ill_ins,			//异常指令信号
+output reg IDo_MSC_mret,			//返回信号
+output reg IDo_MSC_sret,
+output reg IDo_MSC_ecall,			//环境调用
+output reg IDo_MSC_ebreak,			//断点
 //到EX信号完
 
-
-//pip_ctrl信号
-//pip_ctrl负责检查这些信号并控制整个流水线的操作
-output wire [4:0]dec_rs1_index,			//立即解码得到的rs1index
-output wire [4:0]dec_rs2_index,
-output wire [4:0]dec_rd_index,
-output wire [11:0]dec_csr_index,
-//ID独有pip_ctrl信号
-output wire dec_gpr_write,
-output wire dec_ill_ins,				//译码之后得到错误指令信号
-output wire dec_branch,					//分支指令，要求进行多周期操作
-output wire dec_system_mem,				//系统操作,即所有的system和fence指令，要求进行多周期操作
-
-input wire id_hold,						//ID等待
-input wire id_nop						//ID插空
+//--------------------流控信号--------------------
+//---下一级输入的流控信号---
+input wire IDi_FC_hold,				//ID输出保持
+input wire IDi_FC_nop,				//ID输出插空
+input wire IDi_FC_war,				//出现相关性
+//---输出到下一级的流控信号---
+output reg IDo_FC_system,			//system指令，op code=system的时候被置1
+output reg IDo_FC_jmp,				//会产生跳转的指令 opcode=branch时候置1
+//---解码信号-----
+output wire IDo_DEC_warcheck,		//war check， war输出想关心检查enable
+output wire [4:0]IDo_DEC_rs1index,	//立即解码得到的rs1index
+output wire [4:0]IDo_DEC_rs2index,
+output wire [4:0]IDo_DEC_fs1index,	//立即解码得到的rs1index
+output wire [4:0]IDo_DEC_fs2index,
+output wire [4:0]IDo_DEC_vs1index,	//立即解码得到的rs1index
+output wire [4:0]IDo_DEC_vs2index,
+output wire [4:0]IDo_DEC_rdindex,
+output wire [11:0]IDo_DEC_csrindex
 
 );
 //opcode译码参数,RV低7位是操作码
@@ -164,7 +200,7 @@ parameter system_encode = 7'b0001111;
 parameter amo_encode	= 7'b0101111;
 parameter m_32_encode	= 7'b0111011;
 
-//size参数
+//IDo_OP_size参数
 parameter sbyte_size	= 4'b0001;		//Singal Byte
 parameter dbyte_size	= 4'b0010;		//Double Byte
 parameter qbyte_size	= 4'b0100;		//Quad Byte
@@ -183,7 +219,7 @@ parameter longinstr_encode=5'b11111; //Masked-SIMD运算指令槽
 
 //opcode译码
 wire [6:0]opcode;
-assign opcode=ins_in[6:0];
+assign opcode=IDi_DATA_instruction[6:0];
 wire op_system;		//CSR操作指令
 wire op_imm;		//立即数操作指令（I type）
 wire op_32_imm;
@@ -203,7 +239,7 @@ wire op_gpu_mfunc;
 wire op_gpu_sldst;
 //funct3译码
 wire [2:0]funct3;
-assign funct3=ins_in[14:12];
+assign funct3=IDi_DATA_instruction[14:12];
 wire funct3_0; 
 wire funct3_1;
 wire funct3_2;
@@ -214,7 +250,7 @@ wire funct3_6;
 wire funct3_7;
 //funct5译码
 wire [4:0]funct5;
-assign funct5=ins_in[31:27];
+assign funct5=IDi_DATA_instruction[31:27];
 wire funct5_0;
 wire funct5_1;
 wire funct5_2;
@@ -249,12 +285,12 @@ wire funct5_30;
 wire funct5_31;
 //funct6译码	funct6是移位指令用的
 wire [5:0]funct6;
-assign funct6=ins_in[31:25];
+assign funct6=IDi_DATA_instruction[31:25];
 wire funct6_0;
 wire funct6_16;
 //funct7译码
 wire [6:0]funct7;
-assign funct7=ins_in[31:25];
+assign funct7=IDi_DATA_instruction[31:25];
 wire funct7_32;
 wire funct7_24;
 wire funct7_8;
@@ -263,7 +299,7 @@ wire funct7_0;
 
 //funct12译码
 wire [11:0]funct12;
-assign funct12=ins_in[31:20];
+assign funct12=IDi_DATA_instruction[31:20];
 wire funct12_0;
 wire funct12_1;
 //立即数译码
@@ -272,7 +308,6 @@ wire [63:0]imm20_jal;	//jal指令使用的20位立即数，左移一位，高位
 wire [63:0]imm12_i;		//I-type，L-type指令使用的12位立即数（进行符号位拓展）
 wire [63:0]imm12_b;		//b-type指令使用的12位立即数（进行符号位拓展）
 wire [63:0]imm12_s;		//S-type指令使用的12位立即数（进行符号位拓展）
-
 wire [63:0]imm5_csr;	//csr指令使用的5位立即数，高位补0
 //操作大小译码
 wire sbyte;				//单字节
@@ -370,6 +405,18 @@ wire ins_amomind;
 wire ins_amomaxd;
 wire ins_amominud;
 wire ins_amomaxud;
+//RV-M
+wire ins_muldiv;
+//RV-M64
+wire ins_muldivw;
+//RV-M Generic decode wires
+wire dec_mdivsel;
+wire dec_signsel;
+wire dec_hlowsel;
+//RV-F
+
+
+
 //GPU vector calc
 wire gins_sfadd;
 wire gins_sfsub;
@@ -382,12 +429,12 @@ wire gins_sxor;
 wire gins_slsh;
 wire gins_srsa;
 wire gins_srsl;
-//GPU convert&pick&compare
+//GPU convert&pick&IDo_OP_ALU_compare
 wire gins_sfti;//convert
 wire gins_sitf;
 wire gins_smax;//pick max/min
 wire gins_smin;
-wire gins_scgq;//compare and generate mask
+wire gins_scgq;//IDo_OP_ALU_compare and generate mask
 wire gins_sclt;
 wire gins_sceq;
 wire gins_scnq;
@@ -407,13 +454,22 @@ wire dec_csr_acc_fault;		//访问不该访问的csr
 wire dec_ins_unpermit;		//指令不被允许执行
 wire dec_ins_dec_fault;		//指令解码失败
 
+wire dec_ill_ins;			//解码之后发现非法指令
+
+wire unexecute_instruction;	//不可执行的指令
+
+wire dec_gpr_write;		//GPR write
+wire dec_system_mem;
+wire dec_branch;			//instructions which will cause branch/jump
+
+
 //GPU寄存器操作指令集
 wire vinst_type,vmask_en,vector_en;//vector related instr flags
 wire [4:0]mask_reg;//向量：16b x 8lane
 assign vinst_type=funct3[0];//向量指令是向量+向量or向量+标量
 assign vmask_en=funct3[1];//使能向量mask功能（屏蔽向量执行）
 //assign vtype_en=;//向量指令指示
-assign mask_reg={funct7[1:0],funct3[2],ins_in[6:5]};//从标量（整数）寄存器中取mask
+assign mask_reg={funct7[1:0],funct3[2],IDi_DATA_instruction[6:5]};//从标量（整数）寄存器中取mask
 //32 non-mask+32条masked向量GPU指令
 
 
@@ -584,9 +640,15 @@ assign ins_amomind	= op_amo&funct3_3&funct5_16;
 assign ins_amomaxd	= op_amo&funct3_3&funct5_20;
 assign ins_amominud	= op_amo&funct3_3&funct5_24;
 assign ins_amomaxud	= op_amo&funct3_3&funct5_28;
+
+assign ins_muldiv	= op_reg&(funct7==7'h01);
+assign ins_muldivw  = op_32_reg&(funct7==7'h01);
+assign dec_mdivsel	= funct3[2];
+assign dec_hlowsel	= (funct3[3:2]==2'b11)|(funct3[3]==0&(funct3[1:0]!=2'b00));
+assign dec_signsel	= (funct3[3:2]==2'b01)|({funct3[3],funct3[1]}==2'b11);
 //特权指令译码
-assign ins_mret		= op_system&(dec_rs2_index==5'b00010)&funct7_24;
-assign ins_sret		= op_system&(dec_rs2_index==5'b00010)&funct7_8;
+assign ins_mret		= op_system&(IDo_DEC_rs2index==5'b00010)&funct7_24;
+assign ins_sret		= op_system&(IDo_DEC_rs2index==5'b00010)&funct7_8;
 assign ins_sfencevma= op_system&funct7_9;
 assign ins_wfi		= op_system&funct7_8;								//wfi指令
 
@@ -603,28 +665,30 @@ assign gins_sxor=op_gpu_scalc&funct5_20 ;
 assign gins_slsh=op_gpu_scalc&funct5_21 ;
 assign gins_srsa=op_gpu_scalc&funct5_22 ;
 assign gins_srsl=op_gpu_scalc&funct5_23 ;
-//GPU convert&pick&compare
+//GPU convert&pick&IDo_OP_ALU_compare
 assign gins_sfti=op_gpu_mfunc&(funct7==7'h08);//convert
 assign gins_sitf=op_gpu_mfunc&(funct7==7'h09);
 assign gins_smax=op_gpu_mfunc&(funct7==7'h0c);//pick max/min
 assign gins_smin=op_gpu_mfunc&(funct7==7'h0d);
-assign gins_scgq=op_gpu_mfunc&(funct7==7'h10);//compare and generate mask
+assign gins_scgq=op_gpu_mfunc&(funct7==7'h10);//IDo_OP_ALU_compare and generate mask
 assign gins_sclt=op_gpu_mfunc&(funct7==7'h11);
 assign gins_sceq=op_gpu_mfunc&(funct7==7'h12);
 assign gins_scnq=op_gpu_mfunc&(funct7==7'h13);
 assign gins_slan=op_gpu_mfunc&(funct7==7'h7F);//lane operation
-
+assign gins_forcesync=op_gpu_mfunc&(funct7==7'h78);
+assign gins_loop=op_gpu_mfunc&(funct7==7'h77);//HW loop
+assign gins_lbrk=op_gpu_mfunc&(funct7==7'h78);//breakloop
 assign gins_sload=op_gpu_sldst&(!funct3[0]);//load store
 assign gins_sstor=op_gpu_sldst&(funct3[0]);
 
 //译出立即数
-assign imm20 	= {{32{ins_in[31]}},ins_in[31:12],12'b0};				//LUI，AUIPC指令使用的20位立即数（进行符号位拓展）
-assign imm20_jal= {{44{ins_in[31]}},ins_in[19:12],ins_in[20],ins_in[30:21],1'b0};				//jal指令使用的20位立即数，左移一位，高位进行符号拓展
-assign imm12_i	= {{52{ins_in[31]}},ins_in[31:20]};						//I-type，L-type指令使用的12位立即数（进行符号位拓展）
-assign imm12_b	= {{52{ins_in[31]}},ins_in[7],ins_in[30:25],ins_in[11:8],1'b0};	//b-type指令使用的12位立即数（进行符号位拓展）
-assign imm12_s	= {{52{ins_in[31]}},ins_in[31:25],ins_in[11:7]};		//S-type指令使用的12位立即数（进行符号位拓展）
+assign imm20 	= {{32{IDi_DATA_instruction[31]}},IDi_DATA_instruction[31:12],12'b0};				//LUI，AUIPC指令使用的20位立即数（进行符号位拓展）
+assign imm20_jal= {{44{IDi_DATA_instruction[31]}},IDi_DATA_instruction[19:12],IDi_DATA_instruction[20],IDi_DATA_instruction[30:21],1'b0};				//jal指令使用的20位立即数，左移一位，高位进行符号拓展
+assign imm12_i	= {{52{IDi_DATA_instruction[31]}},IDi_DATA_instruction[31:20]};						//I-type，L-type指令使用的12位立即数（进行符号位拓展）
+assign imm12_b	= {{52{IDi_DATA_instruction[31]}},IDi_DATA_instruction[7],IDi_DATA_instruction[30:25],IDi_DATA_instruction[11:8],1'b0};	//b-type指令使用的12位立即数（进行符号位拓展）
+assign imm12_s	= {{52{IDi_DATA_instruction[31]}},IDi_DATA_instruction[31:25],IDi_DATA_instruction[11:7]};		//S-type指令使用的12位立即数（进行符号位拓展）
 
-assign imm5_csr = {59'b0,ins_in[11:7]};									//csr指令使用的5位立即数，高位补0
+assign imm5_csr = {59'b0,IDi_DATA_instruction[11:7]};									//csr指令使用的5位立即数，高位补0
 
 
 //操作大小译码
@@ -633,235 +697,238 @@ assign dbyte	= ins_lh|ins_lhu|ins_sh;													//双字节
 assign qbyte	= ins_lw|ins_lwu|ins_sw|op_32_imm|op_32_reg|(op_amo&funct3_2);				//四字节
 assign obyte	= !(sbyte|dbyte|qbyte);														//124字节不是，那当然是8字节操作
 
-assign op_count_decode	= 		(ins_slliw|ins_srliw|ins_sraiw)?{3'b0,dec_rs2_index}:
-								(ins_slli|ins_srli|ins_srai)?{3'b0,ins_in[24:20]}:
-								{2'b0,rs2_data[5:0]};//注意！RV64的移位立即数编码
+assign op_count_decode	= 		(ins_slliw|ins_srliw|ins_sraiw)?{3'b0,IDo_DEC_rs2index}:
+								(ins_slli|ins_srli|ins_srai)?{3'b0,IDi_DATA_instruction[24:20]}:
+								{2'b0,GPR_rs2_data[5:0]};//注意！RV64的移位立即数编码
 
+//-------------------译出当前指令是否需要多周期--------------------
+//-------------需要多周期的opcode： 内存组织&system----------------
+assign dec_system_mem		= IDi_MSC_valid & (op_system | op_m | dec_ill_ins);
+assign dec_branch			= IDi_MSC_valid & (op_branch | ins_jalr | ins_jal);
 
-//译出信号给pip_ctrl单元
-//译出当前指令索引
-assign dec_rs1_index= (op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :(ins_in[19:15]);
-assign dec_rs2_index= (op_reg|op_32_reg|op_branch|op_store|op_amo)?(ins_in[24:20]) : 5'b0;//只有reg branch amo store指令需要使用rs2，其余都不使用rs2，使用常0寄存器
-assign dec_rd_index	= (ins_in[11:7]);
-assign dec_csr_index= (funct12);
-
-
-//译出当前指令是否需要多周期
-//需要多周期的opcode： 内存组织&system
-assign dec_system_mem		= op_system | op_m;
-assign dec_branch			= op_branch | ins_jalr|ins_jal;
-//译出当前指令是否需要写回寄存器
-//branch,store,fence指令没有写回，其他均要写回
-/*
+/*-------------------------------------------------------
+译出当前指令是否需要写回寄存器
+branch,IDo_OP_MC_store,fence指令没有写回，其他均要写回
 注意，在这里译码其实忽略了一些指令也不需要写回寄存器，
 但是因为那些指令的RD都是X0寄存器，
-X0是常数0寄存器，写回之后毫无影响，故忽略 */
+X0是常数0寄存器，写回之后毫无影响，故忽略 
+----------------------------------------------------------*/
 assign dec_gpr_write		= !(op_branch|op_store|ins_fence|ins_mret|ins_sret) & !dec_ill_ins;
 
-
-//译出当前是否为异常指令
-//译出当前指令是否访问了不该访问的csr
-assign dec_csr_acc_fault= (ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi)?(dec_csr_index[9:8]==2'b00):1'b0;
-
-//opcode无法解码，直接判定为异常指令		
+//-----译出当前是否为异常指令-----
+//-----译出当前指令是否访问了不该访问的csr----
+assign dec_csr_acc_fault= 1'b0;
+//-----译出不允许被执行的指令-----
+//当CSR_tsr CSR_tvm CSR_tw位为1时候，执行这些指令会被禁止,并且SRET指令不允许在M模式下被执行
+		
 //TODO:GPU译码这里也要改				  
 assign dec_ins_dec_fault= !(op_system|op_imm|op_32_imm|op_lui|op_auipc|op_jal|op_jalr|op_branch|op_store|op_load|op_reg|op_32_reg|op_amo|op_gpu_scalc);
-assign dec_ill_ins		= dec_csr_acc_fault|dec_ins_dec_fault;//异常指令
-
+assign dec_ill_ins		= IDi_MSC_valid & (dec_csr_acc_fault | dec_ins_dec_fault);//异常指令
+//指令错误 不能操作
+assign unexecute_instruction	=	dec_ill_ins | IDi_MSC_ins_acc_fault | IDi_MSC_ins_addr_mis | IDi_MSC_ins_page_fault;
 //TODO GPU 指令译码信号输出部分
 wire gpu_ifsel;
 assign gpu_ifsel=(op_gpu_scalc&(!funct5[4]))|(op_gpu_mfunc&funct3[3]);
+//流控信号
+//所有的流控信号均为串联结构，由PRV464SXR处理器的实现教训中学习而来
+assign IDo_DEC_warcheck	=	IDi_MSC_valid & dec_gpr_write;
+assign IDo_DEC_rs1index	=	(op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :(IDi_DATA_instruction[19:15]);		//立即解码得到的rs1index
+assign IDo_DEC_rs2index	=	(op_reg|op_32_reg|op_branch|op_store|op_amo)?(IDi_DATA_instruction[24:20]) : 5'b0;
+assign IDo_DEC_rdindex	=	(IDi_DATA_instruction[11:7]);
+assign IDo_DEC_csrindex	=	(IDi_DATA_instruction[31:20]);
+assign IDo_FC_hold		=	IDi_FC_hold;
+//-----------如果后一级要求nop，或者本级出现了异常操作，则直接要求停止取指令------------
+assign IDo_FC_nop		=	IDi_FC_nop | IDi_FC_system | dec_system_mem | dec_branch;
+
 
 //输出寄存器，往EX
 always@(posedge clk)begin
 	if(rst)begin
 	//操作码 ALU,运算码
 	//rd数据选择
-		rd_data_ds1 <= 1'b0;		//ds1直通	
-		rd_data_add <= 1'b0;		//加
-		rd_data_sub <= 1'b0;
-		rd_data_and <= 1'b0;		//逻辑&
-		rd_data_or	<= 1'b0;		//逻辑|
-		rd_data_xor <= 1'b0;		//逻辑^
-		rd_data_slt <= 1'b0;		//比较大小
-		compare		<= 1'b0;
-		amo_lr_sc	<= 1'b0;		//lr/sc读写成功标志
+		IDo_OP_ALU_ds1		<= 1'b0;		//ds1直通	
+		IDo_OP_ALU_add		<= 1'b0;		//加
+		IDo_OP_ALU_sub		<= 1'b0;
+		IDo_OP_ALU_and		<= 1'b0;		//逻辑&
+		IDo_OP_ALU_or		<= 1'b0;		//逻辑|
+		IDo_OP_ALU_xor		<= 1'b0;		//逻辑^
+		IDo_OP_ALU_slt		<= 1'b0;		//比较大小
+		IDo_OP_ALU_compare	<= 1'b0;
+		IDo_OP_ALU_amo_lrsc	<= 1'b0;		//lr/sc读写成功标志
 
-//mem_csr_data数据选择
-		mem_csr_data_ds1	<= 1'b0;
-		mem_csr_data_ds2	<= 1'b0;
-		mem_csr_data_add	<= 1'b0;
-		mem_csr_data_and	<= 1'b0;
-		mem_csr_data_or		<= 1'b0;
-		mem_csr_data_xor	<= 1'b0;
-		mem_csr_data_max	<= 1'b0;
-		mem_csr_data_min	<= 1'b0;
-		vpu_ifsel<=1'b0;//Function integer/float select
-		vpu_addsel<=1'b0;
-		vpu_subsel<=1'b0;
-		vpu_mulsel<=1'b0;
-		vpu_itfsel<=1'b0; //integer to float
-		vpu_ftisel<=1'b0; //float to integer
-		vpu_laneop<=1'b0;
-		vpu_maxsel<=1'b0;
-		vpu_minsel<=1'b0;
-		vpu_andsel<=1'b0;		//逻辑&
-		vpu_orsel<=1'b0;		//逻辑|
-		vpu_xorsel<=1'b0;
-		vpu_srasel<=1'b0;
-		vpu_srlsel<=1'b0;
-		vpu_sllsel<=1'b0;
-		vpu_cgqsel<=1'b0;//compare:great equal
-		vpu_cltsel<=1'b0;
-		vpu_ceqsel<=1'b0;
-		vpu_cnqsel<=1'b0;
-		vpu_enable<=1'b0;
+//mem_CSR_data数据选择
+		IDo_OP_csr_mem_ds1	<= 1'b0;
+		IDo_OP_csr_mem_ds2	<= 1'b0;
+		IDo_OP_csr_mem_add	<= 1'b0;
+		IDo_OP_csr_mem_and	<= 1'b0;
+		IDo_OP_csr_mem_or	<= 1'b0;
+		IDo_OP_csr_mem_xor	<= 1'b0;
+		IDo_OP_csr_mem_max	<= 1'b0;
+		IDo_OP_csr_mem_min	<= 1'b0;
+		IDo_OP_VPU_ifsel<=1'b0;//Function integer/float select
+		IDo_OP_VPU_addsel<=1'b0;
+		IDo_OP_VPU_subsel<=1'b0;
+		IDo_OP_VPU_mulsel<=1'b0;
+		IDo_OP_VPU_itfsel<=1'b0; //integer to float
+		IDo_OP_VPU_ftisel<=1'b0; //float to integer
+		IDo_OP_VPU_laneop<=1'b0;
+		IDo_OP_VPU_maxsel<=1'b0;
+		IDo_OP_VPU_minsel<=1'b0;
+		IDo_OP_VPU_andsel<=1'b0;		//逻辑&
+		IDo_OP_VPU_orsel<=1'b0;		//逻辑|
+		IDo_OP_VPU_xorsel<=1'b0;
+		IDo_OP_VPU_srasel<=1'b0;
+		IDo_OP_VPU_srlsel<=1'b0;
+		IDo_OP_VPU_sllsel<=1'b0;
+		IDo_OP_VPU_cgqsel<=1'b0;//IDo_OP_ALU_compare:great equal
+		IDo_OP_VPU_cltsel<=1'b0;
+		IDo_OP_VPU_ceqsel<=1'b0;
+		IDo_OP_VPU_cnqsel<=1'b0;
+		IDo_OP_VPU_enable<=1'b0;
 	end
 	//当进行hold的时候，输出寄存器均被保持
-	else if(id_hold)begin
+	else if(IDi_FC_hold)begin
 	//操作码 ALU,运算码
 	//rd数据选择
-		rd_data_ds1 <= rd_data_ds1;		//ds1直通
-		
-		rd_data_add <= rd_data_add;		//加
-		rd_data_sub <= rd_data_sub;
-		rd_data_and <= rd_data_and;		//逻辑&
-		rd_data_or	<= rd_data_or;		//逻辑|
-		rd_data_xor <= rd_data_xor;		//逻辑^
-		rd_data_slt <= rd_data_slt;		//比较大小
-		compare		<= compare;
-		amo_lr_sc	<= amo_lr_sc;		//lr/sc读写成功标志
+		IDo_OP_ALU_ds1		<= IDo_OP_ALU_ds1;		//ds1直通	
+		IDo_OP_ALU_add		<= IDo_OP_ALU_add;		//加
+		IDo_OP_ALU_sub		<= IDo_OP_ALU_sub;
+		IDo_OP_ALU_and		<= IDo_OP_ALU_and;		//逻辑&
+		IDo_OP_ALU_or		<= IDo_OP_ALU_or;		//逻辑|
+		IDo_OP_ALU_xor		<= IDo_OP_ALU_xor;		//逻辑^
+		IDo_OP_ALU_slt		<= IDo_OP_ALU_slt;		//比较大小
+		IDo_OP_ALU_compare	<= IDo_OP_ALU_compare;
+		IDo_OP_ALU_amo_lrsc	<= IDo_OP_ALU_amo_lrsc;		//lr/sc读写成功标志位
+	//mem_CSR_data数据选择
+		IDo_OP_csr_mem_ds1	<= IDo_OP_csr_mem_ds1;
+		IDo_OP_csr_mem_ds2	<= IDo_OP_csr_mem_ds2;
+		IDo_OP_csr_mem_add	<= IDo_OP_csr_mem_add;
+		IDo_OP_csr_mem_and	<= IDo_OP_csr_mem_and;
+		IDo_OP_csr_mem_or	<= IDo_OP_csr_mem_or;
+		IDo_OP_csr_mem_xor	<= IDo_OP_csr_mem_xor;
+		IDo_OP_csr_mem_max	<= IDo_OP_csr_mem_max;
+		IDo_OP_csr_mem_min	<= IDo_OP_csr_mem_min;
 
-	//mem_csr_data数据选择
-		mem_csr_data_ds1	<= mem_csr_data_ds1;
-		mem_csr_data_ds2	<= mem_csr_data_ds2;
-		mem_csr_data_add	<= mem_csr_data_add;
-		mem_csr_data_and	<= mem_csr_data_and;
-		mem_csr_data_or		<= mem_csr_data_or;
-		mem_csr_data_xor	<= mem_csr_data_xor;
-		mem_csr_data_max	<= mem_csr_data_max;
-		mem_csr_data_min	<= mem_csr_data_min;
+		IDo_OP_VPU_ifsel<=IDo_OP_VPU_ifsel;//Function integer/float select
+		IDo_OP_VPU_addsel<=IDo_OP_VPU_addsel;
+		IDo_OP_VPU_subsel<=IDo_OP_VPU_subsel;
+		IDo_OP_VPU_mulsel<=IDo_OP_VPU_mulsel;
+		IDo_OP_VPU_andsel<=IDo_OP_VPU_andsel;		//逻辑&
+		IDo_OP_VPU_orsel<=IDo_OP_VPU_orsel;		//逻辑|
+		IDo_OP_VPU_xorsel<=IDo_OP_VPU_xorsel;
+		IDo_OP_VPU_srasel<=IDo_OP_VPU_srasel;
+		IDo_OP_VPU_srlsel<=IDo_OP_VPU_srlsel;
+		IDo_OP_VPU_sllsel<=IDo_OP_VPU_sllsel;
 
-		vpu_ifsel<=vpu_ifsel;//Function integer/float select
-		vpu_addsel<=vpu_addsel;
-		vpu_subsel<=vpu_subsel;
-		vpu_mulsel<=vpu_mulsel;
-		vpu_andsel<=vpu_andsel;		//逻辑&
-		vpu_orsel<=vpu_orsel;		//逻辑|
-		vpu_xorsel<=vpu_xorsel;
-		vpu_srasel<=vpu_srasel;
-		vpu_srlsel<=vpu_srlsel;
-		vpu_sllsel<=vpu_sllsel;
-
-		vpu_itfsel<=vpu_itfsel; //integer to float
-		vpu_ftisel<=vpu_ftisel; //float to integer
-		vpu_laneop<=vpu_laneop;
-		vpu_maxsel<=vpu_maxsel;
-		vpu_minsel<=vpu_minsel;
-		vpu_cgqsel<=vpu_cgqsel;//compare:great equal
-		vpu_cltsel<=vpu_cltsel;
-		vpu_ceqsel<=vpu_ceqsel;
-		vpu_cnqsel<=vpu_cnqsel;
-		vpu_enable<=vpu_enable;
+		IDo_OP_VPU_itfsel<=IDo_OP_VPU_itfsel; //integer to float
+		IDo_OP_VPU_ftisel<=IDo_OP_VPU_ftisel; //float to integer
+		IDo_OP_VPU_laneop<=IDo_OP_VPU_laneop;
+		IDo_OP_VPU_maxsel<=IDo_OP_VPU_maxsel;
+		IDo_OP_VPU_minsel<=IDo_OP_VPU_minsel;
+		IDo_OP_VPU_cgqsel<=IDo_OP_VPU_cgqsel;//IDo_OP_ALU_compare:great equal
+		IDo_OP_VPU_cltsel<=IDo_OP_VPU_cltsel;
+		IDo_OP_VPU_ceqsel<=IDo_OP_VPU_ceqsel;
+		IDo_OP_VPU_cnqsel<=IDo_OP_VPU_cnqsel;
+		IDo_OP_VPU_enable<=IDo_OP_VPU_enable;
 	end
 	//在没有保持的时候，进行指令解码
 	else begin
 	//操作码 ALU,运算码
 	//rd数据选择
-		rd_data_ds1 <= ins_lui|ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi|ds1_mem_iden;		
+		IDo_OP_ALU_ds1 <= ins_lui|ins_csrrc|ins_csrrci|ins_csrrs|ins_csrrsi|ins_csrrw|ins_csrrwi|ds1_mem_iden;		
 		//ds1直通，注意：所有移位指令都在RD寄存器被处理，故移位指令时直接让数据通往RD寄存器
 		//所有原子指令，内存访问读取的数据，都通过ds1被送往RD寄存器
-		rd_data_add <= ins_auipc|ins_jal|ins_jalr|ins_addi|ins_addiw|ins_add|ins_addw;		//加
-		rd_data_sub <= ins_sub|ins_subw;
-		rd_data_and <= ins_andi|ins_and;		//逻辑&
-		rd_data_or	<= ins_ori|ins_or;			//逻辑|
-		rd_data_xor <= ins_xori|ins_xor;		//逻辑^
-		rd_data_slt <= ins_slti|ins_sltiu|ins_slt|ins_sltu;		//比较大小
-		compare		<= op_branch;
-		amo_lr_sc	<= ins_scw|ins_scd;		//lr/sc读写成功标志
+		IDo_OP_ALU_add <= ins_auipc|ins_jal|ins_jalr|ins_addi|ins_addiw|ins_add|ins_addw;		//加
+		IDo_OP_ALU_sub <= ins_sub|ins_subw;
+		IDo_OP_ALU_and <= ins_andi|ins_and;		//逻辑&
+		IDo_OP_ALU_or	<= ins_ori|ins_or;			//逻辑|
+		IDo_OP_ALU_xor <= ins_xori|ins_xor;		//逻辑^
+		IDo_OP_ALU_slt <= ins_slti|ins_sltiu|ins_slt|ins_sltu;		//比较大小
+		IDo_OP_ALU_compare		<= op_branch;
+		IDo_OP_ALU_amo_lrsc	<= ins_scw|ins_scd;		//lr/sc读写成功标志
 
-	//mem_csr_data数据选择
+	//mem_CSR_data数据选择
 		
-		mem_csr_data_ds2	<= ins_csrrw|ins_csrrwi|ins_scw|ins_scd|ins_amoswapd|ins_amoswapw|ins_sb|ins_sh|ins_sw|ins_sd;
-		mem_csr_data_add	<= ins_amoaddd|ins_amoaddw;
-		mem_csr_data_and	<= ins_csrrc|ins_csrrci|ins_amoandd|ins_amoandw;
-		mem_csr_data_or		<= ins_csrrs|ins_csrrsi|ins_amoord|ins_amoorw;
-		mem_csr_data_xor	<= ins_amoxord|ins_amoxorw;
-		mem_csr_data_max	<= ins_amomaxw|ins_amomaxuw|ins_amomaxd|ins_amomaxud;
-		mem_csr_data_min	<= ins_amominw|ins_amominuw|ins_amomind|ins_amominud;
-		vpu_ifsel<=gpu_ifsel;//Function integer/float select
-		vpu_addsel<=(gins_sadd|gins_sfadd);
-		vpu_subsel<=(gins_ssub|gins_sfsub);
-		vpu_mulsel<=(gins_sfmul);
-		vpu_andsel<=gins_sand;		//逻辑&
-		vpu_orsel<=gins_sor;		//逻辑|
-		vpu_xorsel<=gins_sxor;
-		vpu_srasel<=gins_srsa;
-		vpu_srlsel<=gins_srsl;
-		vpu_sllsel<=gins_slsh;
-		vpu_itfsel<=gins_sitf; //integer to float
-		vpu_ftisel<=(gins_sfti); //float to integer
-		vpu_laneop<=gins_slan;
-		vpu_maxsel<=gins_smax;
-		vpu_minsel<=gins_smin;
-		vpu_cgqsel<=gins_scgq;//compare:great equal
-		vpu_cltsel<=gins_sclt;
-		vpu_ceqsel<=gins_sceq;
-		vpu_cnqsel<=gins_scnq;
-		vpu_enable<=op_gpu_mfunc|op_gpu_scalc|op_gpu_sldst;
+		IDo_OP_csr_mem_ds2	<= ins_csrrw|ins_csrrwi|ins_scw|ins_scd|ins_amoswapd|ins_amoswapw|ins_sb|ins_sh|ins_sw|ins_sd;
+		IDo_OP_csr_mem_add	<= ins_amoaddd|ins_amoaddw;
+		IDo_OP_csr_mem_and	<= ins_csrrc|ins_csrrci|ins_amoandd|ins_amoandw;
+		IDo_OP_csr_mem_or		<= ins_csrrs|ins_csrrsi|ins_amoord|ins_amoorw;
+		IDo_OP_csr_mem_xor	<= ins_amoxord|ins_amoxorw;
+		IDo_OP_csr_mem_max	<= ins_amomaxw|ins_amomaxuw|ins_amomaxd|ins_amomaxud;
+		IDo_OP_csr_mem_min	<= ins_amominw|ins_amominuw|ins_amomind|ins_amominud;
+		IDo_OP_VPU_ifsel<=gpu_ifsel;//Function integer/float select
+		IDo_OP_VPU_addsel<=(gins_sadd|gins_sfadd);
+		IDo_OP_VPU_subsel<=(gins_ssub|gins_sfsub);
+		IDo_OP_VPU_mulsel<=(gins_sfmul);
+		IDo_OP_VPU_andsel<=gins_sand;		//逻辑&
+		IDo_OP_VPU_orsel<=gins_sor;		//逻辑|
+		IDo_OP_VPU_xorsel<=gins_sxor;
+		IDo_OP_VPU_srasel<=gins_srsa;
+		IDo_OP_VPU_srlsel<=gins_srsl;
+		IDo_OP_VPU_sllsel<=gins_slsh;
+		IDo_OP_VPU_itfsel<=gins_sitf; //integer to float
+		IDo_OP_VPU_ftisel<=(gins_sfti); //float to integer
+		IDo_OP_VPU_laneop<=gins_slan;
+		IDo_OP_VPU_maxsel<=gins_smax;
+		IDo_OP_VPU_minsel<=gins_smin;
+		IDo_OP_VPU_cgqsel<=gins_scgq;//IDo_OP_ALU_compare:great equal
+		IDo_OP_VPU_cltsel<=gins_sclt;
+		IDo_OP_VPU_ceqsel<=gins_sceq;
+		IDo_OP_VPU_cnqsel<=gins_scnq;
+		IDo_OP_VPU_enable<=op_gpu_mfunc|op_gpu_scalc|op_gpu_sldst;
 	end		
 end
 
 //运算辅助控制信号
 always@(posedge clk)begin
 	if(rst)begin
-		blt		<= 1'b0;
-		bge		<= 1'b0;
-		beq		<= 1'b0;
-		bne		<= 1'b0;
-		jmp		<= 1'b0;
-		unsign 	<= 1'b0;			//无符号操作，同时控制mem单元信号的符号
-		and_clr	<= 1'b0;			//将csr操作的and转换为clr操作
-		ds1_sel	<= 1'b0;			//ALU ds1选择，为0选择ds1，为1选择MEM读取信号
+		IDo_OP_ALU_blt		<= 1'b0;
+		IDo_OP_ALU_bge		<= 1'b0;
+		IDo_OP_ALU_beq		<= 1'b0;
+		IDo_OP_ALU_bne		<= 1'b0;
+		IDo_OP_ALU_jmp		<= 1'b0;
+		IDo_OP_ALU_unsign 	<= 1'b0;			//无符号操作，同时控制mem单元信号的符号
+		IDo_OP_ALU_clr	<= 1'b0;			//将csr操作的and转换为clr操作
+		IDo_OP_ds1_sel	<= 1'b0;			//ALU ds1选择，为0选择ds1，为1选择MEM读取信号
 		
 	end
-	else if(id_hold)begin
-		blt		<= blt;
-		bge		<= bge;
-		beq		<= beq;
-		bne		<= bne;
-		jmp		<= jmp;
-		unsign 	<= unsign;
-		and_clr	<= and_clr;
-		ds1_sel	<= ds1_sel;
+	else if(IDi_FC_hold)begin
+		IDo_OP_ALU_blt		<= IDo_OP_ALU_blt;
+		IDo_OP_ALU_bge		<= IDo_OP_ALU_bge;
+		IDo_OP_ALU_beq		<= IDo_OP_ALU_beq;
+		IDo_OP_ALU_bne		<= IDo_OP_ALU_bne;
+		IDo_OP_ALU_jmp		<= IDo_OP_ALU_jmp;
+		IDo_OP_ALU_unsign 	<= IDo_OP_ALU_unsign;
+		IDo_OP_ALU_clr	<= IDo_OP_ALU_clr;
+		IDo_OP_ds1_sel	<= IDo_OP_ds1_sel;
 		
 	end
 	else begin
-		blt		<= ins_blt|ins_bltu;
-		bge		<= ins_bge|ins_bgeu;
-		beq		<= ins_beq;
-		bne		<= ins_bne;
-		jmp		<= ins_jal|ins_jalr;
-		unsign 	<= ins_bltu|ins_bgeu|ins_lbu|ins_lhu|ins_lwu|ins_srai|ins_sraiw|
-		ins_sraw|ins_sra|ins_amomaxuw|ins_amomaxud|ins_amominud|ins_amominuw;	//所有要求无符号操作的地方 unsign都为1
-		and_clr	<= ins_csrrc|ins_csrrci;
-		ds1_sel	<= ds1_mem_iden;		//所有ds1要求被置换为mem的地方，ds1_sel=1
+		IDo_OP_ALU_blt		<= ins_blt|ins_bltu;
+		IDo_OP_ALU_bge		<= ins_bge|ins_bgeu;
+		IDo_OP_ALU_beq		<= ins_beq;
+		IDo_OP_ALU_bne		<= ins_bne;
+		IDo_OP_ALU_jmp		<= ins_jal|ins_jalr;
+		IDo_OP_ALU_unsign 	<= ins_bltu|ins_bgeu|ins_lbu|ins_lhu|ins_lwu|ins_srai|ins_sraiw|
+		ins_sraw|ins_sra|ins_amomaxuw|ins_amomaxud|ins_amominud|ins_amominuw;	//所有要求无符号操作的地方 IDo_OP_ALU_unsign都为1
+		IDo_OP_ALU_clr	<= ins_csrrc|ins_csrrci;
+		IDo_OP_ds1_sel	<= ds1_mem_iden;		//所有ds1要求被置换为mem的地方，IDo_OP_ds1_sel=1
 		
 	end
 end
-//size
+//IDo_OP_size
 always@(posedge clk)begin
-	if(rst | !valid_if)begin
-		size <= qbyte_size;
+	if(rst | unexecute_instruction)begin
+		IDo_OP_size <= qbyte_size;
 	end
-	else if(id_hold)begin
-		size <= size;
+	else if(IDi_FC_hold)begin
+		IDo_OP_size <= IDo_OP_size;
 	end
 	else begin
-		size[0] <= sbyte;
-		size[1] <= dbyte;
-		size[2] <= qbyte;
-		size[3] <= obyte;
+		IDo_OP_size[0] <= sbyte;
+		IDo_OP_size[1] <= dbyte;
+		IDo_OP_size[2] <= qbyte;
+		IDo_OP_size[3] <= obyte;
 	end
 end
 
@@ -869,172 +936,167 @@ end
 //多周期信号只在valid=1时候才会有效，否则无效。
 always@(posedge clk)begin
 	if(rst)begin
-		load		<= 1'b0;
-		store		<= 1'b0;
-		amo			<= 1'b0;
-		l1i_reset	<= 1'b0;		//缓存刷新信号，此信号可以与内存进行同步
-		l1d_reset	<= 1'b0;		//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
-		force_sync	<= 1'b0;
-		shift_r		<= 1'b0;						//右移位
-		shift_l		<= 1'b0;						//左移位//写回控制，当valid=0时候，所有写回不有效
-		csr_write	<= 1'b0;
-		gpr_write	<= 1'b0;
-		csr_index	<= 12'b0;
-		rs1_index	<= 5'b0;
-		rs2_index	<= 5'b0;
+		IDo_OP_MC_load		<= 1'b0;
+		IDo_OP_MC_store		<= 1'b0;
+		IDo_OP_MC_amo			<= 1'b0;
+		IDo_OP_MC_L1i_flush	<= 1'b0;		//缓存刷新信号，此信号可以与内存进行同步
+		IDo_OP_MC_L1d_flush	<= 1'b0;		//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
+		IDo_OP_MC_L1d_sync	<= 1'b0;
+		IDo_OP_ALU_div		<= 1'b0;						//右移位
+		//IDo_OP_ALU_ShiftLeft		<= 1'b0;						//左移位//写回控制，当valid=0时候，所有写回不有效
+		IDo_WB_CSRwrite	<= 1'b0;
+		IDo_WB_GPRwrite	<= 1'b0;
+		IDo_WB_CSRindex	<= 12'b0;
+		IDo_WB_RS1index	<= 5'b0;
+		IDo_WB_RS2index	<= 5'b0;
 		
 	end
-	else if(id_hold)begin
-		load		<= load;
-		store		<= store;
-		amo			<= amo;
-		l1i_reset	<= l1i_reset;	//缓存刷新信号，此信号可以与内存进行同步
-		l1d_reset	<= l1d_reset;	//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
-		force_sync	<=	force_sync;
-		shift_r		<= shift_r;		//右移位
-		shift_l		<= shift_l;		//左移位
-		csr_write	<= csr_write;
-		gpr_write	<= gpr_write;
-		csr_index	<= csr_index;
-		rs1_index	<= rs1_index;
-		rs2_index	<= rs2_index;
+	else if(IDi_FC_hold)begin
+		IDo_OP_MC_load		<= IDo_OP_MC_load;
+		IDo_OP_MC_store		<= IDo_OP_MC_store;
+		IDo_OP_MC_amo			<= IDo_OP_MC_amo;
+		IDo_OP_MC_L1i_flush	<= IDo_OP_MC_L1i_flush;	//缓存刷新信号，此信号可以与内存进行同步
+		IDo_OP_MC_L1d_flush	<= IDo_OP_MC_L1d_flush;	//缓存复位信号，sfence.vma指令使用，下次访问内存时重新刷新页表
+		IDo_OP_MC_L1d_sync	<=	IDo_OP_MC_L1d_sync;
+		IDo_OP_ALU_div		<= IDo_OP_ALU_div;		//右移位
+		//IDo_OP_ALU_ShiftLeft		<= IDo_OP_ALU_ShiftLeft;		//左移位
+		IDo_WB_CSRwrite	<= IDo_WB_CSRwrite;
+		IDo_WB_GPRwrite	<= IDo_WB_GPRwrite;
+		IDo_WB_CSRindex	<= IDo_WB_CSRindex;
+		IDo_WB_RS1index	<= IDo_WB_RS1index;
+		IDo_WB_RS2index	<= IDo_WB_RS2index;
 
 	end
 	else begin	
-		load		<= op_load;
-		store		<= op_store;
-		amo			<= op_amo;
-		l1i_reset 	<= ins_fence_i	;		//指令缓存刷新信号，sfence.vma或者fence.i指令使用 
-		l1d_reset	<= ins_fence | ins_fence_i 	;	    //数据缓存刷新信号，sfence.vma或者fence指令使用
-		force_sync	<= gins_forcesync;
-		shift_r		<= ins_srli|ins_srliw|ins_srai|ins_sraiw|ins_srl|ins_srlw|ins_sra|ins_sraw;						//右移位
-		shift_l		<= ins_slli|ins_slliw|ins_sll|ins_sllw;						//左移位
-		csr_write	<= (ins_csrrwi|ins_csrrw|ins_csrrci|ins_csrrc|ins_csrrs|ins_csrrsi)&!dec_ill_ins;	//只有CSRRxx指令且没有发生异常指令才会要求写回CSR
-		gpr_write	<= dec_gpr_write;	//寄存器要被写回
-		csr_index	<= dec_csr_index;
-		rs1_index	<= dec_rs1_index;
-		rs2_index	<= dec_rs2_index;
-		rd_index	<= dec_rd_index;
+		IDo_OP_MC_load			<= op_load;
+		IDo_OP_MC_store			<= op_store;
+		IDo_OP_MC_amo			<= op_amo;
+		IDo_OP_MC_L1i_flush 	<= ins_fence_i	;		//指令缓存刷新信号，sfence.vma或者fence.i指令使用 
+		IDo_OP_MC_L1d_flush		<= ins_fence | ins_fence_i 	;	    //数据缓存刷新信号，sfence.vma或者fence指令使用
+		IDo_OP_MC_L1d_sync		<= gins_forcesync;
+		IDo_OP_ALU_div	<= (ins_muldiv|ins_muldivw)&dec_mdivsel;						//右移位
+		//IDo_OP_ALU_ShiftLeft	<= ins_slli|ins_slliw|ins_sll|ins_sllw;						//左移位
+		IDo_WB_CSRwrite			<= (ins_csrrwi|ins_csrrw|ins_csrrci|ins_csrrc|ins_csrrs|ins_csrrsi)&!dec_ill_ins;	//只有CSRRxx指令且没有发生异常指令才会要求写回CSR
+		IDo_WB_GPRwrite			<= dec_gpr_write;	//寄存器要被写回
+		IDo_WB_CSRindex			<= IDo_DEC_csrindex;
+		IDo_WB_RS1index			<= IDo_DEC_rs1index;
+		IDo_WB_RS2index			<= IDo_DEC_rs2index;
+		IDo_WB_RDindex			<= IDo_DEC_rdindex;
 	end
 end
 //数据源译码
 always@(posedge clk)begin
-	if(rst)begin
+	if(rst | unexecute_instruction)begin
 		//数据输出							   
-		ds1		<= 64'b0;		//数据源1，imm/rs1/rs1/csr/pc /pc
-		ds2		<= 64'b0;		//数据源2，00 /rs2/imm/imm/imm/04
-		as1		<= 64'b0;		//地址源1,  pc/rs1/rs1
-		as2		<= 64'b0;		//地址源2, imm/imm/00
-		op_count<= 8'b0;		//操作次数码，用于AMO指令或移位指令
+		IDo_DATA_ds1		<= 64'b0;		//数据源1，imm/rs1/rs1/csr/pc /pc
+		IDo_DATA_ds2		<= 64'b0;		//数据源2，00 /rs2/imm/imm/imm/04
+		IDo_DATA_as1		<= 64'b0;		//地址源1,  pc/rs1/rs1
+		IDo_DATA_as2		<= 64'b0;		//地址源2, imm/imm/00
+		IDo_DATA_opcount	<= 8'b0;		//操作次数码，用于AMO指令或移位指令
 	end
-	else if(id_hold)begin
-		ds1		<= ds1;			//数据源1，imm/rs1/rs1/csr/pc /pc
-		ds2		<= ds2;			//数据源2，00 /rs2/imm/imm/imm/04
-		as1		<= as1;			//地址源1,  pc/rs1/rs1
-		as2		<= as2;			//地址源2, imm/imm/00
-		op_count<= op_count;	//操作次数码，用于AMO指令或移位指令
+	else if(IDi_FC_hold)begin
+		IDo_DATA_ds1		<= IDo_DATA_ds1;			//数据源1，imm/rs1/rs1/csr/pc /pc
+		IDo_DATA_ds2		<= IDo_DATA_ds2;			//数据源2，00 /rs2/imm/imm/imm/04
+		IDo_DATA_fs1		<= IDo_DATA_fs1;
+		IDo_DATA_fs2		<= IDo_DATA_fs2;
+		IDo_DATA_vs1		<= IDo_DATA_vs1;
+		IDo_DATA_vs2		<= IDo_DATA_vs2;
+		IDo_DATA_as1		<= IDo_DATA_as1;			//地址源1,  pc/rs1/rs1
+		IDo_DATA_as2		<= IDo_DATA_as2;			//地址源2, imm/imm/00
+		IDo_DATA_opcount	<= IDo_DATA_opcount;	//操作次数码，用于AMO指令或移位指令
 	end
 	//此部分内容参考 Table_ID_DAS
 	else begin
-		ds1 	<= 	(ins_lui										?	imm20	:	64'b0)|
-					((op_branch|op_reg|op_32_reg|op_imm|op_32_imm)	?	rs1_data:	64'b0)|
-					(op_system										?	csr_data:	64'b0)|
-					((ins_auipc|ins_jal|ins_jalr)					?	ins_pc	:	64'b0);
+		IDo_DATA_ds1 	<= 	(ins_lui										?	imm20	:	64'b0)|
+							((op_branch|op_reg|op_32_reg|op_imm|op_32_imm)	?	GPR_rs1_data:	64'b0)|
+							(op_system										?	CSR_data:	64'b0)|
+							((ins_auipc|ins_jal|ins_jalr)					?	IDi_DATA_pc	:	64'b0);
 					
-		ds2		<= 	((op_branch|op_reg|op_32_reg|op_store|op_amo)	?	rs2_data:	64'b0)|
-					((op_32_imm|op_imm)								?	imm12_i	:	64'b0)|
-					((ins_csrrwi|ins_csrrci|ins_csrrsi)				?	imm5_csr:	64'b0)|
-					((ins_csrrw|ins_csrrc|ins_csrrs)				?	rs1_data:	64'b0)|
-					(ins_auipc										?	imm20	:	64'b0)|
-					((ins_jal|ins_jalr)								?	64'd4	:	64'b0);
+		IDo_DATA_ds2	<= 	((op_branch|op_reg|op_32_reg|op_store|op_amo)	?	GPR_rs2_data:	64'b0)|
+							((op_32_imm|op_imm)								?	imm12_i	:	64'b0)|
+							((ins_csrrwi|ins_csrrci|ins_csrrsi)				?	imm5_csr:	64'b0)|
+							((ins_csrrw|ins_csrrc|ins_csrrs)				?	GPR_rs1_data:	64'b0)|
+							(ins_auipc										?	imm20	:	64'b0)|
+							((ins_jal|ins_jalr)								?	64'd4	:	64'b0);
+		IDo_DATA_fs1	<= 	FREG_fs1_data;
+		IDo_DATA_fs2	<= 	FREG_fs2_data;
+		IDo_DATA_vs1	<= 	VREG_vs1_data;
+		IDo_DATA_vs2	<= 	VREG_vs2_data;
+
+		IDo_DATA_as1	<= 	(op_branch|ins_jal)	?	IDi_DATA_pc		:	GPR_rs1_data;	
 		
-		as1		<= 	(op_branch|ins_jal)	?	ins_pc		:	rs1_data;	
-		
-		as2		<= 	((op_branch)		?	imm12_b		:	64'b0)|
-					((ins_jalr)			?	imm12_i		:	64'b0)|
-					((ins_jal)			?	imm20_jal	:	64'b0)|
-					((op_store)			?	imm12_s		:	64'b0)|
-					((op_load)			?	imm12_i		:	64'b0);
-		op_count<=	op_count_decode;
+		IDo_DATA_as2	<= 	((op_branch)		?	imm12_b		:	64'b0)|
+							((ins_jalr)			?	imm12_i		:	64'b0)|
+							((ins_jal)			?	imm20_jal	:	64'b0)|
+							((op_store)			?	imm12_s		:	64'b0)|
+							((op_load)			?	imm12_i		:	64'b0);
+		IDo_DATA_opcount<=	op_count_decode;
 	end
 end
 
-//机器控制段
+//机器控制段 MSC
 //机器控制段负责WB阶段时csr的自动更新
 always@(posedge clk)begin
-	if(rst)begin
-		id_system		<=	1'b0;		//system指令，op code=system的时候被置1
-		id_jmp			<=	1'b0;
-		ins_acc_fault	<= 	1'b0;	//指令访问失败
-		ins_addr_mis	<=	1'b0;	//指令地址错误
-		ins_page_fault	<= 	1'b0;	//指令页面错误
-		int_acc			<= 	1'b0;			//中断接收信号
-		valid			<= 	1'b0;			//指令有效信号
-		ill_ins			<= 	1'b0;			//异常指令信号
-		m_ret			<= 	1'b0;			//返回信号
-		s_ret			<=	1'b0;
-		ecall			<=	1'b0;		//环境调用
-		ebreak			<=	1'b0;		//断点
+	if(rst | IDi_FC_nop | IDi_FC_war)begin
+		IDo_FC_system			<=	1'b0;		//system指令，op code=system的时候被置1
+		IDo_FC_jmp				<=	1'b0;
+		IDo_MSC_ins_acc_fault	<= 	1'b0;		//指令访问失败
+		IDo_MSC_ins_addr_mis	<=	1'b0;		//指令地址错误
+		IDo_MSC_ins_page_fault	<= 	1'b0;		//指令页面错误
+		IDo_MSC_interrupt		<= 	1'b0;		//中断接收信号
+		IDo_MSC_valid			<= 	1'b0;		//指令有效信号
+		IDo_MSC_ill_ins			<= 	1'b0;		//异常指令信号
+		IDo_MSC_mret			<= 	1'b0;		//返回信号
+		IDo_MSC_sret			<=	1'b0;
+		IDo_MSC_ecall			<=	1'b0;		//环境调用
+		IDo_MSC_ebreak			<=	1'b0;		//断点
 	end
-	//ID插空时，valid位置0，表示当前指令无效，不被执行也不会响应其中的异常
-	else if(id_nop)begin
-		valid			<=	1'b0;
-	end
-	else if(id_hold)begin
-		id_system		<=	id_system;		//system指令，op code=system的时候被置1
-		id_jmp			<= 	id_jmp;		
-		ins_acc_fault	<= 	ins_acc_fault;	//指令访问失败
-		ins_addr_mis	<=	ins_addr_mis;	//指令地址错误
-		ins_page_fault	<= 	ins_page_fault;	//指令页面错误
-		int_acc			<= 	int_acc;		//中断接收信号
-		valid			<= 	valid;			//指令有效信号
-		ill_ins			<= 	ill_ins;		//异常指令信号
-		m_ret			<= 	m_ret;			//返回信号
-		s_ret			<=	s_ret;
-		ecall			<=	ecall;			//环境调用
-		ebreak			<=	ebreak;			//断点
+	else if(IDi_FC_hold)begin
+		IDo_FC_system			<=	IDo_FC_system;		//system指令，op code=system的时候被置1
+		IDo_FC_jmp				<= 	IDo_FC_jmp;		
+		IDo_MSC_ins_acc_fault	<= 	IDo_MSC_ins_acc_fault;	//指令访问失败
+		IDo_MSC_ins_addr_mis	<=	IDo_MSC_ins_addr_mis;	//指令地址错误
+		IDo_MSC_ins_page_fault	<= 	IDo_MSC_ins_page_fault;	//指令页面错误
+		IDo_MSC_interrupt		<= 	IDo_MSC_interrupt;		//中断接收信号
+		IDo_MSC_valid			<= 	IDo_MSC_valid;			//指令有效信号
+		IDo_MSC_ill_ins			<= 	IDo_MSC_ill_ins;		//异常指令信号
+		IDo_MSC_mret			<= 	IDo_MSC_mret;			//返回信号
+		IDo_MSC_sret			<=	IDo_MSC_sret;
+		IDo_MSC_ecall			<=	IDo_MSC_ecall;			//环境调用
+		IDo_MSC_ebreak			<=	IDo_MSC_ebreak;			//断点
 	end
 	//不需要hold和nop时候，ID直接传递由IF递过来的信号
 	else begin
-		id_system		<=	dec_system_mem;		//system指令，op code=system的时候被置1
-		id_jmp			<=  op_branch|ins_jal|ins_jalr;
-		ins_acc_fault	<= 	ins_acc_fault_if;	//指令访问失败
-		ins_addr_mis	<=	ins_addr_mis_if;	//指令地址错误
-		ins_page_fault	<= 	ins_page_fault_if;	//指令页面错误
-		int_acc			<= 	int_acc_if;			//中断接收信号
-		valid			<= 	valid_if;			//指令有效信号
-		ill_ins			<= 	dec_ill_ins;		//异常指令信号
-		m_ret			<= 	!dec_ill_ins&ins_mret;			//返回信号,不被trap时才能正常使用返回信号
-		s_ret			<=	!dec_ill_ins&ins_sret;
-		ecall			<=	ins_ecall;			//环境调用
-		ebreak			<=	ins_ebreak;			//断点
+		IDo_FC_system			<=	dec_system_mem;		//system指令，op code=system的时候被置1
+		IDo_FC_jmp				<=  op_branch|ins_jal|ins_jalr;
+		IDo_MSC_ins_acc_fault	<= 	IDi_MSC_ins_acc_fault;	//指令访问失败
+		IDo_MSC_ins_addr_mis	<=	IDi_MSC_ins_addr_mis;	//指令地址错误
+		IDo_MSC_ins_page_fault	<= 	IDi_MSC_ins_page_fault;	//指令页面错误
+		IDo_MSC_interrupt		<= 	IDi_MSC_interrupt;			//中断接收信号
+		IDo_MSC_valid			<= 	IDi_MSC_valid;			//指令有效信号
+		IDo_MSC_ill_ins			<= 	dec_ill_ins;		//异常指令信号
+		IDo_MSC_mret			<= 	 !dec_ill_ins & ins_mret;			//返回信号,不被trap时才能正常使用返回信号
+		IDo_MSC_sret			<=	 !dec_ill_ins & ins_sret;
+		IDo_MSC_ecall			<=	ins_ecall;			//环境调用
+		IDo_MSC_ebreak			<=	ins_ebreak;			//断点
 	end
-	
 end
-//异常码
+//--------异常码 TVAL--------
 always@(posedge clk)begin
-	if(rst | !valid_if)begin
-		
-		exc_code	<=	64'b0;
+	if(rst | !IDi_MSC_valid)begin
+		IDo_DATA_trap_value	<=	64'b0;
 		//当前指令pc
-		ins_pc_id	<= 	64'b0;
+		IDo_DATA_pc	<= 	64'b0;
 	end
-	else if(id_hold)begin
-		exc_code	<=  exc_code;
-		ins_pc_id	<=	ins_pc_id;
+	else if(IDi_FC_hold)begin
+		IDo_DATA_trap_value	<=  IDo_DATA_trap_value;
+		IDo_DATA_pc	<=	IDo_DATA_pc;
 	end
 	else begin
-	//当非法指时候，该码被更新为ins
-		exc_code	<= dec_ill_ins?{32'b0,ins_in}:64'b0;
-		ins_pc_id	<=	ins_pc;
+	//当非法指令的时候，该码被更新为ins
+		IDo_DATA_trap_value	<=	dec_ill_ins?{32'b0,IDi_DATA_instruction}:64'b0;
+		IDo_DATA_pc			<=	IDi_DATA_pc;
 	end
 end
-
-
-
-
-
-
-
 
 endmodule

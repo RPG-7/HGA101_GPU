@@ -25,31 +25,31 @@ output wire tvm,
 output wire tsr,
 output wire tw,
 input wire [11:0]id_csr_index,
-output wire [`FCU_DDATA_WIDTH-1:0]csr_data,	//读取的CSR值
+output wire [`GPU_DDATA_WIDTH-1:0]csr_data,	//读取的CSR值
 input wire [4:0]rs1_index,
-output wire [`FCU_DDATA_WIDTH-1:0]rs1_data,
+output wire [`GPU_DDATA_WIDTH-1:0]rs1_data,
 input wire [4:0]rs2_index,
-output wire [`FCU_DDATA_WIDTH-1:0]rs2_data,
+output wire [`GPU_DDATA_WIDTH-1:0]rs2_data,
 
 input wire [4:0]fs1_index,
-output wire [`FCU_DDATA_WIDTH-1:0]fs1_data,
+output wire [`GPU_DDATA_WIDTH-1:0]fs1_data,
 input wire [4:0]fs2_index,
-output wire [`FCU_DDATA_WIDTH-1:0]fs2_data,
+output wire [`GPU_DDATA_WIDTH-1:0]fs2_data,
 
 input wire [4:0]vs1_index,
-output wire [`FCU_VDATA_WIDTH-1:0]vs1_data,
+output wire [`GPU_VDATA_WIDTH-1:0]vs1_data,
 input wire [4:0]vs2_index,
-output wire [`FCU_VDATA_WIDTH-1:0]vs2_data,
+output wire [`GPU_VDATA_WIDTH-1:0]vs2_data,
 //对EX信号
 output wire mprv,
 output wire [3:0]mod_priv,
 
 //对WB信号
-input wire [`FCU_DDATA_WIDTH-1:0]data_rd,
-input wire [`FCU_DDATA_WIDTH-1:0]data_fd,
-input wire [`FCU_VDATA_WIDTH-1:0]data_vd,
-input wire [`FCU_DDATA_WIDTH-1:0]data_csr,
-input wire [`FCU_IADDR_WIDTH-1:0]new_pc,
+input wire [`GPU_DDATA_WIDTH-1:0]data_rd,
+input wire [`GPU_DDATA_WIDTH-1:0]data_fd,
+input wire [`GPU_VDATA_WIDTH-1:0]data_vd,
+input wire [`GPU_DDATA_WIDTH-1:0]data_csr,
+input wire [`GPU_IADDR_WIDTH-1:0]new_pc,
 
 
 //写回控制
@@ -101,6 +101,7 @@ wire [63:0]vec_pc;
 //int cause
 wire [63:0]int_cause;	//中断原因
 wire [63:0]exc_cause;	//异常原因
+wire [31:0]mepc;
 //发生了异常
 wire exception;
 
@@ -163,8 +164,8 @@ VGPR vgpr(
 
 //对IF 控制指令流信号
 //返回的时候，使用xepc地址；发生中断时使用向量PC：VEC_PC；跳转指令使用WB传回的new_pc
-assign flush_pc	=	(valid&m_ret) ? mepc : (valid&s_ret) ? sepc : (trap_target_m | trap_target_s) ? vec_pc : new_pc;	//新的PC值
-assign pip_flush=	valid & ((trap_target_m | trap_target_s) | pc_jmp)	;		//当写回指令有效时候，发出流水线冲刷信号
+assign flush_pc	=	(valid&m_ret) ? mepc :  (trap_target_m ) ? vec_pc : new_pc;	//新的PC值
+assign pip_flush=	valid & ((trap_target_m ) | pc_jmp)	;		//当写回指令有效时候，发出流水线冲刷信号
 
 csr_top CSR(
     .clk(clk),
@@ -196,6 +197,7 @@ csr_top CSR(
     .ecall(ecall),			//环境调用
     .ebreak(ebreak)			//断点
 
+    .mepc(mepc)
 );
 
 

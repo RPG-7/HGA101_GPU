@@ -28924,7 +28924,7 @@ t/8sSd+h2KpO1y3zlZgNBlf33DfLQSwQW25XrgRyk0MIP64Jld2fRt0CiVBF41xm9RHIEQUWrJxw
 shSbjBr/rgJ9aZp9rUUD0oUZDupPsObu9xzrZK76eBVCHyNfvLeeN8wnK62iAM0uY2+Fp/ZLGTu1
 vG2tVL8kPoc/FMjtMCJVFk2LM6O+yYr+a4nrXUMQvLCr2vhpmt8zt1nJoEKehqyhkbIdbMphu4W3
 GkRiMBL/wIQhJk32xUX4dN3Go05gnXsMP/spUu7buIucFuVnTnMTd+iGlU8QLU/gL/jHCzkfnjib
-IDoNNN6elITxdLHQMRsy9RRgJWUt1J6Iseo=
+IDoNNN6elITxdLHQMRsy9RRgJWUt1J6Iseo=/==
 `pragma protect end_protected
 module Gowin_PicoRV32_Top (
   ser_tx,

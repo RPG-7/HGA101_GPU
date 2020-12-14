@@ -22,7 +22,6 @@ module top(
     );
     
     wire i_clk = CLK100MHZ;
-    
     reg we_ = 1;
 
     reg [13:0] romAddressLines = 0;

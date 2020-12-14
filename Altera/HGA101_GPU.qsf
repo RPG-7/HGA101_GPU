@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F23C7
-set_global_assignment -name TOP_LEVEL_ENTITY FSX
+set_global_assignment -name TOP_LEVEL_ENTITY MulCyc_DIV
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:08:37  OCTOBER 24, 2020"
 set_global_assignment -name LAST_QUARTUS_VERSION 13.1
@@ -47,12 +47,21 @@ set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
-set_global_assignment -name SEARCH_PATH "d:\\projects\\fpga\\hga101\\rtl\\cpu"
 set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC_FOR_AREA ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_MAP_LOGIC_TO_MEMORY_FOR_AREA ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT EXTRA
+set_global_assignment -name SEARCH_PATH /home/hongxiaoyu/Projects/FPGA/HGA101/RTL/CPU
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/MulCyc_DIV.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/MUL.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/hga4g32e_top.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/IF/ins_fetch.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/ID/ins_dec.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/VGPR.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/FGPR.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/cu_ru.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/ViewToScreenConverter.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/vgaSignalGenerator.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/vert_projector.v

@@ -23,11 +23,35 @@ module csr_top
     input wire valid, 			//指令有效信号
     input wire ill_ins,			//异常指令信号
     input wire m_ret,			//返回信号
-    input wire s_ret,			//
     input wire ecall,			//环境调用
     input wire ebreak			//断点
 
 );
+
+
+//定义csr
+
+reg [31:0]mepc;
+reg [31:0]mcause;
+reg [31:0]mtval;
+reg [31:0]mip;
+reg [31:0]mscratch;
+reg [31:0]mtvec;
+reg [31:0]mie;
+reg [31:0]mstatus;
+
+
+assign csr =             (    {32{(csr_index == 12'h300)}} & mstatus 
+                            | {32{(csr_index == 12'h304)}} & mie
+                            | {32{(csr_index == 12'h305)}} & mtvec
+                            | {32{(csr_index == 12'h340)}} & mscratch
+                            | {32{(csr_index == 12'h341)}} & mepc
+                            | {32{(csr_index == 12'h342)}} & mcause
+                            | {32{(csr_index == 12'h343)}} & mtval
+                            | {32{(csr_index == 12'h344)}} & mip
+                            
+);
+
 
 
 endmodule
