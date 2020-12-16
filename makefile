@@ -6,3 +6,6 @@ TOP_MODULE=hga4g32e_top
 
 elaborate:
 	bash ./script/elaborate.sh $(TOP_MODULE) $(RTL_DIR) $(INCLUDE_DIR)
+lint:
+	bash ./script/lint.sh $(INCLUDE_DIR)
+

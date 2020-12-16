@@ -14,10 +14,11 @@ fi
 
 for i in `seq 50`;#广度优先搜索
 do
-    cat ./temp/hierarchy.rpt|xargs iverilog -I $3 2>&1|sed -n '/Unknown\ module\ type/p'| sed 's/^.*type:\ //g' >/tmp/module_missing.log #综合缺模块不？
-    cat /tmp/module_missing.log|sort -k2n |uniq >/tmp/module_missing.log
+    cat ./temp/hierarchy.rpt|xargs iverilog -I $3 2>&1|sed -n '/Unknown\ module\ type/p'| sed 's/^.*type:\ //g' |sort -k2n |uniq >/tmp/module_missing.log #综合缺模块不？
+    
     #echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     #cat ./temp/hierarchy.rpt|xargs iverilog -I $3
+    #cat /tmp/module_missing.log|sort -k2n |uniq >/tmp/module_missing.log
     if ! test -s /tmp/module_missing.log; 
     then
         echo "Elaborate Successfully finished, no error found"
@@ -44,5 +45,5 @@ do
     
 done
 #cat ./temp/hierarchy.rpt |sort -u
-cat ./temp/hierarchy.rpt|sort -k2n |uniq >./temp/synthesis.out
-cat ./temp/synthesis.out | xargs -t iverilog -I $3
+#cat ./temp/hierarchy.rpt|sort -k2n |uniq >./temp/synthesis.out
+cat ./temp/hierarchy.rpt | xargs iverilog -I $3
