@@ -1,7 +1,8 @@
-module ALU16(
+module IALU_16(
 
 //操作码 ALU,运算码
 //rd数据选择
+input wire vec_en,
 input wire enable,		//ds1直通
 input wire addsel,		//加
 input wire subsel,		//减
@@ -17,20 +18,21 @@ input wire srasel,
 input wire srlsel,
 input wire sllsel,
 
+input wire itlsel,
 
-
+input wire [15:0]rs,
 //数据输入							   
 input wire [15:0]ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
-input wire [15:0]ds2,		//数据源2，00 /rs2/imm/imm/imm/04
+input wire [15:0]ds2_in,		//数据源2，00 /rs2/imm/imm/imm/04
 
 
 output gt,
 output eq,
 output [15:0]alu_data_rd,
-output [31:0]rd_out
+output [15:0]rd_out
 
 );
-
+wire [15:0]ds2;
 wire [15:0]alu_add;		//加法运算
 wire [15:0]add_16;		//纯16位加法运算
 wire [15:0]sub_16;		//纯16位减法运算
@@ -49,6 +51,7 @@ wire ds1_light_than_ds2;
 wire ds1_great_than_ds2;
 wire ds1_equal_ds2;
 wire unsign=1'b0;
+assign ds2=(vec_en)?rs:ds2_in; 
 assign ds1_light_than_ds2	=	!unsign&((ds1[15]&!ds2[15])|				//ds1是负数，ds2是正数（有符号）
 								(ds1[15]==ds2[15]) & (ds1 < ds2))|			//ds1，ds2同符号（有符号）
 								unsign&(ds1 < ds2);							//无符号比较
@@ -70,8 +73,8 @@ assign alu_min			=	ds1_light_than_ds2?ds1 : ds2;
 
 
 assign alu_data_rd		=	(!enable 		? ds1		: 16'b0)|			//ds1直通
-							(addsel 		? alu_add 	: 16'b0)|		//加
-							(subsel 		? alu_sub 	: 16'b0)|		//减
+							(addsel 		? add_16 	: 16'b0)|		//加
+							(subsel 		? sub_16 	: 16'b0)|		//减
 							(andsel			? alu_and 	: 16'b0)|		//逻辑&
 							(orsel 			? alu_or 	: 16'b0)|		//逻辑|
 							(xorsel 		? alu_xor 	: 16'b0)|		//逻辑^
@@ -94,3 +97,5 @@ bshifter16 bshifter16
     .dataout	(alu_shift)
 );
 endmodule
+
+

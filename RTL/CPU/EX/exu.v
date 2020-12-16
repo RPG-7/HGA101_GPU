@@ -8,10 +8,10 @@ module exu(
 input clk,
 input rst,
 
-input [3:0]priv,		//当前机器权限
+//input [3:0]priv,		//当前机器权限
 //csr输入
-input mprv,			//更改权限
-input [3:0]mod_priv,	//要被更改的权限
+//input mprv,			//更改权限
+//input [3:0]mod_priv,	//要被更改的权限
 //=================上一级 ID=====================
 //-------------流控信号---------------
 output wire EXUo_FC_nop,
@@ -38,6 +38,8 @@ input EXUi_OP_ALU_xor,				//逻辑^
 input EXUi_OP_ALU_slt,				//比较大小
 input EXUi_OP_ALU_compare,			//比较大小，配合bge0_blt1\beq0_bne1控制线并产生分支信号
 input EXUi_OP_ALU_amo_lrsc,		//lr/sc读写成功标志，LR/SC指令总是读写成功
+input EXUi_OP_ALU_shift_right,		
+input EXUi_OP_ALU_shift_left,	
 
 //mem_csr_data数据选择
 input EXUi_OP_csr_mem_ds1,
@@ -57,6 +59,11 @@ input EXUi_OP_ALU_jmp,				//无条件跳转，适用于JAL JALR指令
 input EXUi_OP_ALU_unsign,			//无符号操作，同时控制mem单元信号的符号拓展
 input EXUi_OP_ALU_clr,			//将csr操作的and转换为clr操作
 input EXUi_OP_ds1_sel,			//ALU ds1选择，为0选择ds1，为1选择LSU读取的数据
+input EXUi_OP_ALU_mdiv,
+
+input EXUi_OP_MDIV_mdivsel,
+input EXUi_OP_MDIV_hlowsel,
+input EXUi_OP_MDIV_signsel,
 //VPU功能组
 input EXUi_VPU_ifsel,//Function integer/float select
 input EXUi_VPU_addsel,
@@ -73,11 +80,16 @@ input EXUi_VPU_xorsel,
 input EXUi_VPU_srasel,
 input EXUi_VPU_srlsel,
 input EXUi_VPU_sllsel,
-input EXUi_VPU_cgesel,//compare:great equal
+input EXUi_VPU_cgqsel,//compare:great equal
 input EXUi_VPU_cltsel,
 input EXUi_VPU_ceqsel,
 input EXUi_VPU_cnqsel,
 input EXUi_VPU_enable,//进行VPU存取/指示data_rd&data_fd采用VPU回送信号
+input EXUi_VPU_memacc,//VPU访存
+input EXUi_VPU_memwr,
+input EXUi_VPU_memrd,
+input EXUi_VPU_masken,
+input EXUi_VPU_vecen,
 //位宽控制
 input [3:0]EXUi_OP_size, 		//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
 //多周期控制
@@ -89,8 +101,7 @@ input EXUi_OP_MC_L1i_flush,		//命令 缓存刷新信号，此信号可以与内
 input EXUi_OP_MC_L1d_flush,		//命令 缓存复位信号，下次访问内存时重新刷新页表
 input EXUi_OP_MC_L1d_force_sync,
 input EXUi_OP_MC_L1d_sync_ok,			//检查sync完成
-input EXUi_OP_ALU_shift_right,		
-input EXUi_OP_ALU_shift_left,			
+		
 
 //写回控制，当valid=0时候，所有写回不有效
 input EXUi_WB_CSRwrite,		//注*后缀ID表示是ID传输进来的信号
@@ -183,7 +194,7 @@ output reg [63:0]EXUo_BIU_addr,
 output reg [`GPU_DDATA_WIDTH-1:0]EXUo_BIU_DATA_write,
 input [`GPU_DDATA_WIDTH-1:0]EXUi_BIU_DATA_read,
 //input [`GPU_DDATA_WIDTH-1:0]uncache_data,	//没有被缓存的数据
-output wire [`GPU_VDATA_WIDTH-1:0]EXUi_VPU_datastore,//VPU的存取默认都是cached，显存的刷新依赖flush和原子操作
+output reg [`GPU_VDATA_WIDTH-1:0]EXUo_VPU_datastore,//VPU的存取默认都是cached，显存的刷新依赖flush和原子操作
 input [`GPU_VDATA_WIDTH-1:0]EXUi_VPU_dataload,
 
 output wire [3:0]EXUo_BIU_size,			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
@@ -192,7 +203,7 @@ output wire EXUo_BIU_L1d_flush,			//缓存载入信号，用于执行fence.vma�
 output wire EXUo_BIU_L1d_sync,
 output wire EXUo_BIU_read,				//读数据信号
 output wire EXUo_BIU_write,				//写数据信号
-output wire EXUo_BIU_VPUaccess,			//VPU专用存取选择，忽略size，128b直写
+output reg EXUo_BIU_VPUaccess,			//VPU专用存取选择，忽略size，128b直写
 input EXUi_BIU_load_acc_fault,
 input EXUi_BIU_load_page_fault,
 input EXUi_BIU_store_acc_fault,
@@ -229,11 +240,12 @@ reg [3:0]main_state;			//系统主状态机
 //ALU信号
 wire [`GPU_DDATA_WIDTH-1:0]ds1_mem_data;		//ALU数据源1选择，当ds1_sel=1时，切换到MEM出来的数据，此举是为了AMO指令
 wire [`GPU_DDATA_WIDTH-1:0]alu_data_rd;			//ALU数据数据输出，写回rd寄存器的数据
+wire [`GPU_DDATA_WIDTH-1:0]ext_m_data_rd;
 wire [`GPU_DDATA_WIDTH-1:0]alu_data_mem_csr;	//ALU数据输出，csr数据或者写回内存的数据
-wire [`GPU_VDATA_WIDTH-1:0]EXUi_VPU_data_vd;
+wire [`GPU_VDATA_WIDTH-1:0]EXUo_VPU_data_vd;
 wire jmp_ok;					//跳转信号，允许跳转，此信号指示WB阶段进行跳转
 //AU信号
-wire [63:0]au_addr_pc;			//AU数据输出，访问内存所需的地址或者是跳转地址
+wire [63:0]au_addr_ptr;			//AU数据输出，访问内存所需的地址或者是跳转地址
 //LSU信号
 wire [63:0]data_out;
 wire [`GPU_DDATA_WIDTH-1:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AMO指令或Load指令时使用
@@ -242,8 +254,8 @@ wire [`GPU_DDATA_WIDTH-1:0]data_lsu_cache;		//LSU输出数据(被缓存的)，AM
 wire execute_exception;			//执行错误
 
 //VPU data
-wire [`GPU_DDATA_WIDTH-1:0]EXUi_VPU_data_rd;//写回lane/mask
-
+wire [`GPU_DDATA_WIDTH-1:0]EXUo_VPU_data_rd;//写回lane
+wire [`GPU_DDATA_WIDTH-1:0]EXUo_VPU_data_fd;//FPU lane写回
 
 
 wire load_addr_mis;				//load地址不对齐
@@ -253,13 +265,21 @@ wire load_precessing;				//load指令正在执行
 wire store_processing;				//store指令正在执行
 wire fence_processing;				//fence指令正在执行
 wire amo_processing;				//amo指令正在执行
-
+wire divide_done;
 wire execute_ready;					//exu执行完毕
 
 assign ds1_mem_data		=	EXUi_OP_ds1_sel ? EXUo_DATA_rd : EXUi_DATA_ds1;	//当ds1_sel为1时，切换到MEM数据，此时MEM的数据已经被存到rd寄存器中
 
-assign load_addr_mis	=  	(EXUi_OP_MC_amo|EXUi_OP_MC_load) & (EXUi_OP_size[1]&(au_addr_pc[2:0]==3'b111) | EXUi_OP_size[2]&(au_addr_pc[1:0]!=2'b00) | EXUi_OP_size[3]&(au_addr_pc[2:0]!=3'b000));
-assign store_addr_mis	=	EXUi_OP_MC_store& (EXUi_OP_size[1]&(au_addr_pc[2:0]==3'b111) | EXUi_OP_size[2]&(au_addr_pc[1:0]!=2'b00) | EXUi_OP_size[3]&(au_addr_pc[2:0]!=3'b000));
+assign load_addr_mis	=  	(EXUi_OP_MC_amo|EXUi_OP_MC_load) & 
+							(EXUi_OP_size[1]&(au_addr_ptr[2:0]==3'b111) | 
+							EXUi_OP_size[2]&(au_addr_ptr[1:0]!=2'b00) | 
+							EXUi_OP_size[3]&(au_addr_ptr[2:0]!=3'b000)|
+							EXUi_VPU_memacc&(au_addr_ptr[3:0]!=4'b0000));
+assign store_addr_mis	=	EXUi_OP_MC_store& 
+							(EXUi_OP_size[1]&(au_addr_ptr[2:0]==3'b111) | 
+							EXUi_OP_size[2]&(au_addr_ptr[1:0]!=2'b00) | 
+							EXUi_OP_size[3]&(au_addr_ptr[2:0]!=3'b000)|
+							EXUi_VPU_memacc&(au_addr_ptr[3:0]!=4'b0000));
 //xxx_prcessing 信号指示了这些操作正在执行
 //-----------------------------------------------NOTE-------------------------------------------------
 //CLK			:__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__
@@ -288,9 +308,10 @@ always@(posedge clk)begin
 	else if(EXUi_MSC_valid)begin
 		case(main_state)
 			p_stb	:	if(!execute_exception)begin
-							main_state	<=	EXUi_OP_MC_load														?p_load		:
-											EXUi_OP_MC_store													?p_store	:
+							main_state	<=	(EXUi_OP_MC_load|EXUi_VPU_memrd)									?p_load		:
+											(EXUi_OP_MC_store|EXUi_VPU_memwr)									?p_store	:
 											EXUi_OP_MC_amo														?p_amo_mem0	:
+											(EXUi_OP_MDIV_mdivsel&EXUi_OP_ALU_mdiv)								?p_mdiv		://Multicycle Divide
 											(EXUi_OP_MC_L1i_flush|EXUi_OP_MC_L1d_flush|EXUi_OP_MC_L1d_force_sync)	?p_fence	:	main_state;
 						end
 			p_load	:	if(EXUi_BIU_uncache_ready)begin
@@ -311,6 +332,8 @@ always@(posedge clk)begin
 			p_amo_ex1:		main_state	<=	p_amo_mem1;
 			p_fence:		main_state	<=	(EXUi_BIU_cache_ready | EXUi_BIU_uncache_ready) ? p_stb : main_state;
 			p_amo_mem1:		main_state	<=	(EXUi_BIU_cache_ready | EXUi_BIU_uncache_ready) ? p_stb : main_state;
+			p_mdiv:			main_state	<=	(divide_done) ? p_stb : main_state;
+			
 		endcase
 	end					
 end
@@ -340,12 +363,8 @@ begin
 
 	else if(c_stb)
 	begin
-		EXUo_DATA_rd 	<=	alu_data_rd;
-	end
-	else if(EXUi_VPU_enable)
-	begin
-		EXUo_DATA_rd<=EXUi_VPU_data_rd;
-		
+		EXUo_DATA_rd 	<=	(EXUi_VPU_enable)?EXUo_VPU_data_rd:
+							(EXUi_OP_ALU_mdiv)?ext_m_data_rd:alu_data_rd;
 	end
 	/*
 	因为AHB总线的HREADY和数据是同周期出现，而cache是SSRAM，数据和准备好信号之间延迟一个周期，故在这里
@@ -368,14 +387,14 @@ begin
 
 	else if(c_stb)
 	begin
-		EXUo_DATA_vreg 	<=	EXUi_VPU_data_vd;
+		EXUo_DATA_vreg 	<=	EXUo_VPU_data_vd;
 	end
 	/*
 	因为AHB总线的HREADY和数据是同周期出现，而cache是SSRAM，数据和准备好信号之间延迟一个周期，故在这里
 	寄存两次来保证数据正确
 	*/
 	//AMO指令访问内存之后进行数据寄存，以便进行下一步操作
-	else if(c_load|c_amo_mem0|c_load_1|c_amo_mem01)
+	else if(c_load|c_load_1)
 	begin
 		EXUo_DATA_vreg		<=  EXUi_VPU_dataload;		//存储数据
 	end
@@ -393,7 +412,7 @@ always@(posedge clk)begin
 	end
 	else begin
 		EXUo_DATA_csr	<= 	alu_data_mem_csr;
-		EXUo_DATA_newpc		<=	au_addr_pc;
+		EXUo_DATA_newpc		<=	au_addr_ptr;
 	end
 end
 
@@ -409,7 +428,7 @@ always@(posedge clk)begin
 	end
 	else begin
 		EXUo_DATA_pc	<= 	EXUi_DATA_pc;
-		EXUo_DATA_tval<= 	execute_exception ? au_addr_pc : EXUi_DATA_tval;//只有当发生了异常，才会被更新到异常上
+		EXUo_DATA_tval<= 	execute_exception ? au_addr_ptr : EXUi_DATA_tval;//只有当发生了异常，才会被更新到异常上
 	end
 end
 //写回控制信号
@@ -533,6 +552,8 @@ alu_au					ALU_AU(
 	.rd_data_or			(EXUi_OP_ALU_or),		//逻辑|
 	.rd_data_xor		(EXUi_OP_ALU_xor),		//逻辑^
 	.rd_data_slt		(EXUi_OP_ALU_slt),		//比较大小
+	
+
 	.compare			(EXUi_OP_ALU_compare),			//比较大小
 	.amo_lr_sc			(EXUi_OP_ALU_amo_lrsc),		//lr/sc读写成功标志
 
@@ -571,10 +592,24 @@ alu_au					ALU_AU(
 //数据输出
 	.alu_data_rd		(alu_data_rd),
 	.alu_data_mem_csr	(alu_data_mem_csr),
-	.au_addr_pc			(au_addr_pc),
+	.au_addr_pc			(au_addr_ptr),
 //跳转信号输出
 	.jmp_ok				(jmp_ok)
 
+);
+extM_top M_EXTENSION
+(
+
+	.clk(clk),
+    .rst_n(~rst),
+    .rd_data_mdiv(EXUi_OP_ALU_mdiv),
+    .rd_mdiv_mdivsel(EXUi_OP_MDIV_mdivsel),
+    .rd_mdiv_hlowsel(EXUi_OP_MDIV_hlowsel),
+    .rd_mdiv_signsel(EXUi_OP_MDIV_signsel),
+    .ds1(EXUi_DATA_ds1),
+    .ds2(EXUi_DATA_ds2),
+    .div_done(divide_done),
+	.rd (ext_m_data_rd)
 );
 VPU vpu1(
     .ifsel(EXUi_VPU_ifsel),//Function integer/float select
@@ -583,7 +618,7 @@ VPU vpu1(
 	.mulsel(EXUi_VPU_mulsel),
 	.itfsel(EXUi_VPU_itfsel),//integer to float
 	.ftisel(EXUi_VPU_ftisel),//float to integer
-	.ftlsel(EXUi_VPU_laneop),//Lane operation
+	.lanesel(EXUi_VPU_laneop),//Lane operation
 	.maxsel(EXUi_VPU_maxsel),
 	.minsel(EXUi_VPU_minsel),
 	.andsel(EXUi_VPU_andsel),//逻辑&
@@ -592,19 +627,20 @@ VPU vpu1(
 	.srasel(EXUi_VPU_srasel),
 	.srlsel(EXUi_VPU_srlsel),
 	.sllsel(EXUi_VPU_sllsel),
-	.cgesel(EXUi_VPU_cgesel),//compare:great equal
+	.cgesel(EXUi_VPU_cgqsel),//compare:great equal
 	.cltsel(EXUi_VPU_cltsel),
 	.ceqsel(EXUi_VPU_ceqsel),
 	.cnqsel(EXUi_VPU_cnqsel),
 
     .vs1(EXUi_DATA_vs1),
     .vs2(EXUi_DATA_vs2),
+	.vec_en(EXUi_VPU_vecen),
     .fs(EXUi_DATA_fs1),
     .rs(EXUi_DATA_ds1),
-    .mask_in(EXUi_DATA_ds2),//MASK=maskreg|{32{!masken}}
-    .rd(EXUi_VPU_data_rd),
-    .fd(EXUi_VPU_data_fd),
-    .vd(EXUi_VPU_data_vd)
+    .mask_in(EXUi_DATA_ds2|{32{EXUi_VPU_masken}}),//MASK=maskreg|{32{!masken}}
+    .rd(EXUo_VPU_data_rd),
+    .fd(EXUo_VPU_data_fd),
+    .vd(EXUo_VPU_data_vd)
 
 );
 //========================对BIU信号===================================
@@ -616,24 +652,28 @@ always@(posedge clk)begin
 		EXUo_BIU_addr	<=	64'b0;
 	end
 	else begin
-		EXUo_BIU_addr	<=	au_addr_pc;
+		EXUo_BIU_addr	<=	au_addr_ptr;
 	end
 end
 always@(posedge clk)begin
 	if(rst)begin
 		EXUo_BIU_DATA_write	<=	64'b0;
+		EXUo_VPU_datastore	<=	127'b0;
+		EXUo_BIU_VPUaccess	<=  1'b0;
 	end
 	else begin
 		EXUo_BIU_DATA_write	<=	data_out;
+		EXUo_VPU_datastore	<=	EXUi_DATA_vs1;	//todo: store commit 可靠性存疑
+		EXUo_BIU_VPUaccess	<=	EXUi_VPU_memacc;
 	end
 end
 
-assign EXUo_BIU_size			=	EXUi_OP_size;			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
+assign EXUo_BIU_size		=	EXUi_OP_size;			//0001=1Byte 0010=2Byte 0100=4Byte 1000=8Byte other=fault			
 assign EXUo_BIU_L1i_flush 	= 	EXUi_OP_MC_L1i_flush & c_fence;			//缓存刷新信号，用于执行fence指令的时候使用
 assign EXUo_BIU_L1d_flush 	= 	EXUi_OP_MC_L1d_flush & c_fence;			//缓存载入信号，用于执行fence.vma时候和cache_flush配合使用
 assign EXUo_BIU_L1d_sync 	= 	EXUi_OP_MC_L1d_force_sync & c_fence;
-assign EXUo_BIU_read				=	EXUi_OP_MC_load & c_load | EXUi_OP_MC_amo & c_amo_mem0;				//读数据信号
-assign EXUo_BIU_write			=	EXUi_OP_MC_store & c_store | EXUi_OP_MC_amo & c_amo_mem1;				//写数据信号
+assign EXUo_BIU_read		=	EXUi_OP_MC_load & c_load | EXUi_OP_MC_amo & c_amo_mem0;				//读数据信号
+assign EXUo_BIU_write		=	EXUi_OP_MC_store & c_store | EXUi_OP_MC_amo & c_amo_mem1;				//写数据信号
 
 /*
 单元的主要作用只有进行数据移位和进行符号位拓展，时序控制完全被交给了EXU中的状态机
@@ -642,7 +682,7 @@ assign EXUo_BIU_write			=	EXUi_OP_MC_store & c_store | EXUi_OP_MC_amo & c_amo_me
 */
 byte_shifter					byte_shifter(
 	.unsign							(EXUi_OP_ALU_unsign),
-	.addr							(au_addr_pc[2:0]),//地址低3位 用于指示移位大小
+	.addr							(au_addr_ptr[2:0]),//地址低3位 用于指示移位大小
 	.size							(EXUi_OP_size),//0001:1Byte 0010:2Byte 0100=4Byte 1000=8Byte
 
 	.data_in						(alu_data_mem_csr),			//要送往BIU的数据

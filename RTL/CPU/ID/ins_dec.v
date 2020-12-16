@@ -1,20 +1,7 @@
-/*====================================================================
-适用于PRV464PRO的指令解码单元
-支持RV64IA指令解码
-20201119特别注意:RISCV的J和B的立即数编码是混乱的（大草）
-
-Tags in the names of sgnals:
-	i:input(IDi means IF input)
-	o:output(IDo means IF output)
-	BIU: Bus Interfence Unit, means the singals is connected to the BIU
-	CSR: Control State Registers, means the singals is connected to the CSR
-	DATA: DATA transfer to the next stage
-	MSC: Machine State Control
-	OPx: Operation x, OP0-OP114514
-	MC: Multi Cycle Control
-	FC: Flow Control
-	VPU: HGA101 expanded SIMD process unit
-=========================================================================*/
+`include  "global_defines.vh"
+//基于PRV464的指令解码单元
+//支持RV32IA+4G32E扩展指令解码
+//特别注意 RISCV的J和B的立即数编码是混乱的（大草）
 module ins_dec(
 
 input wire clk,
@@ -26,14 +13,14 @@ input wire CSR_tsr,
 input wire CSR_tw,
 input wire [63:0]CSR_data,
 //GPR输入
-input wire [63:0]GPR_rs1_data,
-input wire [63:0]GPR_rs2_data,
+input wire [31:0]GPR_rs1_data,
+input wire [31:0]GPR_rs2_data,
 
-input wire [63:0]FREG_fs1_data,
-input wire [63:0]FREG_fs2_data,
+input wire [31:0]FREG_fs1_data,
+input wire [31:0]FREG_fs2_data,
 
-input wire [63:0]VREG_vs1_data,
-input wire [63:0]VREG_vs2_data,
+input wire [127:0]VREG_vs1_data,
+input wire [127:0]VREG_vs2_data,
 //上一级（IF）信号
 //指令输出
 input wire [31:0]IDi_DATA_instruction,
@@ -89,6 +76,11 @@ output reg IDo_OP_VPU_cltsel,
 output reg IDo_OP_VPU_ceqsel,
 output reg IDo_OP_VPU_cnqsel,
 output reg IDo_OP_VPU_enable,
+output reg IDo_OP_VPU_memacc,
+output reg IDo_OP_VPU_memrd ,
+output reg IDo_OP_VPU_memwr ,
+output reg IDo_OP_VPU_masken,
+output reg IDo_OP_VPU_vecen,
 //mem_CSR_data数据选择
 output reg IDo_OP_csr_mem_ds1,
 output reg IDo_OP_csr_mem_ds2,
@@ -124,7 +116,8 @@ output reg IDo_OP_MC_L1i_flush,	//缓存刷新信号，此信号可以与内存�
 output reg IDo_OP_MC_L1d_flush,		//缓存复位信号，下次访问内存时重新刷新页表
 //output reg TLB_reset,		//TLB复位
 output reg IDo_OP_MC_L1d_sync,	//强制L1D写回
-output reg IDo_OP_ALU_div,		//左移位
+output reg IDo_OP_ALU_div,		
+output reg IDo_OP_ALU_ShiftRight,	//左移位
 output reg IDo_OP_ALU_ShiftLeft,		//右移位
 
 //写回控制，当valid=0时候，所有写回不有效
@@ -137,7 +130,7 @@ output reg [4:0]IDo_WB_RS1index,
 output reg [4:0]IDo_WB_RS2index,
 output reg [4:0]IDo_WB_RDindex,
 output reg [4:0]IDo_WB_FDindex,
-output reg [4:0]IDo_WB_IDindex,
+output reg [4:0]IDo_WB_VDindex,
 //数据输出							   
 output reg [63:0]IDo_DATA_ds1,		//数据源1，imm/rs1/rs1/csr/pc /pc
 output reg [63:0]IDo_DATA_ds2,		//数据源2，00 /rs2/imm/imm/imm/04
@@ -414,8 +407,31 @@ wire dec_mdivsel;
 wire dec_signsel;
 wire dec_hlowsel;
 //RV-F
+wire op_fxcalc;//F EXPENSION REG-REG CALC
+wire op_fxload;
+wire op_fxstor;
+wire op_fmadd;
 
+wire ins_fadd;
+wire ins_fsub;
+wire ins_fmul;
+wire ins_fdiv;
+wire ins_fsqt;
+wire ins_fmax;
+wire ins_fmin;
 
+wire ins_cfti; //FCVT
+wire ins_citf;
+
+wire ins_mfti; //FMOV
+wire ins_mitf;
+
+wire ins_fsgnj;
+
+wire ins_fcmp;
+wire dec_fclt;
+wire dec_fceq;
+wire dec_fcle;
 
 //GPU vector calc
 wire gins_sfadd;
@@ -441,6 +457,9 @@ wire gins_scnq;
 wire gins_slan;//lane operation
 wire gins_sload;//load store
 wire gins_sstor;
+wire gins_forcesync;
+wire gins_loop;
+wire gins_lbrk;
 //Graphic: float writeback
 wire gmod_float;
 //模式特权指令
@@ -459,19 +478,20 @@ wire dec_ill_ins;			//解码之后发现非法指令
 wire unexecute_instruction;	//不可执行的指令
 
 wire dec_gpr_write;		//GPR write
+wire dec_freg_write;
+wire dec_vreg_write;
 wire dec_system_mem;
 wire dec_branch;			//instructions which will cause branch/jump
 
 
 //GPU寄存器操作指令集
-wire vinst_type,vmask_en,vector_en;//vector related instr flags
+wire vinst_type,vmask_en;//vector related instr flags
 wire [4:0]mask_reg;//向量：16b x 8lane
 assign vinst_type=funct3[0];//向量指令是向量+向量or向量+标量
 assign vmask_en=funct3[1];//使能向量mask功能（屏蔽向量执行）
 //assign vtype_en=;//向量指令指示
 assign mask_reg={funct7[1:0],funct3[2],IDi_DATA_instruction[6:5]};//从标量（整数）寄存器中取mask
 //32 non-mask+32条masked向量GPU指令
-
 
 //判断是否需要将ALU输入源ds1转换为MEM单元的数据
 wire ds1_mem_iden;
@@ -644,8 +664,8 @@ assign ins_amomaxud	= op_amo&funct3_3&funct5_28;
 assign ins_muldiv	= op_reg&(funct7==7'h01);
 assign ins_muldivw  = op_32_reg&(funct7==7'h01);
 assign dec_mdivsel	= funct3[2];
-assign dec_hlowsel	= (funct3[3:2]==2'b11)|(funct3[3]==0&(funct3[1:0]!=2'b00));
-assign dec_signsel	= (funct3[3:2]==2'b01)|({funct3[3],funct3[1]}==2'b11);
+assign dec_hlowsel	= (funct3[2:1]==2'b11)|(funct3[2]==0&(funct3[1:0]!=2'b00));
+assign dec_signsel	= (funct3[2:1]==2'b01)|({funct3[2],funct3[0]}==2'b11);
 //特权指令译码
 assign ins_mret		= op_system&(IDo_DEC_rs2index==5'b00010)&funct7_24;
 assign ins_sret		= op_system&(IDo_DEC_rs2index==5'b00010)&funct7_8;
@@ -714,6 +734,8 @@ branch,IDo_OP_MC_store,fence指令没有写回，其他均要写回
 X0是常数0寄存器，写回之后毫无影响，故忽略 
 ----------------------------------------------------------*/
 assign dec_gpr_write		= !(op_branch|op_store|ins_fence|ins_mret|ins_sret) & !dec_ill_ins;
+assign dec_freg_write		= op_fxcalc|op_fxload;
+assign dec_vreg_write		= op_gpu_scalc|gins_sload;
 
 //-----译出当前是否为异常指令-----
 //-----译出当前指令是否访问了不该访问的csr----
@@ -728,12 +750,17 @@ assign dec_ill_ins		= IDi_MSC_valid & (dec_csr_acc_fault | dec_ins_dec_fault);//
 assign unexecute_instruction	=	dec_ill_ins | IDi_MSC_ins_acc_fault | IDi_MSC_ins_addr_mis | IDi_MSC_ins_page_fault;
 //TODO GPU 指令译码信号输出部分
 wire gpu_ifsel;
-assign gpu_ifsel=(op_gpu_scalc&(!funct5[4]))|(op_gpu_mfunc&funct3[3]);
+assign gpu_ifsel=(op_gpu_scalc&(!funct5[4]))|(op_gpu_mfunc&funct3[2]);
 //流控信号
 //所有的流控信号均为串联结构，由PRV464SXR处理器的实现教训中学习而来
 assign IDo_DEC_warcheck	=	IDi_MSC_valid & dec_gpr_write;
 assign IDo_DEC_rs1index	=	(op_jal|op_jalr|op_lui|op_auipc) ? 5'b0 :(IDi_DATA_instruction[19:15]);		//立即解码得到的rs1index
-assign IDo_DEC_rs2index	=	(op_reg|op_32_reg|op_branch|op_store|op_amo)?(IDi_DATA_instruction[24:20]) : 5'b0;
+assign IDo_DEC_rs2index	=	(op_reg|op_32_reg|op_branch|op_store|op_amo)?(IDi_DATA_instruction[24:20]) : 
+							(op_gpu_scalc|op_gpu_sldst|op_gpu_mfunc) ? mask_reg : 5'b0;
+assign IDo_DEC_fs1index =	(1'b0) ? 5'b0 :(IDi_DATA_instruction[19:15]);
+assign IDo_DEC_fs2index =	(1'b0) ? 5'b0 :(IDi_DATA_instruction[24:20]);
+assign IDo_DEC_vs1index =	(op_gpu_scalc|op_gpu_sldst|op_gpu_mfunc) ? (IDi_DATA_instruction[19:15]) :5'b0;
+assign IDo_DEC_vs2index =	(op_gpu_scalc|op_gpu_sldst|op_gpu_mfunc) ? (IDi_DATA_instruction[24:20]) : 5'b0;
 assign IDo_DEC_rdindex	=	(IDi_DATA_instruction[11:7]);
 assign IDo_DEC_csrindex	=	(IDi_DATA_instruction[31:20]);
 assign IDo_FC_hold		=	IDi_FC_hold;
@@ -755,7 +782,10 @@ always@(posedge clk)begin
 		IDo_OP_ALU_slt		<= 1'b0;		//比较大小
 		IDo_OP_ALU_compare	<= 1'b0;
 		IDo_OP_ALU_amo_lrsc	<= 1'b0;		//lr/sc读写成功标志
-
+		IDo_OP_ALU_mdiv		<= 1'b0;
+		IDo_OP_MDIV_hlowsel	<= 1'b0;
+		IDo_OP_MDIV_mdivsel	<= 1'b0;
+		IDo_OP_MDIV_signsel	<= 1'b0;
 //mem_CSR_data数据选择
 		IDo_OP_csr_mem_ds1	<= 1'b0;
 		IDo_OP_csr_mem_ds2	<= 1'b0;
@@ -785,6 +815,11 @@ always@(posedge clk)begin
 		IDo_OP_VPU_ceqsel<=1'b0;
 		IDo_OP_VPU_cnqsel<=1'b0;
 		IDo_OP_VPU_enable<=1'b0;
+		IDo_OP_VPU_memacc<=1'b0;
+		IDo_OP_VPU_memrd <=1'b0;
+		IDo_OP_VPU_memwr <=1'b0;
+		IDo_OP_VPU_masken<=1'b0;
+		IDo_OP_VPU_vecen <=1'b0;
 	end
 	//当进行hold的时候，输出寄存器均被保持
 	else if(IDi_FC_hold)begin
@@ -799,6 +834,10 @@ always@(posedge clk)begin
 		IDo_OP_ALU_slt		<= IDo_OP_ALU_slt;		//比较大小
 		IDo_OP_ALU_compare	<= IDo_OP_ALU_compare;
 		IDo_OP_ALU_amo_lrsc	<= IDo_OP_ALU_amo_lrsc;		//lr/sc读写成功标志位
+		IDo_OP_ALU_mdiv		<= IDo_OP_ALU_mdiv;
+		IDo_OP_MDIV_hlowsel	<= IDo_OP_MDIV_hlowsel;
+		IDo_OP_MDIV_mdivsel	<= IDo_OP_MDIV_mdivsel;
+		IDo_OP_MDIV_signsel	<= IDo_OP_MDIV_signsel;
 	//mem_CSR_data数据选择
 		IDo_OP_csr_mem_ds1	<= IDo_OP_csr_mem_ds1;
 		IDo_OP_csr_mem_ds2	<= IDo_OP_csr_mem_ds2;
@@ -830,6 +869,11 @@ always@(posedge clk)begin
 		IDo_OP_VPU_ceqsel<=IDo_OP_VPU_ceqsel;
 		IDo_OP_VPU_cnqsel<=IDo_OP_VPU_cnqsel;
 		IDo_OP_VPU_enable<=IDo_OP_VPU_enable;
+		IDo_OP_VPU_memacc<=IDo_OP_VPU_memacc;
+		IDo_OP_VPU_memrd <=IDo_OP_VPU_memrd;
+		IDo_OP_VPU_memwr <=IDo_OP_VPU_memwr;
+		IDo_OP_VPU_masken<=IDo_OP_VPU_masken;
+		IDo_OP_VPU_vecen <=IDo_OP_VPU_vecen ;
 	end
 	//在没有保持的时候，进行指令解码
 	else begin
@@ -846,7 +890,10 @@ always@(posedge clk)begin
 		IDo_OP_ALU_slt <= ins_slti|ins_sltiu|ins_slt|ins_sltu;		//比较大小
 		IDo_OP_ALU_compare		<= op_branch;
 		IDo_OP_ALU_amo_lrsc	<= ins_scw|ins_scd;		//lr/sc读写成功标志
-
+		IDo_OP_ALU_mdiv		<= ins_muldiv;
+		IDo_OP_MDIV_hlowsel	<= dec_hlowsel;
+		IDo_OP_MDIV_mdivsel	<= dec_mdivsel;
+		IDo_OP_MDIV_signsel	<= dec_signsel;
 	//mem_CSR_data数据选择
 		
 		IDo_OP_csr_mem_ds2	<= ins_csrrw|ins_csrrwi|ins_scw|ins_scd|ins_amoswapd|ins_amoswapw|ins_sb|ins_sh|ins_sw|ins_sd;
@@ -876,6 +923,11 @@ always@(posedge clk)begin
 		IDo_OP_VPU_ceqsel<=gins_sceq;
 		IDo_OP_VPU_cnqsel<=gins_scnq;
 		IDo_OP_VPU_enable<=op_gpu_mfunc|op_gpu_scalc|op_gpu_sldst;
+		IDo_OP_VPU_memacc<=gins_sload|gins_sstor;
+		IDo_OP_VPU_memrd <=gins_sload;
+		IDo_OP_VPU_memwr <=gins_sstor;
+		IDo_OP_VPU_masken<=vmask_en;
+		IDo_OP_VPU_vecen <=vinst_type;
 	end		
 end
 
@@ -946,6 +998,8 @@ always@(posedge clk)begin
 		//IDo_OP_ALU_ShiftLeft		<= 1'b0;						//左移位//写回控制，当valid=0时候，所有写回不有效
 		IDo_WB_CSRwrite	<= 1'b0;
 		IDo_WB_GPRwrite	<= 1'b0;
+		IDo_WB_FREGwrite<= 1'b0;
+		IDo_WB_VREGwrite<= 1'b0;
 		IDo_WB_CSRindex	<= 12'b0;
 		IDo_WB_RS1index	<= 5'b0;
 		IDo_WB_RS2index	<= 5'b0;
@@ -962,6 +1016,8 @@ always@(posedge clk)begin
 		//IDo_OP_ALU_ShiftLeft		<= IDo_OP_ALU_ShiftLeft;		//左移位
 		IDo_WB_CSRwrite	<= IDo_WB_CSRwrite;
 		IDo_WB_GPRwrite	<= IDo_WB_GPRwrite;
+		IDo_WB_FREGwrite	<= IDo_WB_FREGwrite;
+		IDo_WB_VREGwrite	<= IDo_WB_VREGwrite;
 		IDo_WB_CSRindex	<= IDo_WB_CSRindex;
 		IDo_WB_RS1index	<= IDo_WB_RS1index;
 		IDo_WB_RS2index	<= IDo_WB_RS2index;
@@ -974,14 +1030,19 @@ always@(posedge clk)begin
 		IDo_OP_MC_L1i_flush 	<= ins_fence_i	;		//指令缓存刷新信号，sfence.vma或者fence.i指令使用 
 		IDo_OP_MC_L1d_flush		<= ins_fence | ins_fence_i 	;	    //数据缓存刷新信号，sfence.vma或者fence指令使用
 		IDo_OP_MC_L1d_sync		<= gins_forcesync;
-		IDo_OP_ALU_div	<= (ins_muldiv|ins_muldivw)&dec_mdivsel;						//右移位
-		//IDo_OP_ALU_ShiftLeft	<= ins_slli|ins_slliw|ins_sll|ins_sllw;						//左移位
+		IDo_OP_ALU_div			<= (ins_muldiv|ins_muldivw)&dec_mdivsel;	//多周期除法					
+		IDo_OP_ALU_ShiftRight	<= ins_srli|ins_srliw|ins_srai|ins_sraiw|ins_srl|ins_srlw|ins_sra|ins_sraw;	//右移位
+		IDo_OP_ALU_ShiftLeft	<= ins_slli|ins_slliw|ins_sll|ins_sllw;						//左移位
 		IDo_WB_CSRwrite			<= (ins_csrrwi|ins_csrrw|ins_csrrci|ins_csrrc|ins_csrrs|ins_csrrsi)&!dec_ill_ins;	//只有CSRRxx指令且没有发生异常指令才会要求写回CSR
 		IDo_WB_GPRwrite			<= dec_gpr_write;	//寄存器要被写回
+		IDo_WB_FREGwrite		<= dec_freg_write;
+		IDo_WB_VREGwrite		<= dec_vreg_write;
 		IDo_WB_CSRindex			<= IDo_DEC_csrindex;
 		IDo_WB_RS1index			<= IDo_DEC_rs1index;
 		IDo_WB_RS2index			<= IDo_DEC_rs2index;
 		IDo_WB_RDindex			<= IDo_DEC_rdindex;
+		IDo_WB_FDindex			<= IDo_DEC_rdindex;
+		IDo_WB_VDindex			<= IDo_DEC_rdindex;
 	end
 end
 //数据源译码

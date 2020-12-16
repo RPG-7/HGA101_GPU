@@ -1,11 +1,12 @@
 module VPU(
+	 input vec_en,
     input ifsel,//Function integer/float select
     input addsel,
     input subsel,
     input mulsel,
     input itfsel, //integer to float
     input ftisel, //float to integer
-    input ftlsel,
+    input lanesel,
     input maxsel,
     input minsel,
     input andsel,		//逻辑&
@@ -81,17 +82,20 @@ generate
             .maxsel(maxsel),
             .minsel(minsel),
             .fullin(fs),//Full range float in 
-            .ftlsel(ftlsel),
+            .ftlsel(lanesel),
             .fullout(fd_arr[i]),//float out to float reg
             .opout(FPUout[15+16*i:16*i]),
             .gt(fgt[i]),
             .eq(feq[i])
         );
-    end
-    for(i=0;i<8;i=i+1) 
+    end                
+endgenerate
+generate  
+for(i=0;i<8;i=i+1) 
     begin : VPU_ALU
-        ALU16 ALU16_ARR
+        IALU_16 IALU16_ARR
         (
+            .vec_en(vec_en),
             .enable(mask_in[i]),		//ds1直通
             .addsel(addsel),		//加
             .subsel(subsel),		//减
@@ -102,9 +106,11 @@ generate
             .minsel(minsel),
             .srasel(srasel),
             .srlsel(srlsel),
-            .sllsel(sllsel),					   
+            .sllsel(sllsel),	
+            .itlsel(lanesel),		
+            .rs(rs[15:0]),
             .ds1(vs1[15+16*i:16*i]),		//数据源1，imm/rs1/rs1/csr/pc /pc
-            .ds2(vs2[15+16*i:16*i]),		//数据源2，00 /rs2/imm/imm/imm/04
+            .ds2_in(vs2[15+16*i:16*i]),		//数据源2，00 /rs2/imm/imm/imm/04
 
         //input wire [3:0]shiftcnt,	//操作计数，用于移位指令
 
@@ -113,7 +119,6 @@ generate
             .rd_out(rd_arr[i]),
             .alu_data_rd(ALUout[15+16*i:16*i])
         );
-        
     end
 endgenerate
 

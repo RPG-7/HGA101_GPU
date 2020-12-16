@@ -1,5 +1,11 @@
 module csr_top
 (
+	output wire tvm,
+	output wire tsr,
+	output wire tw,
+	output wire mprv,
+	output wire [3:0]mod_priv,
+	
     input clk,
     input rst,
     input [11:0]csr_read_index,
@@ -181,79 +187,79 @@ wire read_mcounterinhibit_sel;
 //只有当前指令有效时，才会允许被写回寄存器
 
 
-assign srw_sstatus_sel		=	valid&(csr_index==srw_sstatus_index);
-assign srw_sie_sel			=	valid&(csr_index==srw_sie_index);
-assign srw_stvec_sel		=	valid&(csr_index==srw_stvec_index);
-//assign srw_scounteren_sel	=	valid&(csr_index==srw_scounteren_index);
-assign srw_sscratch_sel		=	valid&(csr_index==srw_sscratch_index);
-assign srw_sepc_sel			=	valid&(csr_index==srw_sepc_index);
-assign srw_scause_sel		=	valid&(csr_index==srw_scause_index);
-assign srw_stval_sel		=	valid&(csr_index==srw_stval_index);
-assign srw_sip_sel			=	valid&(csr_index==srw_sip_index);
-assign srw_satp_sel			=	valid&(csr_index==srw_satp_index);	
+assign srw_sstatus_sel		=	valid&(csr_write_index==srw_sstatus_index);
+assign srw_sie_sel			=	valid&(csr_write_index==srw_sie_index);
+assign srw_stvec_sel		=	valid&(csr_write_index==srw_stvec_index);
+//assign srw_scounteren_sel	=	valid&(csr_write_index==srw_scounteren_index);
+assign srw_sscratch_sel		=	valid&(csr_write_index==srw_sscratch_index);
+assign srw_sepc_sel			=	valid&(csr_write_index==srw_sepc_index);
+assign srw_scause_sel		=	valid&(csr_write_index==srw_scause_index);
+assign srw_stval_sel		=	valid&(csr_write_index==srw_stval_index);
+assign srw_sip_sel			=	valid&(csr_write_index==srw_sip_index);
+assign srw_satp_sel			=	valid&(csr_write_index==srw_satp_index);	
 
-assign mrw_mstatus_sel		=	valid&(csr_index==mrw_mstatus_index);
+assign mrw_mstatus_sel		=	valid&(csr_write_index==mrw_mstatus_index);
 
-assign mrw_medeleg_sel		=	valid&(csr_index==mrw_medeleg_index);
-assign mrw_mideleg_sel		=	valid&(csr_index==mrw_mideleg_index);		
-assign mrw_mie_sel			=	valid&(csr_index==mrw_mie_index);
-assign mrw_mtvec_sel		=	valid&(csr_index==mrw_mtvec_index);
-//assign mrw_mcounteren_sel	=	valid&(csr_index==mrw_mcounteren_index);
-assign mrw_mscratch_sel		=	valid&(csr_index==mrw_mscratch_index);
-assign mrw_mepc_sel			=	valid&(csr_index==mrw_mepc_index);
-assign mrw_mcause_sel		=	valid&(csr_index==mrw_mcause_index);
-assign mrw_mtval_sel		=	valid&(csr_index==mrw_mtval_index);
-assign mrw_mip_sel			=	valid&(csr_index==mrw_mip_index);
-//assign mrw_pmpcfg0_sel		=	valid&(csr_index==mrw_pmpcfg0_index);
-//assign mrw_pmpaddr0_sel		=	valid&(csr_index==mrw_pmpaddr0_index);
-//assign mrw_pmpaddr1_sel		=	valid&(csr_index==mrw_pmpaddr1_index);
-assign mrw_mcycle_sel		=	valid&(csr_index==mrw_mcycle_index);
-assign mrw_minstret_sel		=	valid&(csr_index==mrw_minstret_index);
-//assign mrw_mhpcounter3_sel	=	valid&(csr_index==mrw_mhpcounter3_index);
-//assign mrw_mhpcounter4_sel	=	valid&(csr_index==mrw_mhpcounter4_index);
-assign mrw_mcounterinhibit_sel= valid&(csr_index==mrw_mcounterinhibit_index);
-//assign mrw_mhpmevent3_sel	=	valid&(csr_index==mrw_mhpmevent3_index);
+assign mrw_medeleg_sel		=	valid&(csr_write_index==mrw_medeleg_index);
+assign mrw_mideleg_sel		=	valid&(csr_write_index==mrw_mideleg_index);		
+assign mrw_mie_sel			=	valid&(csr_write_index==mrw_mie_index);
+assign mrw_mtvec_sel		=	valid&(csr_write_index==mrw_mtvec_index);
+//assign mrw_mcounteren_sel	=	valid&(csr_write_index==mrw_mcounteren_index);
+assign mrw_mscratch_sel		=	valid&(csr_write_index==mrw_mscratch_index);
+assign mrw_mepc_sel			=	valid&(csr_write_index==mrw_mepc_index);
+assign mrw_mcause_sel		=	valid&(csr_write_index==mrw_mcause_index);
+assign mrw_mtval_sel		=	valid&(csr_write_index==mrw_mtval_index);
+assign mrw_mip_sel			=	valid&(csr_write_index==mrw_mip_index);
+//assign mrw_pmpcfg0_sel		=	valid&(csr_write_index==mrw_pmpcfg0_index);
+//assign mrw_pmpaddr0_sel		=	valid&(csr_write_index==mrw_pmpaddr0_index);
+//assign mrw_pmpaddr1_sel		=	valid&(csr_write_index==mrw_pmpaddr1_index);
+assign mrw_mcycle_sel		=	valid&(csr_write_index==mrw_mcycle_index);
+assign mrw_minstret_sel		=	valid&(csr_write_index==mrw_minstret_index);
+//assign mrw_mhpcounter3_sel	=	valid&(csr_write_index==mrw_mhpcounter3_index);
+//assign mrw_mhpcounter4_sel	=	valid&(csr_write_index==mrw_mhpcounter4_index);
+assign mrw_mcounterinhibit_sel= valid&(csr_write_index==mrw_mcounterinhibit_index);
+//assign mrw_mhpmevent3_sel	=	valid&(csr_write_index==mrw_mhpmevent3_index);
 //读csr信号选择
-assign read_cycle_sel		=	(id_csr_index==uro_cycle_index);
-assign read_time_sel		=	(id_csr_index==uro_time_index);
-assign read_instret_sel		=	(id_csr_index==uro_instret_index);	
-//assign read_hpmcounter3_sel	= 	(id_csr_index==uro_hpmcounter3_index);
-//assign read_hpmcounter4_sel	=	(id_csr_index==uro_hpmcounter4_index);
-assign read_sstatus_sel		=	(id_csr_index==srw_sstatus_index);
-assign read_sie_sel			=	(id_csr_index==srw_sie_index);
-assign read_stvec_sel		=	(id_csr_index==srw_stvec_index);
-//assign read_scounteren_sel	=	(id_csr_index==srw_scounteren_index);
-assign read_sscratch_sel	=	(id_csr_index==srw_sscratch_index);
-assign read_sepc_sel		=	(id_csr_index==srw_sepc_index);
-assign read_scause_sel		=	(id_csr_index==srw_scause_index);
-assign read_stval_sel		=	(id_csr_index==srw_stval_index);
-assign read_sip_sel			=	(id_csr_index==srw_sip_index);
-assign read_satp_sel		=	(id_csr_index==srw_satp_index);	
-assign read_mvendorid_sel	=	(id_csr_index==mro_mvendorid_index);
-assign read_marchid_sel		=	(id_csr_index==mro_marchid_index);
-assign read_mimp_sel		=	(id_csr_index==mro_mimp_index);
-assign read_mhardid_sel		=	(id_csr_index==mro_mhardid_index);
-assign read_mstatus_sel		=	(id_csr_index==mrw_mstatus_index);
-assign read_misa_sel		=	(id_csr_index==mro_misa_index);
-assign read_medeleg_sel		=	(id_csr_index==mrw_medeleg_index);
-assign read_mideleg_sel		=	(id_csr_index==mrw_mideleg_index);		
-assign read_mie_sel			=	(id_csr_index==mrw_mie_index);
-assign read_mtvec_sel		=	(id_csr_index==mrw_mtvec_index);
-//assign read_mcounteren_sel	=	(id_csr_index==mrw_mcounteren_index);
-assign read_mscratch_sel	=	(id_csr_index==mrw_mscratch_index);
-assign read_mepc_sel		=	(id_csr_index==mrw_mepc_index);
-assign read_mcause_sel		=	(id_csr_index==mrw_mcause_index);
-assign read_mtval_sel		=	(id_csr_index==mrw_mtval_index);
-assign read_mip_sel			=	(id_csr_index==mrw_mip_index);
-//assign read_pmpcfg0_sel		=	(id_csr_index==mrw_pmpcfg0_index);
-//assign read_pmpaddr0_sel	=	(id_csr_index==mrw_pmpaddr0_index);
-//assign read_pmpaddr1_sel	=	(id_csr_index==mrw_pmpaddr1_index);
-assign read_mcycle_sel		=	(id_csr_index==mrw_mcycle_index);
-assign read_minstret_sel	=	(id_csr_index==mrw_minstret_index);
-//assign read_mhpcounter3_sel	=	(id_csr_index==mrw_mhpcounter3_index);
-//assign read_mhpcounter4_sel	=	(id_csr_index==mrw_mhpcounter4_index);
-assign read_mcounterinhibit_sel=(id_csr_index==mrw_mcounterinhibit_index);
-//assign read_mhpmevent3_sel	=	(id_csr_index==mrw_mhpmevent3_index);
+assign read_cycle_sel		=	(csr_read_index==uro_cycle_index);
+assign read_time_sel		=	(csr_read_index==uro_time_index);
+assign read_instret_sel		=	(csr_read_index==uro_instret_index);	
+//assign read_hpmcounter3_sel	= 	(csr_read_index==uro_hpmcounter3_index);
+//assign read_hpmcounter4_sel	=	(csr_read_index==uro_hpmcounter4_index);
+assign read_sstatus_sel		=	(csr_read_index==srw_sstatus_index);
+assign read_sie_sel			=	(csr_read_index==srw_sie_index);
+assign read_stvec_sel		=	(csr_read_index==srw_stvec_index);
+//assign read_scounteren_sel	=	(csr_read_index==srw_scounteren_index);
+assign read_sscratch_sel	=	(csr_read_index==srw_sscratch_index);
+assign read_sepc_sel		=	(csr_read_index==srw_sepc_index);
+assign read_scause_sel		=	(csr_read_index==srw_scause_index);
+assign read_stval_sel		=	(csr_read_index==srw_stval_index);
+assign read_sip_sel			=	(csr_read_index==srw_sip_index);
+assign read_satp_sel		=	(csr_read_index==srw_satp_index);	
+assign read_mvendorid_sel	=	(csr_read_index==mro_mvendorid_index);
+assign read_marchid_sel		=	(csr_read_index==mro_marchid_index);
+assign read_mimp_sel		=	(csr_read_index==mro_mimp_index);
+assign read_mhardid_sel		=	(csr_read_index==mro_mhardid_index);
+assign read_mstatus_sel		=	(csr_read_index==mrw_mstatus_index);
+assign read_misa_sel		=	(csr_read_index==mro_misa_index);
+assign read_medeleg_sel		=	(csr_read_index==mrw_medeleg_index);
+assign read_mideleg_sel		=	(csr_read_index==mrw_mideleg_index);		
+assign read_mie_sel			=	(csr_read_index==mrw_mie_index);
+assign read_mtvec_sel		=	(csr_read_index==mrw_mtvec_index);
+//assign read_mcounteren_sel	=	(csr_read_index==mrw_mcounteren_index);
+assign read_mscratch_sel	=	(csr_read_index==mrw_mscratch_index);
+assign read_mepc_sel		=	(csr_read_index==mrw_mepc_index);
+assign read_mcause_sel		=	(csr_read_index==mrw_mcause_index);
+assign read_mtval_sel		=	(csr_read_index==mrw_mtval_index);
+assign read_mip_sel			=	(csr_read_index==mrw_mip_index);
+//assign read_pmpcfg0_sel		=	(csr_read_index==mrw_pmpcfg0_index);
+//assign read_pmpaddr0_sel	=	(csr_read_index==mrw_pmpaddr0_index);
+//assign read_pmpaddr1_sel	=	(csr_read_index==mrw_pmpaddr1_index);
+assign read_mcycle_sel		=	(csr_read_index==mrw_mcycle_index);
+assign read_minstret_sel	=	(csr_read_index==mrw_minstret_index);
+//assign read_mhpcounter3_sel	=	(csr_read_index==mrw_mhpcounter3_index);
+//assign read_mhpcounter4_sel	=	(csr_read_index==mrw_mhpcounter4_index);
+assign read_mcounterinhibit_sel=(csr_read_index==mrw_mcounterinhibit_index);
+//assign read_mhpmevent3_sel	=	(csr_read_index==mrw_mhpmevent3_index);
 
 //调用CSR寄存器模块
 

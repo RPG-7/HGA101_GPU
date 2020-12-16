@@ -1,6 +1,6 @@
 
 /****************************************************************/
-`include  "global_defines.vh"
+
 module Anlogic_GPR_Sample (
 	/*input      [000:000]*/ clk         ,
 	/*input      [000:000]*/ clk_en      ,
@@ -36,12 +36,12 @@ module Anlogic_GPR_Sample (
 	wire [004:000] rd0_addr ;
 	wire [004:000] rs1_addr ;
 	wire [004:000] rs2_addr ;
-	wire [`GPU_DDATA_WIDTH-1:000] rd0_data ;
+	wire [063:000] rd0_data ;
 
 /*Output*/
 
-	wire [`GPU_DDATA_WIDTH-1:000] rs1_data ;
-	wire [`GPU_DDATA_WIDTH-1:000] rs2_data ;
+	wire [063:000] rs1_data ;
+	wire [063:000] rs2_data ;
 
 /****************************************************************/
 
@@ -51,8 +51,8 @@ assign w_en = ( rd0_addr == 5'b00000 ) ? ( 1'b0 ) : ( clk_en ) ;
 
 /****************************************************************/
 
-reg [`GPU_DDATA_WIDTH-1:00] RS1 [31:00] ;
-reg [`GPU_DDATA_WIDTH-1:00] RS2 [31:00] ;
+reg [63:00] RS1 [31:00] ;
+reg [63:00] RS2 [31:00] ;
 
 always @ ( posedge clk ) begin
 	if ( w_en ) begin

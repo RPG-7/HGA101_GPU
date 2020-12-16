@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F23C7
-set_global_assignment -name TOP_LEVEL_ENTITY MulCyc_DIV
+set_global_assignment -name TOP_LEVEL_ENTITY hga4g32e_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:08:37  OCTOBER 24, 2020"
 set_global_assignment -name LAST_QUARTUS_VERSION 13.1
@@ -53,6 +53,33 @@ set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC_FOR_AREA ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_MAP_LOGIC_TO_MEMORY_FOR_AREA ON
 set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT EXTRA
 set_global_assignment -name SEARCH_PATH /home/hongxiaoyu/Projects/FPGA/HGA101/RTL/CPU
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity MulCyc_DIV -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity MulCyc_DIV -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -entity MulCyc_DIV -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity MulCyc_DIV -section_id Top
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/GPR.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/BIU_MOD/cache/cacheable_lut.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/mro_csr.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/mideleg_int_ctrl.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/medeleg_exc_ctrl.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_tvec.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_tval.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_status.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_scratch.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_ip.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_ie.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_epc.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_s_cause.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/m_cycle_event.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/csrs/csr_satp.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/byte_shifter/byte_shifter.v
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/VPU/IALU_16.V
+set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/extM_top.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/MulCyc_DIV.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/MUL.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/hga4g32e_top.v
@@ -61,7 +88,6 @@ set_global_assignment -name VERILOG_FILE ../RTL/CPU/ID/ins_dec.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/VGPR.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/FGPR.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/cu_ru.v
-set_global_assignment -name VERILOG_FILE ../RTL/CPU/CU&RU/Anlogic_GPR_Sample.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/ViewToScreenConverter.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/vgaSignalGenerator.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/simpleGPU/vert_projector.v
@@ -81,8 +107,6 @@ set_global_assignment -name VERILOG_FILE ../RTL/GPipe/FSX/FSX.v
 set_global_assignment -name VERILOG_FILE ../RTL/GPipe/FSX/BGWrenderer.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/VPU/VPU.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/VPU/FALU16.v
-set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/VPU/ALU16.V
-set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/LSU/lsu.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/barrel_shifter.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/ALU&AU/alu_au.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/EX/exu.v
@@ -99,7 +123,6 @@ set_global_assignment -name VERILOG_FILE ../RTL/CPU/BIU_MOD/bu_req_mux.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/BIU_MOD/bu_mux.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/BIU_MOD/biu.v
 set_global_assignment -name VERILOG_FILE ../RTL/CPU/BIU_MOD/arbitrate_select_cell.v
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name FLOW_ENABLE_RTL_VIEWER ON
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

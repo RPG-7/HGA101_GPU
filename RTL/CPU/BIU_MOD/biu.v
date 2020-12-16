@@ -13,7 +13,7 @@ input wire rst,
 对外设的访问不能通过cache，否则数据将会出错。
 */
 
-input wire [31:0]cacheability_block,	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
+//input wire cacheable_i,	//可缓存的区，即物理地址[63:31],这个区间里的内存是可以缓存的
 
 //csr信号
 input wire [63:0]satp,			//页表基地址
@@ -30,7 +30,7 @@ input wire rd_ins,				//取指令信号
 output wire [63:0]ins_read,
 
 output wire ins_acc_fault, 		//指令访问失败
-output wire ins_page_fault,		//指令页面错误
+//output wire ins_page_fault,		//指令页面错误
 output wire cache_ready_if,		//cache准备好信号
 
 
@@ -40,7 +40,7 @@ input wire [3:0]ex_priv,		//ex权限，0001=U 0010=S 0100=H 1000=M
 input wire [63:0]addr_ex,
 input wire [63:0]data_write,
 output wire[63:0]data_read,
-output wire[63:0]data_uncache,
+//output wire[63:0]data_uncache,
 input wire [127:0]vpu_write,
 output wire[127:0]vpu_read,
 input vpu_access,
@@ -53,9 +53,9 @@ input wire read,				//读数据信号
 input wire write,				//写数据信号
 
 output wire load_acc_fault,
-output wire load_page_fault,
+//output wire load_page_fault,
 output wire store_acc_fault,
-output wire store_page_fault,
+//output wire store_page_fault,
 output wire cache_ready_ex,		//cache数据准备好
 output wire uncache_data_rdy,	//不可cache的数据准备好
 
@@ -145,7 +145,7 @@ wire L1_bu_bus_req;		//总线请求使用
 l1				L1_I(
 //配置信号
 .cache_only			(1'b1),
-.cacheable          (cacheable_LUT),
+.cacheable          (1'b1),
 .clk				(clk),
 .rst				(rst),
 
@@ -180,10 +180,16 @@ l1				L1_I(
 .bus_error			(I_bus_error)			//访问失败
 );
 
+wire cacheable_i,D_write_line_req,write_line_req;
+cacheable_lut DCACHE_LUT //ATTENTION:NEEDS TO BE CONFIGURED ACCORDING TO MEMMAP
+(
+    .addr(addr_ex),
+    .cacheable(cacheable_i)
+);
 l1d				L1_D(
 //配置信号
 .cache_only			(1'b0),
-.cacheable          (cacheable_LUT)  ,
+.cacheable          (cacheable_i)  ,
 .clk				(clk),
 .rst				(rst),
 
@@ -207,7 +213,7 @@ l1d				L1_D(
 //应答通道
 .load_acc_fault		(load_acc_fault),
 .store_acc_fault	(store_acc_fault),
-.ins_acc_fault		(ins_acc_falt),
+//.ins_acc_fault		(ins_acc_falt),
 .cache_data_ready	(cache_ready_ex),	//可缓存的数据准备好
 .uncache_data_ready	(uncache_data_rdy),	//不可缓存的数据准备好
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 standard
 ***Report Model: core***
 
@@ -31,3 +32,46 @@ Report Hierarchy Area:
 +--------------------------------------+
 |top      |core   |167967|163644|22443 |
 +--------------------------------------+
+=======
+standard
+***Report Model: FALU16***
+
+IO Statistics
+#IO                     124
+  #input                 74
+  #output                50
+  #inout                  0
+
+LUT Statistics
+#Total_luts             543
+  #lut4                 282
+  #lut5                 162
+  #lut6                   0
+  #lut5_mx41              0
+  #lut4_alu1b            99
+
+Utilization Statistics
+#lut                    543   out of  19600    2.77%
+#reg                      0   out of  19600    0.00%
+#le                       0
+#dsp                      1   out of     29    3.45%
+#bram                     0   out of     64    0.00%
+  #bram9k                 0
+  #fifo9k                 0
+#bram32k                  0   out of     16    0.00%
+#pad                    120   out of    130   92.31%
+  #ireg                   0
+  #oreg                   0
+  #treg                   0
+#pll                      0   out of      4    0.00%
+
+Report Hierarchy Area:
++--------------------------------------------------------------------+
+|Instance      |Module       |lut    |ripple |seq    |bram   |dsp    |
++--------------------------------------------------------------------+
+|top           |FALU16       |444    |99     |0      |0      |1      |
+|  fshifter1   |bshifter16_1 |29     |0      |0      |0      |0      |
+|  ftishifter1 |bshifter16_2 |88     |0      |0      |0      |0      |
+|  itfshifter1 |bshifter16   |41     |0      |0      |0      |0      |
++--------------------------------------------------------------------+
+>>>>>>> 987aeeed614617caa7fba7d1c12b8c116c1d9081

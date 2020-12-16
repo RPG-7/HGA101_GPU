@@ -3,6 +3,7 @@ This is 16bit FPU, can only do half add/sub/mul
 for HGA101 project
 
 ****************************************/
+`include "global_config.vh"
 module FALU16
 (
     input enable,
@@ -23,6 +24,7 @@ module FALU16
     output gt,
     output eq
 );
+
 wire sign1,sign2;
 wire [4:0]exp1;
 wire [4:0]exp2;
@@ -34,7 +36,7 @@ wire [9:0]val2;
 wire inf1,inf2,nan1,nan2;
 wire zero1,zero2;
 assign sign1=(ftlsel)?ftlout[15]:op1[15];
-assign sign2=(vec_en)?ftlout[15]:op2[15];
+assign sign2=(vec_en)?ftlout[15]:op2[15];//(fullin-float to half->ftlout->go to calc)
 assign exp1=(ftlsel)?ftlout[14:10]:op1[14:10];
 assign exp2=(vec_en)?ftlout[14:10]:op2[14:10];
 assign val1=(ftlsel)?ftlout[9:0]:op1[9:0];
@@ -52,7 +54,7 @@ wire [5:0]exp_diff;
 wire [5:0]exp_dif1,exp_dif2;
 wire [10:0]base_smaller;
 wire [10:0]base_larger;
-wire much_larger;
+wire much_larger,diff_sym;
 assign diff_sym=sign1^sign2;
 assign exp_diff=exp_dif1-exp_dif2;
 assign much_larger=(exp_diff>5'd10);

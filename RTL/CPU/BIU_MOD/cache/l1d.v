@@ -86,7 +86,7 @@ wire [2:0]write_block_sel;	//写块选择
 wire [12:0]read_addr;
 wire [12:0]write_addr;
 wire [63:0]di;
-wire [63:0]dout;
+//wire [63:0]dout;
 
 wire line_dirty,writeback_ok;
 assign writeback_ok=(writeback)&trans_rdy;
@@ -156,7 +156,7 @@ byte_sel			byte_sel_unit(
 assign cache_write	=	write & (trans_rdy|vpu_access);
 assign di			=	(main_state==read_line) ? line_data : data_write;
 //如果是不可缓存的数据，直接将line data打入内部
-assign data_read	=	cache_only?dout:(main_state==read_singal) ? line_data	: 
+assign data_read	=	(main_state==read_singal) ? line_data	: 
 							((addr_pa[4])?vpu_read[127:64]:vpu_read[63:0]); 	
 
 
@@ -164,6 +164,7 @@ assign data_read	=	cache_only?dout:(main_state==read_singal) ? line_data	:
 //生成缓存地址
 //L1读地址由命中情况生成
 wire [127:0]write_data;
+wire we_u,we_d;
 assign read_addr	=	(writeback) ?{write_block_sel,addr_count[10:1]}:{read_block_sel,addr_pa[10:1]};
 //L1写地址由当前是否处在缓存行更新阶段生成，如果缓存行没有被更新，地址是正常地址
 assign write_addr	=	(main_state==read_line) ? {write_block_sel,addr_count[10:1]} : read_addr;
