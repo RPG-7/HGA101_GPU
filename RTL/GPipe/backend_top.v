@@ -90,7 +90,7 @@ wire [1:0] SPR_b;
 wire       draw_sprite;
 wire       draw_behind_bg;
 
-Spriterenderer #(
+Spriterendere #(
     .H_RES(H_RES),      // horizontal resolution (pixels)
     .V_RES(V_RES),      // vertical resolution (lines)
     .H_FP(H_FP),        // horizontal front porch

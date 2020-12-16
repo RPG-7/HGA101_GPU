@@ -3,7 +3,8 @@ Type: 00/01=Left Shift
 10=Right Shift, 0 Filled
 11=Right Shift,with symbol extent
 */
-module bshifter16(
+module bshifter16
+(
     input [15:0]datain,
     input [1:0]typ,
     input [3:0]shiftnum,

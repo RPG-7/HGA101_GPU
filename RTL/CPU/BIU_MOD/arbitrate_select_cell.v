@@ -1,5 +1,6 @@
 //基于访问次数的PTE项选择
-module arbitrate_select_cell(
+module arbitrate_select_cell
+(
 //entry0
 input wire [1:0]id0,
 input wire entry0_valid,			//该TLB entry有效

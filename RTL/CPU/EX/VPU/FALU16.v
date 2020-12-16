@@ -3,7 +3,7 @@ This is 16bit FPU, can only do half add/sub/mul
 for HGA101 project
 
 ****************************************/
-`include "global_config.vh"
+`include "global_defines.vh"
 module FALU16
 (
     input enable,

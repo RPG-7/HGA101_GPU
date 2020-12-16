@@ -1,5 +1,5 @@
-module IALU_16(
-
+module IALU_16
+(
 //操作码 ALU,运算码
 //rd数据选择
 input wire vec_en,

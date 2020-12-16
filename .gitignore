@@ -6,6 +6,7 @@
 /Altera/db/
 /Altera/incremental_db/
 /Altera/output_files
+/temp
 *.db
 *.log
 *.bak
