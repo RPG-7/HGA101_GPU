@@ -159,7 +159,7 @@ l1				L1_I(
 
 
 .addr_pa			(addr_if),
-.data_write			(1'b0),
+.data_write			(64'b0),
 .data_read			(ins_read),
 //应答通道
 .load_acc_fault		(),
@@ -328,7 +328,7 @@ bu_mux bu_mux(
 //TLB bu ahb
 .L1_bu_haddr					(L1_bu_haddr),
 .L1_bu_hwrite					(L1_bu_hwrite),
-.L1_bu_hsize					(L1_bu_hsize),
+.L1_bu_hsize					({1'b0,L1_bu_hsize}),
 .L1_bu_hburst					(L1_bu_hburst),
 .L1_bu_hprot					(L1_bu_hprot),
 .L1_bu_htrans					(L1_bu_htrans),

@@ -78,7 +78,7 @@ wire [10:0]aligned_out;
 bshifter16 fshifter1
 (
     .datain(base_smaller),
-    .shiftnum(exp_diff),
+    .shiftnum(exp_diff[3:0]),
     .typ(2'b10),
     .dataout(aligned_out)
 );
