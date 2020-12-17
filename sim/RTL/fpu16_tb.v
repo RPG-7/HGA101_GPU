@@ -1,5 +1,16 @@
+/*
+This part is the shell scripts which will be extracted by autosim 
+preprocessor and execute before running the testbench itself.
+Convenient for tasks such as generate random instruction flow 
+for processor verification.
+---------THE FORMAT SHOWS AS FOLLOWING-----------------------
+#PREPROCESS_START 
+./sim/c_tools/calctestgen_half -a 32 ./sim/obj/fop 
+echo "hello world"
+#PREPROCESS_END 
+*/
 `timescale 1ns/100ps
-module fpu16_tb();
+module fpu16_tb ();
 reg clk,asel,ssel,msel,dsel;
 reg [15:0]op1[31:0];
 reg [15:0]op2[31:0];
@@ -8,10 +19,10 @@ wire [15:0]DOUT;
 always #5 clk=~clk;
 initial 
 begin
-    $dumpfile("./obj/fpu16_tb_dump.vcd"); // 指定用作dumpfile的文件
+    $dumpfile("./sim/obj/fpu16_tb.vcd"); // 指定用作dumpfile的文件
     $dumpvars; // dump all vars
-    $readmemh("./obj/fop_a.hex",op1);
-    $readmemh("./obj/fop_b.hex",op2);
+    $readmemh("./sim/obj/fop_a.hex",op1);
+    $readmemh("./sim/obj/fop_b.hex",op2);
     #0 clk=0;opcnt=0;{asel,ssel,msel,dsel}<=4'b1000;
 end
 always @(posedge clk)

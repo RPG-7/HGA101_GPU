@@ -12,4 +12,6 @@
 *.log
 *.bak
 *.log
+*.vcd
+*.out
 *.area

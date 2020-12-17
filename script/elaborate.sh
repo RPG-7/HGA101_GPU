@@ -4,13 +4,14 @@
 #RELY ON: iverilog 
 rm $4 >&/dev/null #Prep begin
 rm ./temp/elaborate_error >&/dev/null
-echo 123123 > /tmp/module_missing_prev.log #Prep end
+echo "Padding data" > /tmp/module_missing_prev.log #Prep end
 
-find $2 -name "*.v" >/tmp/scan.out #找到全部源代码
+find $2 -iname "*.v" -or -iname "*.sv" >/tmp/scan.out #找到全部源代码
+echo -e "\n/dev/null\n" >>/tmp/scan.out #null here is for padding, providing a fake file for cases with only 1 module
 cat /tmp/scan.out | xargs grep "module \<$1\>" |sed 's/\:module.*$//g' >>$4   #寻找顶层模块，并写入hierarchy.rpt
 if ! test -s $4; 
 then
-    echo -e "\033[31mFatal:Top level module NOT EVEN EXIST! ELABORATE FAILED! \033[0m"
+    echo -e "\033[31mFatal:Top level module NOT EVEN EXIST! ELABORATE FAILED! \033[0m" >&2
     echo > ./temp/elaborate_error
     exit
 fi
@@ -24,17 +25,17 @@ do
         break #没有找不到的模块就完成
     else
         TEST=$(diff /tmp/module_missing.log /tmp/module_missing_prev.log| xargs echo) #&>/dev/null
-        if ! test -n "$TEST" >>/dev/null ; 
+        if test -n "$TEST" >>/dev/null ; 
         then
-            echo -e "\033[31mError: Some modules are always missing, consider some error found?\033[0m"
-            echo -e "\033[31mMissing (or error) Modules are:\033[0m"
-            cat /tmp/module_missing.log
-            echo > ./temp/elaborate_error
-            echo -e "\033[33m================Lint Result=================\033[0m"
+            echo -e "\033[32mMore modules found compared with scan #$i, No problem\033[0m"
+        else
+            echo -e "\033[31mError: Some modules are always missing, consider some error found?\033[0m">&2
+            echo -e "\033[31mMissing (or error) Modules are:\033[0m">&2
+            cat /tmp/module_missing.log 1>&2
+            cat /tmp/module_missing.log > ./temp/elaborate_error
+            echo -e "\033[33m================Lint Result=================\033[0m" >&2
             cat $4 | xargs iverilog -o /dev/null -I $3
             break
-        else
-            echo -e "\033[32mMore modules found compared with scan #$i, No problem\033[0m"
         fi
     fi
     echo >/tmp/module_curr_layer.log
