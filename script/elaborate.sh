@@ -1,5 +1,6 @@
 #!/bin/bash
 #elaborate structure
+#USAGE: bash ./script/elaborate.sh $(TOP_MODULE) $(RTL_DIR) $(INCLUDE_DIR)
 rm ./temp/hierarchy.rpt >&/dev/null
 rm ./temp/elaborate_error >&/dev/null
 echo 123123 > /tmp/module_missing_prev.log 
@@ -14,14 +15,10 @@ fi
 
 for i in `seq 50`;#广度优先搜索
 do
-    cat ./temp/hierarchy.rpt|xargs iverilog -I $3 2>&1|sed -n '/Unknown\ module\ type/p'| sed 's/^.*type:\ //g' |sort -k2n |uniq >/tmp/module_missing.log #综合缺模块不？
-    
-    #echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    #cat ./temp/hierarchy.rpt|xargs iverilog -I $3
-    #cat /tmp/module_missing.log|sort -k2n |uniq >/tmp/module_missing.log
+    cat ./temp/hierarchy.rpt|xargs iverilog -I $3 2>&1|sed -n '/Unknown\ module\ type/p'| sed 's/^.*type:\ //g' >/tmp/module_missing.log #综合缺模块不？
     if ! test -s /tmp/module_missing.log; 
     then
-        echo "Elaborate Successfully finished, no error found"
+        echo "Elaborate target $1 Successfully finished in $i passes, no error found"
         break #没有找不到的模块就完成
     else
         TEST=$(diff /tmp/module_missing.log /tmp/module_missing_prev.log| xargs echo) #&>/dev/null
@@ -29,21 +26,18 @@ do
         then
             echo "Error: Some modules are always missing, consider some error found?"
             echo > ./temp/elaborate_error
-            #cat ./temp/hierarchy.rpt |xargs iverilog -I $3 
             break
         else
             echo "More modules found compared with scan #$i, No problem"
         fi
     fi
-    #cat /tmp/module_missing.log 
-    #nl /tmp/module_missing.log | sort -u | cut -f2 >/tmp/module_missing.log
+    echo >/tmp/module_curr_layer.log
     cat /tmp/module_missing.log | while read line
     do
-        cat /tmp/scan.out | xargs grep "module \<$line\>" |sed 's/\:module.*$//g' >>./temp/hierarchy.rpt   #寻找所有模块中的xx模块，并写入hierarchy.rpt
+        cat /tmp/scan.out | xargs grep "module \<$line\>" |sed 's/\:module.*$//g' >> /tmp/module_curr_layer.log  #寻找所有模块中的xx模块，并写入hierarchy.rpt
     done
+    cat /tmp/module_curr_layer.log|sort -k2n |uniq >>./temp/hierarchy.rpt
     mv -f /tmp/module_missing.log /tmp/module_missing_prev.log
     
 done
-#cat ./temp/hierarchy.rpt |sort -u
-#cat ./temp/hierarchy.rpt|sort -k2n |uniq >./temp/synthesis.out
-cat ./temp/hierarchy.rpt | xargs iverilog -I $3
+#cat ./temp/hierarchy.rpt | xargs iverilog -I $3
