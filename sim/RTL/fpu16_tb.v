@@ -1,12 +1,17 @@
 /*
 This part is the shell scripts which will be extracted by autosim 
-preprocessor and execute before running the testbench itself.
+act as preprocessor and execute before running the testbench itself.
 Convenient for tasks such as generate random instruction flow 
 for processor verification.
 ---------THE FORMAT SHOWS AS FOLLOWING-----------------------
 #PREPROCESS_START 
-./sim/c_tools/calctestgen_half -a 32 ./sim/obj/fop 
+
+if ! test -s ./sim/obj/fop_a.hex ; then
+    echo test case generated 
+    ./sim/c_tools/calctestgen_half -a 32 ./sim/obj/fop
+fi
 echo "hello world"
+
 #PREPROCESS_END 
 */
 `timescale 1ns/100ps

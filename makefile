@@ -20,8 +20,9 @@ elaborate:
 lint:$(REPORT_DIR)/hierarchy.rpt
 	bash ./script/lint.sh $(INCLUDE_DIR)
 autosim:
+	
 	bash ./script/autosim.sh $(TB_MODULE) $(TB_DIR) $(SIMU_INCDIR) $(REPORT_DIR)/tb_hierarchy.rpt $(RTL_DIR) $(OBJ_DIR)
-
+	gtkwave $(OBJ_DIR)/$(TB_MODULE).vcd
 
 clean:
 	rm $(REPORT_DIR)/*
