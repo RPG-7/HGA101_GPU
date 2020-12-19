@@ -1,0 +1,3 @@
+[submodule "sim/uvm_library"]
+	path = sim/uvm_library
+	url = git@github.com:RV-AT/uvm.git
