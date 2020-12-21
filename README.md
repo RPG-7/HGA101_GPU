@@ -1,4 +1,4 @@
-HGA101 is a crude GPGPUdesign, with a 5-stage RISC-V32ia core and a 16bit*8 lane integer/float SIMD pipeline. 
+HGA101 is a crude GPGPUdesign, with a 5-stage RISC-V32ia core and a 16bit*8lane integer/half-precision float SIMD pipeline. 
 
 this is a part of the RV-AT project (https://github.com/RV-AT)
 
@@ -10,8 +10,10 @@ Some more info and thank will be added here after FPGAChina 2020 competetion fin
 
 Now status:
 
-Code        WIP
+Code        Core done, SoC Not started
 
-Testbench   Not started
+Testbench   Module level TB WIP , Core TB not started
 
 Hardware    Not started
+
+Scripts     Test and elaborate suite WIP

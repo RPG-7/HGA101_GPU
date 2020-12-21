@@ -4,5 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"verilog.linting.iverilog.arguments": "-I ./sim/"
+	}
 }

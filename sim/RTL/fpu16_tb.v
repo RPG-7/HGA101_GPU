@@ -8,9 +8,8 @@ for processor verification.
 
 if ! test -s ./sim/obj/fop_a.hex ; then
     echo test case generated 
-    ./sim/c_tools/calctestgen_half -a 32 ./sim/obj/fop
+    ./sim/c_tools/calctestgen_half -all 32 ./sim/obj/fop
 fi
-echo "hello world"
 
 #PREPROCESS_END 
 */

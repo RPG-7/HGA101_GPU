@@ -59,80 +59,131 @@ assign diff_sym=sign1^sign2;
 assign exp_diff=exp_dif1-exp_dif2;
 assign much_larger=(exp_diff>5'd10);
 //generate difference of exponential word
-assign exp_cmp=(exp1==exp2)?2'b10:
-        (exp1>exp2)?2'b00:2'b01;
+assign exp_cmp=(exp1==exp2)?((val1>val2)?2'b11:2'b10):
+        (exp1>exp2)?2'b01:2'b00;
 assign exp_dif1=(exp_cmp[0])?exp1:exp2;
 assign exp_dif2=(!exp_cmp[0])?exp1:exp2;
 assign base_larger=(exp_cmp[0])?{1'b1,val1}:{1'b1,val2};
 assign base_smaller=(!exp_cmp[0])?{1'b1,val1}:{1'b1,val2};
 assign eq=(op1==op2);
-assign gt=(diff_sym)?((sign1==0)?1'b1:1'b0)://Condition:Different symbol
-        ((sign1==0)?                           //condition:both positive
-                ((exp_cmp[1])?(!exp_cmp[0]):(val1>val2))://if so,if exp1!=exp2,larger exp,eles larger val
-                ((exp_cmp[1])?(exp_cmp[0]):(val1<val2)));//both neg case
+assign gt=(diff_sym)?((sign1==0)?1'b1:1'b0): //Condition:Different symbol
+        ((sign1==0)? !exp_cmp[0] : exp_cmp[0]);  //condition:both positive
+               // ((exp_cmp[1])?()(val1>val2))://if so,if exp1!=exp2,larger exp,eles larger val
+               // ((exp_cmp[1])?():(val1<val2)));//both neg case
+
 //FASUB
 wire [15:0]acalc;
 wire [9:0]aval;
+wire [11:0]fadd_calc;
 wire [10:0]aout;
 wire [10:0]aligned_out;
-bshifter16 fshifter1
+wire fadd_align_exp;
+bshifter16 FADD_EXP_ALIGNER
 (
     .datain(base_smaller),
     .shiftnum(exp_diff[3:0]),
     .typ(2'b10),
     .dataout(aligned_out)
 );
+//运算真值表：  OP-A    OP-B    SUBSEL  OPERATE  A^B^C  SIGN
+//              +       +       0       A+B       0     OP1
+//              -       +       0       ~A+B+1    1     !CMP
+//              +       -       0       A+~B+1    1     CMP
+//              -       -       0       A+B       0     OP1
+//              +       +       1       A+~B+1    1     CMP
+//              -       +       1       A+B       0     OP1
+//              +       -       1       A+B       0     OP1
+//              -       -       1       ~A+B+1    1     !CMP
 
 assign acalc=(much_larger)?
             (exp_cmp[0]?op1:op2)://in case one is much larger than another, just output the larger
-            ({sign1,exp_dif1,aval[9:0]});
-assign aval=((sign1^sign2)^subsel)?((aout[10])?aout:((~aout)+1)):aout;//always give out abs
-assign aout=(base_larger+(subsel)?(~aligned_out)+1:aligned_out);
-//assign ASout=(enable)?acalc:op1;
+            ({fadd_signcalc,exp_dif1+fadd_align_exp,aval[9:0]});
+//TODO THIS MUST BE DEBUGED  加减似乎还有问题          
+assign aval=(aout[10])?aout:((~aout)+1);
+assign fadd_calc=(!(sign1^sign2^subsel))?base_larger+aligned_out:    //In case  
+                    base_larger+(~aligned_out)+1;
+assign fadd_signcalc=(!(sign1^sign2^subsel))?sign1:
+                                            ((sign1)?exp_cmp[0]:!exp_cmp[0]);                    
+defparam FADD_ALIGNER.result_width=12;
+defparam FADD_ALIGNER.normalize_width=11;
+normalize_shifter FADD_ALIGNER
+(
+    .datai(fadd_calc),
+    .left_shift_width(fadd_align_exp),
+    .datao(aout)
+);
+
+
 //FMUL
 wire [19:0]valmul;
 wire [5:0]expmul;
 wire [15:0]mcalc;
+wire [9:0]mulval_o;
+wire [3:0]mexp_align;
+wire fmul_overflow;
+defparam FMUL_ALIGNER.result_width=20;
+defparam FMUL_ALIGNER.normalize_width=10;
+normalize_shifter FMUL_ALIGNER
+(
+    .datai(valmul),
+    .left_shift_width(mexp_align),
+    .datao(mulval_o)
+);
+
 assign valmul=val1*val2;
-assign expmul=exp1+exp2-6'd15;
-assign mcalc=(enable)?{sign1^sign2,expmul[4:0],valmul[19:10]}:op1;
+assign expmul=exp1+exp2+(20-10-mexp_align)-6'd15;
+//In case overflow, give out +-Inf
+assign mcalc=(expmul<6'h1f)?{sign1^sign2,expmul[4:0],mulval_o}:{sign1^sign2,15'he800};
 
 
 //integer to float
 wire [15:0]itfcalc;
-reg [3:0]exp_get;
+wire [3:0]exp_get;
 wire [4:0]itf_exp;
+wire [15:0]itf_abs;
 wire [15:0]itf_shift;
 assign itf_exp=(op1!=0)?exp_get+4'hf:4'h0;
-always@(op1[14:0])
-    casex(op1[14:0]) 
-        15'b1xx_xxxx_xxxx_xxxx:exp_get=4'hf;
-        15'b01x_xxxx_xxxx_xxxx:exp_get=4'he;
-        15'b001_xxxx_xxxx_xxxx:exp_get=4'hd;
-        15'b000_1xxx_xxxx_xxxx:exp_get=4'hc;
-        15'b000_01xx_xxxx_xxxx:exp_get=4'hb;
-        15'b000_001x_xxxx_xxxx:exp_get=4'ha;
-        15'b000_0001_xxxx_xxxx:exp_get=4'h9;
-        15'b000_0000_1xxx_xxxx:exp_get=4'h8;
-        15'b000_0000_01xx_xxxx:exp_get=4'h7;
-        15'b000_0000_001x_xxxx:exp_get=4'h6;
-        15'b000_0000_0001_xxxx:exp_get=4'h5;
-        15'b000_0000_0000_1xxx:exp_get=4'h4;
-        15'b000_0000_0000_01xx:exp_get=4'h3;
-        15'b000_0000_0000_001x:exp_get=4'h2;
-        15'b000_0000_0000_0001:exp_get=4'h1;
-        15'b000_0000_0000_0000:exp_get=4'h0;
-        default:exp_get=15'hx;
-    endcase
-bshifter16 itfshifter1
-(
-    .datain({op1[14:0],1'b0}),
-    .shiftnum(exp_get+1),
-    .typ(2'b00),//Left shift
-    .dataout(itf_shift)
-);
 
-assign itfcalc={op1[15],itf_exp,itf_shift[15:5]};
+assign itf_abs=(op1[15])?(~op1+1):op1;//Always treat as signed short
+
+defparam ITF_ALIGNER.result_width=16;
+defparam ITF_ALIGNER.normalize_width=10;
+normalize_shifter ITF_ALIGNER
+(
+    .datai(itf_abs),
+    .left_shift_width(exp_get),
+    .datao(itf_shift)
+);
+// 
+// always@(op1[14:0])
+//     casex(op1[14:0]) 
+//         15'b1xx_xxxx_xxxx_xxxx:exp_get=4'hf;
+//         15'b01x_xxxx_xxxx_xxxx:exp_get=4'he;
+//         15'b001_xxxx_xxxx_xxxx:exp_get=4'hd;
+//         15'b000_1xxx_xxxx_xxxx:exp_get=4'hc;
+//         15'b000_01xx_xxxx_xxxx:exp_get=4'hb;
+//         15'b000_001x_xxxx_xxxx:exp_get=4'ha;
+//         15'b000_0001_xxxx_xxxx:exp_get=4'h9;
+//         15'b000_0000_1xxx_xxxx:exp_get=4'h8;
+//         15'b000_0000_01xx_xxxx:exp_get=4'h7;
+//         15'b000_0000_001x_xxxx:exp_get=4'h6;
+//         15'b000_0000_0001_xxxx:exp_get=4'h5;
+//         15'b000_0000_0000_1xxx:exp_get=4'h4;
+//         15'b000_0000_0000_01xx:exp_get=4'h3;
+//         15'b000_0000_0000_001x:exp_get=4'h2;
+//         15'b000_0000_0000_0001:exp_get=4'h1;
+//         15'b000_0000_0000_0000:exp_get=4'h0;
+//         default:exp_get=15'hx;
+//     endcase
+// bshifter16 itfshifter1
+// (
+//     .datain({op1[14:0],1'b0}),
+//     .shiftnum(exp_get+1),
+//     .typ(2'b00),//Left shift
+//     .dataout(itf_shift)
+// );
+
+assign itfcalc={op1[15],itf_exp,itf_shift};
 //float to integer
 wire [15:0]fticalc;
 wire [15:0]ftival;

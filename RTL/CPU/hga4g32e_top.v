@@ -8,10 +8,9 @@
  
 Family 	: HGA1
 Module 	: 4G32e Unified Shader Core
-ISA		: RISC-V 32IMF with 16Bit Conditional SIMD extension
+ISA		: RISC-V 32IMF with 16Bit x 8Lane Conditional SIMD extension
 L1I		: Full speed Sync 1KWord x 64, 4-Lines ， 1KWord per line
 L1D		: Full speed Sync 1KWord x 128,  8-Lines ， 512Word per line
-
 */
 `include "global_defines.vh"
 module hga4g32e_top(

@@ -2,6 +2,7 @@ SIMULATOR=iverilog
 SYNTHESIZER=qflow synthesize
 RTL_DIR = ./RTL
 TB_DIR=./sim
+ASIC_PDK=osu018
 OBJ_DIR=./sim/obj
 REPORT_DIR=./temp
 INCLUDE_DIR=./RTL/CPU
@@ -23,6 +24,19 @@ autosim:
 	
 	bash ./script/autosim.sh $(TB_MODULE) $(TB_DIR) $(SIMU_INCDIR) $(REPORT_DIR)/tb_hierarchy.rpt $(RTL_DIR) $(OBJ_DIR)
 	gtkwave $(OBJ_DIR)/$(TB_MODULE).vcd
+showave:
+	gtkwave $(OBJ_DIR)/$(TB_MODULE).vcd
+
+velibug:
+
+fpgabug:$(REPORT_DIR)/hierarchy.rpt
+
+asicbug:#$(REPORT_DIR)/hierarchy.rpt
+	cat $(REPORT_DIR)/hierarchy.rpt |xargs cat >./temp/$(TOP_MODULE).v
+	qflow gui -T $(ASIC_PDK) -p temp $(TOP_MODULE)
+
+ctools:
+	$(MAKE) -C sim/make
 
 clean:
 	rm $(REPORT_DIR)/*
